@@ -1,4 +1,6 @@
-<Component-header></Component-header>
+<div *ngIf="mostrarFooter">
+  <Component-header></Component-header>
+</div>
 <router-outlet />
 <div *ngIf="mostrarFooter">
   <app-footer></app-footer>
