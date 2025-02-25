@@ -2,7 +2,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #e53935; /* Rojo Material */
+  background-color: #e53935;
   padding: 10px 20px;
 }
 
