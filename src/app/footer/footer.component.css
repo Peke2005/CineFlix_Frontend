@@ -1,0 +1,11 @@
+footer {
+  background-color: blue;
+  font-size: 15px;
+  color: white;
+  text-shadow: -2px -2px 0 red, 2px -2px 0 red, -2px 2px 0 red, 2px 2px 0 red;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-family: "Sigmar", cursive;
+}

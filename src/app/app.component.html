@@ -2,4 +2,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jaini&display=swap" rel="stylesheet">
 
+<div *ngIf="mostrarHeaderFooter">
+  <Component-header></Component-header>
+</div>
 <router-outlet />
+<div *ngIf="mostrarHeaderFooter">
+  <app-footer></app-footer>
+</div>
