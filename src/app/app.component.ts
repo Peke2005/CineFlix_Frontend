@@ -13,7 +13,8 @@ export class AppComponent {
 
   constructor(private router: Router) {
     this.router.events.subscribe(() => {
-      this.mostrarHeaderFooter = this.router.url !== '/login'; // Oculta el footer en /login
+      this.mostrarHeaderFooter = this.router.url !== '/Login';
+      this.mostrarHeaderFooter = this.router.url !== '/Register';
     });
   }
 }

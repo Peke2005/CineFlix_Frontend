@@ -1,0 +1,97 @@
+<section class="flex flex-col items-center justify-center text-center min-h-screen">
+    <div class="py-5 w-[850px] flex flex-col items-center">
+        <!-- Logo -->
+        <div>
+            <h1 class="uppercase font-[Jaini] text-[150px]">
+                <span class="text-red-500">{{llaveIzq}}</span>
+                <span class="text-blue-600">{{llaveIzq}}</span>
+                <span class="text-blue-600">Cine</span>
+                <span class="text-red-500">Flix</span>
+                <span class="text-blue-600">{{llaveDer}}</span>
+                <span class="text-red-500">{{llaveDer}}</span>
+            </h1>
+        </div>
+
+        <!-- Formulario 1 -->
+        <div class="text-start text-3xl w-full max-w-3xl" *ngIf="activeTemplate === 'register1'">
+            <h2 class="font-semibold mb-5 py-4">Crear Cuenta</h2>
+            <form>
+                <label class="text-2xl py-2 block text-gray-400 uppercase" for="nombre">Nombre</label>
+                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="text"
+                    name="nombre" placeholder="Ingrese su nombre" id="nombre">
+
+                <label class="text-2xl py-2 block text-gray-400 uppercase" for="apellido">Apellidos</label>
+                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="text"
+                    name="apellidos" placeholder="Ingrese su apellido" id="apellido">
+            </form>
+
+            <div class="mt-10 flex justify-center">
+                <button (click)="changeTemplate('register2')"
+                    class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center ">
+                    Siguiente <span class="material-icons ml-2">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Formulario 2 -->
+        <div class="text-start text-3xl w-full max-w-3xl" *ngIf="activeTemplate === 'register2'">
+            <h2 class="font-semibold mb-5 py-4">Crear Cuenta</h2>
+            <form>
+                <label class="text-2xl py-2 block text-gray-400 uppercase" for="email">Correo Electrónico</label>
+                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="email"
+                    name="email" placeholder="Ingrese su email" id="email">
+
+                <label class="text-2xl py-2 block text-gray-400 uppercase" for="confirmEmail">Confirmar Correo
+                    Electrónico</label>
+                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="email"
+                    name="confirmEmail" placeholder="Ingrese de nuevo su email" id="confirmEmail">
+            </form>
+
+            <div class="mt-10 flex justify-between">
+                <button (click)="changeTemplate('register1')"
+                    class="p-3 text-white rounded-xl bg-gray-500 uppercase shadow-md flex items-center">
+                    <span class="material-icons mr-2">keyboard_backspace</span> Volver
+                </button>
+
+                <button (click)="changeTemplate('register3')"
+                    class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center">
+                    Siguiente <span class="material-icons ml-2">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Formulario 3 -->
+        <div class="text-start text-3xl w-full max-w-3xl" *ngIf="activeTemplate === 'register3'">
+            <h2 class="font-semibold mb-5 py-4">Crear Cuenta</h2>
+            <form>
+                <label class="text-2xl py-2 block text-gray-400 uppercase" for="contraseña">Contraseña</label>
+                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl"
+                    type="password" name="contraseña" placeholder="Ingrese su contraseña" id="contraseña">
+
+                <label class="text-2xl py-2 block text-gray-400 uppercase" for="confirmContraseña">Confirmar
+                    Contraseña</label>
+                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl"
+                    type="password" name="confirmContraseña" placeholder="Ingrese de nuevo su contraseña"
+                    id="confirmContraseña">
+            </form>
+
+            <div class="mt-10 flex justify-between">
+                <button (click)="changeTemplate('register2')"
+                    class="p-3 text-white rounded-xl bg-gray-500 uppercase shadow-md flex items-center">
+                    <span class="material-icons mr-2">keyboard_backspace</span> Volver
+                </button>
+
+                <button class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center">
+                    Registrarse <span class="material-icons ml-2">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center mt-auto pb-5">
+        <p class="font-bold">Si ya tienes cuenta clica
+            <a class="text-red-500 hover:underline" href="#">aquí inicia sesión</a>
+        </p>
+    </footer>
+</section>
