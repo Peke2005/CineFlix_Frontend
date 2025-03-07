@@ -1,0 +1,43 @@
+<section class="flex flex-col items-center justify-center text-center min-h-screen">
+    <div class="py-5 w-[850px] flex flex-col items-center">
+        <!-- Logo -->
+        <div>
+            <h1 class="uppercase font-[Jaini] text-[150px]">
+                <span class="text-red-500">{{llaveIzq}}</span>
+                <span class="text-blue-600">{{llaveIzq}}</span>
+                <span class="text-blue-600">Cine</span>
+                <span class="text-red-500">Flix</span>
+                <span class="text-blue-600">{{llaveDer}}</span>
+                <span class="text-red-500">{{llaveDer}}</span>
+            </h1>
+        </div>
+
+        <!-- Formulario 1 -->
+        <div class="text-start text-3xl w-full max-w-3xl">
+            <h2 class="font-semibold mb-5 py-4">Inicia Sesion</h2>
+            <form>
+                <label class="text-2xl py-2 block text-gray-400 uppercase" for="nombre">Email</label>
+                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="email"
+                    name="email" placeholder="Ingrese su Email" id="email">
+
+                <label class="text-2xl py-2 block text-gray-400 uppercase" for="apellido">Contraseña</label>
+                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="password"
+                    name="password" placeholder="Ingrese su Contraseña" id="password">
+            </form>
+
+            <div class="mt-10 flex justify-center">
+                <button
+                    class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center cursor-pointer text-2xl">
+                    Siguiente <span class="material-icons ml-2">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center mt-auto pb-5">
+        <p class="font-bold">Si no tiene cuenta clica
+            <a class="text-red-500 hover:underline" href="#">aquí para registrarte</a>
+        </p>
+    </footer>
+</section>
