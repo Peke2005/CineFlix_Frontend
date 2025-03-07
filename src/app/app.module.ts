@@ -7,9 +7,10 @@ import { ComponentHeader } from './component-header/component-header';
 import { FooterComponent } from './footer/footer.component';
 import { registerComponent } from './register-component/register.component';
 import { MatIconModule } from '@angular/material/icon';
+import { loginComponent } from './login-component/login.component';
 
 @NgModule({
-  declarations: [AppComponent, ComponentHeader, FooterComponent, registerComponent
+  declarations: [AppComponent, ComponentHeader, FooterComponent, registerComponent, loginComponent
   ],
   imports: [BrowserModule, AppRoutingModule, MatIconModule],
   providers: [provideAnimationsAsync()],
