@@ -5,16 +5,17 @@ import { Router } from '@angular/router';
   standalone: false, 
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-
 export class AppComponent {
   title = 'CineFlixFrontend';
-  mostrarFooter: boolean = true;
+  mostrarHeaderFooter: boolean = true;
 
   constructor(private router: Router) {
     this.router.events.subscribe(() => {
-      this.mostrarFooter = this.router.url !== '/login';
+      const url = this.router.url;
+      this.mostrarHeaderFooter = url !== '/Register' && url !== '/Login';
     });
   }
+
 }
