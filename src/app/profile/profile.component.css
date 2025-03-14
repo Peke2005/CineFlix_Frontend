@@ -17,11 +17,15 @@
 }
 
 .profile-card {
-    width: 260px;
-    height: 239px;    
+    align-content: center;
+    width: 355px;
+    height: auto;    
 }
 
 .profile-img {
+    align-content: center;
+    margin-left: 70px;
+    margin-bottom: 20px;
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -91,7 +95,7 @@ input {
     padding: 12px 20px;
     border-radius: 25px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     transition: 0.3s;
 }
