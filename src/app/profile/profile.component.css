@@ -1,0 +1,115 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 50px 0;
+    min-height: 70vh;
+    
+}
+
+.profile-card, .profile-details {
+    background: rgb(255, 255, 255);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 8px 16px rgba(0.1, 0.1, 0.1, 0.4);
+    text-align: center;
+}
+
+.profile-card {
+    align-content: center;
+    width: 355px;
+    height: auto;    
+}
+
+.profile-img {
+    align-content: center;
+    margin-left: 70px;
+    margin-bottom: 20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid red;
+}
+
+.profile-info {
+    background: hsl(0, 0%, 80%);
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.profile-details {
+    width: 400px;
+    padding: 30px;
+}
+
+h2 {
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+hr {
+    border: none;
+    height: 2px;
+    background: black;
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.email-container {
+    background: #cccccc;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+}
+
+input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.btn {
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.rojo {
+    background: red;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.rojo:hover {
+    background: darkred;
+}
+
+.full-width {
+    width: 100%;
+}
