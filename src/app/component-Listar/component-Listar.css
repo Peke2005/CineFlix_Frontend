@@ -85,9 +85,11 @@
 
 .movie-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 150px));
   gap: 20px;
+  justify-content: center;
   flex: 1;
+  padding: 0 20px;
 }
 
 .movie-card {
