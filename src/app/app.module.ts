@@ -8,12 +8,15 @@ import { FooterComponent } from './footer/footer.component';
 import { registerComponent } from './register-component/register.component';
 import { MatIconModule } from '@angular/material/icon';
 import { loginComponent } from './login-component/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
-  declarations: [AppComponent, ComponentHeader, FooterComponent, registerComponent, loginComponent
+  declarations: [AppComponent, ComponentHeader, FooterComponent, registerComponent, loginComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, MatIconModule],
+  imports: [BrowserModule, AppRoutingModule, MatIconModule, FormsModule,
+    ReactiveFormsModule],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

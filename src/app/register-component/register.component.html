@@ -1,51 +1,79 @@
 <section class="flex flex-col items-center justify-center text-center min-h-screen">
-    <div class="py-5 w-[850px] flex flex-col items-center">
-        <!-- Logo -->
-        <div>
-            <h1 class="uppercase font-[Jaini] text-[150px]">
-                <span class="text-red-500">{{llaveIzq}}</span>
-                <span class="text-blue-600">{{llaveIzq}}</span>
-                <span class="text-blue-600">Cine</span>
-                <span class="text-red-500">Flix</span>
-                <span class="text-blue-600">{{llaveDer}}</span>
-                <span class="text-red-500">{{llaveDer}}</span>
-            </h1>
-        </div>
+    <!-- Logo -->
+    <div>
+        <h1 class="uppercase font-[Jaini] text-[150px]">
+            <span class="text-red-500">{{llaveIzq}}</span>
+            <span class="text-blue-600">{{llaveIzq}}</span>
+            <span class="text-blue-600">Cine</span>
+            <span class="text-red-500">Flix</span>
+            <span class="text-blue-600">{{llaveDer}}</span>
+            <span class="text-red-500">{{llaveDer}}</span>
+        </h1>
+    </div>
 
+    <form class="w-[40%]" [formGroup]="registerForm">
         <!-- Formulario 1 -->
-        <div class="text-start text-3xl w-full max-w-3xl" *ngIf="activeTemplate === 'register1'">
-            <h2 class="font-semibold mb-5 py-4">Crear Cuenta</h2>
-            <form>
+        <div class=" text-start text-3xl" *ngIf="activeTemplate === 'register1'">
+            <h2 class="font-semibold py-4">Crear Cuenta</h2>
+            <div>
                 <label class="text-2xl py-2 block text-gray-400 uppercase" for="nombre">Nombre</label>
                 <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="text"
-                    name="nombre" placeholder="Ingrese su nombre" id="nombre">
+                    formControlName="nombre" name="nombre" placeholder="Ingrese su nombre" id="nombre">
+                <div class="animate-fadeIn"
+                    *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched ">
+                    <p class="p-2 text-red-600" style="font-size: 18px;">Este campo es obligatorio</p>
+                </div>
 
                 <label class="text-2xl py-2 block text-gray-400 uppercase" for="apellido">Apellidos</label>
                 <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="text"
-                    name="apellidos" placeholder="Ingrese su apellido" id="apellido">
-            </form>
+                    formControlName="apellidos" name="apellidos" placeholder="Ingrese su apellido" id="apellido">
 
+                <div class="animate-fadeIn"
+                    *ngIf="registerForm.get('apellidos')?.invalid && registerForm.get('apellidos')?.touched ">
+                    <p class="p-2 text-red-600" style="font-size: 18px;">Este campo es obligatorio</p>
+                </div>
+            </div>
             <div class="mt-10 flex justify-center">
-                <button (click)="changeTemplate('register2')"
+                <button [disabled]="registerForm.invalid" (click)="changeTemplate('register2')"
                     class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center cursor-pointer text-2xl">
                     Siguiente <span class="material-icons ml-2">arrow_forward</span>
                 </button>
             </div>
         </div>
+    </form>
 
-        <!-- Formulario 2 -->
-        <div class="text-start text-3xl w-full max-w-3xl" *ngIf="activeTemplate === 'register2'">
-            <h2 class="font-semibold mb-5 py-4">Crear Cuenta</h2>
-            <form>
-                <label class="text-2xl py-2 block text-gray-400 uppercase" for="email">Correo Electrónico</label>
-                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="email"
-                    name="email" placeholder="Ingrese su email" id="email">
 
-                <label class="text-2xl py-2 block text-gray-400 uppercase" for="confirmEmail">Confirmar Correo
-                    Electrónico</label>
-                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="email"
-                    name="confirmEmail" placeholder="Ingrese de nuevo su email" id="confirmEmail">
-            </form>
+
+    <!-- Formulario 2 -->
+    <div class="text-start text-3xl w-full max-w-3xl" *ngIf="activeTemplate === 'register2'">
+        <h2 class="font-semibold mb-5 py-4">Crear Cuenta</h2>
+        <form [formGroup]="registerForm2">
+            <label class="text-2xl py-2 block text-gray-400 uppercase" for="email">Correo Electrónico</label>
+            <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="email"
+                name="email" formControlName="email1" placeholder="Ingrese su email" id="email">
+
+            <div class="animate-fadeIn p-2 text-red-600" style="font-size: 18px;"
+                *ngIf=" registerForm2.get('email1')?.invalid && registerForm2.get('email1')?.touched ">
+                <p *ngIf=" registerForm2?.get('email1')?.errors?.['email']">Ingresa un email valido</p>
+                <p *ngIf=" registerForm2?.get('email1')?.errors?.['required']">Este campo es obligatorio</p>
+            </div>
+
+
+            <label class="text-2xl py-2 block text-gray-400 uppercase" for="confirmEmail">Confirmar Correo
+                Electrónico</label>
+            <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="email"
+                name="confirmEmail" formControlName="email2" placeholder="Ingrese de nuevo su email" id="confirmEmail">
+
+            <div class="animate-fadeIn p-2 text-red-600" style="font-size: 18px;"
+                *ngIf=" registerForm2.get('email2')?.invalid && registerForm2.get('email2')?.touched ">
+                <p *ngIf=" registerForm2?.get('email2')?.errors?.['email']">Ingresa un email valido</p>
+                <p *ngIf=" registerForm2?.get('email2')?.errors?.['required']">Este campo es obligatorio</p>
+            </div>
+
+            <div [class.show]="showMessage">
+                <p class="p-2 text-red-600 animate-fadeIn" style="font-size: 18px;">{{errorMessage}}</p>
+            </div>
+
 
             <div class="mt-10 flex justify-between">
                 <button (click)="changeTemplate('register1')"
@@ -53,45 +81,73 @@
                     <span class="material-icons mr-2">keyboard_backspace</span> Volver
                 </button>
 
-                <button (click)="changeTemplate('register3')"
+                <button [disabled]="registerForm2.invalid"
+                    (click)="validateEqual('email', 'confirmEmail', 'los emails no coinciden')"
                     class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center cursor-pointer text-2xl">
                     Siguiente <span class="material-icons ml-2">arrow_forward</span>
                 </button>
+
+
             </div>
-        </div>
-
-        <!-- Formulario 3 -->
-        <div class="text-start text-3xl w-full max-w-3xl" *ngIf="activeTemplate === 'register3'">
-            <h2 class="font-semibold mb-5 py-4">Crear Cuenta</h2>
-            <form>
-                <label class="text-2xl py-2 block text-gray-400 uppercase" for="contraseña">Contraseña</label>
-                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl"
-                    type="password" name="contraseña" placeholder="Ingrese su contraseña" id="contraseña">
-
-                <label class="text-2xl py-2 block text-gray-400 uppercase" for="confirmContraseña">Confirmar
-                    Contraseña</label>
-                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl"
-                    type="password" name="confirmContraseña" placeholder="Ingrese de nuevo su contraseña"
-                    id="confirmContraseña">
-            </form>
-
-            <div class="mt-10 flex justify-between">
-                <button (click)="changeTemplate('register2')"
-                    class="p-3 text-white rounded-xl bg-gray-500 uppercase shadow-md flex items-center cursor-pointer text-2xl">
-                    <span class="material-icons mr-2">keyboard_backspace</span> Volver
-                </button>
-
-                <button class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center cursor-pointer text-2xl">
-                    Registrarse <span class="material-icons ml-2">arrow_forward</span>
-                </button>
-            </div>
-        </div>
+        </form>
     </div>
 
+    <!-- Formulario 3 -->
+    <div class="text-start text-3xl w-full max-w-3xl" *ngIf="activeTemplate === 'register3'">
+        <h2 class="font-semibold mb-5 py-4">Crear Cuenta</h2>
+        <form [formGroup]="registerForm3">
+            <label class="text-2xl py-2 block text-gray-400 uppercase" for="contraseña">Contraseña</label>
+            <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="password"
+                name="contraseña" placeholder="Ingrese su contraseña" id="contraseña" formControlName="contraseña">
+
+            <div *ngIf="registerForm3?.get('contraseña')?.invalid && registerForm3?.get('contraseña')?.touched"
+                class="text-red-500 font-bold" style="font-size: 17px;">
+                <p *ngIf="registerForm3?.get('contraseña')?.errors?.['required']">Este campo es obligatorio</p>
+                <p *ngIf="registerForm3?.get('contraseña')?.errors?.['minlength']">Introduce como minimo 8
+                    caracteres</p>
+            </div>
+
+            <label class="text-2xl py-2 block text-gray-400 uppercase" for="confirmContraseña">Confirmar
+                Contraseña</label>
+            <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="password"
+                name="confirmContraseña" placeholder="Ingrese de nuevo su contraseña" id="confirmContraseña"
+                formControlName="confirmContraseña">
+
+
+            <div *ngIf="registerForm3?.get('confirmContraseña')?.invalid && registerForm3?.get('confirmContraseña')?.touched"
+                class="text-red-500 font-bold" style="font-size: 17px;">
+                <p *ngIf="registerForm3?.get('confirmContraseña')?.errors?.['required']">Este campo es obligatorio</p>
+                <p *ngIf="registerForm3?.get('confirmContraseña')?.errors?.['minlength']">Introduce como minimo 8
+                    caracteres</p>
+
+            </div>
+        </form>
+
+
+
+
+        <div class="animate-fadeIn" [class.show]="showMessage">
+            <p class="p-2 text-red-600 " style="font-size: 18px;">{{errorMessage}}</p>
+        </div>
+
+        <div class="mt-10 flex justify-between">
+            <button (click)="changeTemplate('register2')"
+                class="p-3 text-white rounded-xl bg-gray-500 uppercase shadow-md flex items-center cursor-pointer text-2xl">
+                <span class="material-icons mr-2">keyboard_backspace</span> Volver
+            </button>
+
+            <button (click)="validateEqual('contraseña', 'confirmContraseña', 'las contraseñas no coinciden')"
+                class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center cursor-pointer text-2xl">
+                Registrarse <span class="material-icons ml-2">arrow_forward</span>
+            </button>
+        </div>
+    </div>
     <!-- Footer -->
     <footer class="text-center mt-auto pb-5">
         <p class="font-bold">Si ya tienes cuenta clica
             <a class="text-red-500 hover:underline" href="#">aquí inicia sesión</a>
         </p>
     </footer>
+
+
 </section>
