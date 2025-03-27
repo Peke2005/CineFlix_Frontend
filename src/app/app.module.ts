@@ -5,11 +5,14 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ComponentHeader } from './component-header/component-header';
 import { FooterComponent } from './footer/footer.component';
+
 import { registerComponent } from './register-component/register.component';
 import { ComponentHome } from './component-home/component-home';
 import { MatIconModule } from '@angular/material/icon';
 import { componentListar } from './component-Listar/component-Listar';
+import { loginComponent } from './login-component/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,8 +22,16 @@ import { HttpClientModule } from '@angular/common/http';
     registerComponent,
     ComponentHome,
     componentListar,
+    loginComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, MatIconModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    MatIconModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })

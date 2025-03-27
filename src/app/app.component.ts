@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
+  standalone: false, 
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: false,
   styleUrl: './app.component.css',
 })
 export class AppComponent {
@@ -13,8 +13,9 @@ export class AppComponent {
 
   constructor(private router: Router) {
     this.router.events.subscribe(() => {
-      this.mostrarHeaderFooter = this.router.url !== '/Login';
-      this.mostrarHeaderFooter = this.router.url !== '/Register';
+      const url = this.router.url;
+      this.mostrarHeaderFooter = url !== '/Register' && url !== '/Login';
     });
   }
+
 }
