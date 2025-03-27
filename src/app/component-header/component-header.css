@@ -41,16 +41,60 @@ header {
   list-style: none;
   padding: 0;
   margin: 0;
+  position: relative;
 }
 
 .nav li {
   margin-left: 15px;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .material-icons {
   color: white;
   font-size: 24px;
   cursor: pointer;
+}
+
+.nav .dropdown {
+  position: relative;
+}
+
+.nav .submenu {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 168%;
+  z-index: 10;
+  left: -69px;
+  background: rgba(0, 0, 255, 0.5);
+  border-radius: 5px;
+  padding: 10px 0;
+  min-width: 150px;
+  list-style: none;
+  text-align: left;
+  backdrop-filter: blur(5px);
+  transition: opacity 0.2s ease, visibility 0s ease 0.2s;
+  display: block;
+}
+
+.nav .dropdown:hover .submenu,
+.nav .submenu:hover {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.2s ease, visibility 0s ease 0s;
+}
+
+.nav .submenu li {
+  padding: 8px 15px;
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
+  display: block;
+}
+
+.nav .submenu li:hover {
+  background: rgba(255, 255, 255, 0.2);
+  width: 80%;
 }

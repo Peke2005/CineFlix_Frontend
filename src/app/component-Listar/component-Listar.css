@@ -1,0 +1,138 @@
+.container {
+  width: 100%;
+  height: 90vh;
+  max-width: none;
+  padding-bottom: 20px;
+  background-color: #000;
+  color: white;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.featured-movie {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 500px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3));
+  margin-bottom: 40px;
+  z-index: 0;
+}
+
+.featured-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.featured-content {
+  max-width: 50%;
+  padding: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.featured-content h1 {
+  font-size: 4rem;
+  margin-bottom: 30px;
+  font-weight: bold;
+  font-family: "Jaini", sans-serif;
+}
+
+.featured-content p {
+  font-size: 1.4rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  font-family: "Roboto", sans-serif;
+}
+
+.watch-button {
+  background-color: #e50914;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: "Roboto", sans-serif;
+}
+
+.watch-button:hover {
+  background-color: #f40612;
+}
+
+.movie-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-list h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-family: "Sigmar", sans-serif;
+  margin-left: 30px;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  flex: 1;
+}
+
+.movie-card {
+  text-align: center;
+}
+
+.movie-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.movie-card h3 {
+  font-size: 1rem;
+  margin-top: 10px;
+  font-family: "Roboto", sans-serif;
+}
+
+.error {
+  color: #e50914;
+  margin-bottom: 20px;
+  font-family: "Roboto", sans-serif;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+}
+
+.pagination button:hover {
+  background-color: #555;
+}
+
+.pagination button.active {
+  background-color: #007bff;
+}

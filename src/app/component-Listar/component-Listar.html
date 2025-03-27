@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="featured-movie" *ngIf="featuredMovie">
+    <div
+      class="featured-image"
+      [style.backgroundImage]="
+        featuredMovie.imageUrl ? 'url(' + featuredMovie.imageUrl + ')' : 'none'
+      "
+    ></div>
+    <div class="featured-content">
+      <h1>{{ featuredMovie.title | uppercase }}</h1>
+      <p>{{ featuredMovie.description }}</p>
+      <button class="watch-button">VER PELÍCULA</button>
+    </div>
+  </div>
+
+  <div class="movie-list">
+    <h2>Películas</h2>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div class="movie-grid">
+      <div class="movie-card" *ngFor="let movie of movies">
+        <img
+          [src]="movie.imageUrl || 'assets/placeholder.jpg'"
+          alt="{{ movie.title }}"
+        />
+        <h3>{{ movie.title }}</h3>
+      </div>
+    </div>
+    <div class="pagination">
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>4</button>
+      <button>5</button>
+    </div>
+  </div>
+</div>

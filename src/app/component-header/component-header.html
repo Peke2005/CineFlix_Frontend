@@ -2,15 +2,26 @@
   <div class="logo" routerLink="/">CineFlix</div>
   <div class="search">
     <span class="material-icons">search</span>
-    <input type="search" placeholder="Busqueda" />
+    <input type="search" placeholder="Búsqueda" />
   </div>
   <nav class="nav">
     <ul>
       <li>
         <span class="material-icons">power_settings_new</span>
       </li>
-      <li>
+      <li class="dropdown">
         <span class="material-icons">filter_list</span>
+        <ul class="submenu">
+          <li (click)="searchCategory('Terror')">Terror</li>
+          <li (click)="searchCategory('Accion')">Acción</li>
+          <li (click)="searchCategory('Comedia')">Comedia</li>
+          <li (click)="searchCategory('Suspense')">Suspense</li>
+          <li (click)="searchCategory('Drama')">Drama</li>
+          <li (click)="searchCategory('Romance')">Romance</li>
+          <li (click)="searchCategory('Ciencia Ficcion')">Ciencia ficción</li>
+          <li (click)="searchCategory('Aventura')">Aventura</li>
+          <li (click)="searchCategory('Crimen')">Crimen</li>
+        </ul>
       </li>
       <li>
         <span class="material-icons">account_circle</span>
