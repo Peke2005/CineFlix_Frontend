@@ -101,7 +101,7 @@
                 name="contraseña" placeholder="Ingrese su contraseña" id="contraseña" formControlName="contraseña">
 
             <div *ngIf="registerForm3?.get('contraseña')?.invalid && registerForm3?.get('contraseña')?.touched"
-                class="text-red-500 font-bold" style="font-size: 17px;">
+                class="text-red-500 animate-fadeIn" style="font-size: 17px;">
                 <p *ngIf="registerForm3?.get('contraseña')?.errors?.['required']">Este campo es obligatorio</p>
                 <p *ngIf="registerForm3?.get('contraseña')?.errors?.['minlength']">Introduce como minimo 8
                     caracteres</p>
@@ -115,7 +115,7 @@
 
 
             <div *ngIf="registerForm3?.get('confirmContraseña')?.invalid && registerForm3?.get('confirmContraseña')?.touched"
-                class="text-red-500 font-bold" style="font-size: 17px;">
+                class="text-red-500 animate-fadeIn" style="font-size: 17px;">
                 <p *ngIf="registerForm3?.get('confirmContraseña')?.errors?.['required']">Este campo es obligatorio</p>
                 <p *ngIf="registerForm3?.get('confirmContraseña')?.errors?.['minlength']">Introduce como minimo 8
                     caracteres</p>
@@ -123,11 +123,16 @@
             </div>
         </form>
 
-
-
-
         <div class="animate-fadeIn" [class.show]="showMessage">
             <p class="p-2 text-red-600 " style="font-size: 18px;">{{errorMessage}}</p>
+        </div>
+
+        <div [hidden]="!showMessage"
+            class="animacion w-[40%] m-auto bg-green-100 border-l-4 border-green-500 text-green-700 p-6" [ngClass]="{
+success: messageType == 'success',
+error: messageType == 'error'
+}" role="alert">
+            <p style="font-size: 16px;">{{message}}</p>
         </div>
 
         <div class="mt-10 flex justify-between">
@@ -136,11 +141,15 @@
                 <span class="material-icons mr-2">keyboard_backspace</span> Volver
             </button>
 
-            <button (click)="validateEqual('contraseña', 'confirmContraseña', 'las contraseñas no coinciden')"
+            <button [disabled]="isSubmitting && registerForm3.invalid"
+                (click)="validateEqual('contraseña', 'confirmContraseña', 'las contraseñas no coinciden')"
                 class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center cursor-pointer text-2xl">
                 Registrarse <span class="material-icons ml-2">arrow_forward</span>
             </button>
         </div>
+
+
+
     </div>
     <!-- Footer -->
     <footer class="text-center mt-auto pb-5">
