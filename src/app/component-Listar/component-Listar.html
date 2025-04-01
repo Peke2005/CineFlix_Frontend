@@ -18,14 +18,30 @@
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
     <div class="movie-grid">
       <div class="movie-card" *ngFor="let movie of movies">
+        <div class="movie-overlay">
+          <div class="movie-info">
+            <div class="movie-title-year">
+              <h4>{{ movie.title }}</h4>
+              <span class="movie-year">{{ movie.year || 'N/A' }}</span>
+            </div>
+            <p class="movie-description">
+              {{ movie.description | slice:0:50 }}...
+            </p>
+            <div class="movie-categories-duration">
+              <span class="movie-categories"
+                >{{ movie.categories?.join(', ') || 'Sin categorías' }}</span
+              >
+              <span class="movie-duration">{{ movie.duration || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
         <img
           [src]="movie.imageUrl || 'assets/placeholder.jpg'"
           alt="{{ movie.title }}"
         />
-        <h3>{{ movie.title }}</h3>
       </div>
     </div>
-    <div class="pagination">
+    <div *ngIf="categoria" class="pagination">
       <button>1</button>
       <button>2</button>
       <button>3</button>
