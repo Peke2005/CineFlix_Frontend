@@ -127,7 +127,7 @@
             <p class="p-2 text-red-600 " style="font-size: 18px;">{{errorMessage}}</p>
         </div>
 
-        <div [hidden]="!showMessage"
+        <div *ngIf="showMessage"
             class="animacion w-[40%] m-auto bg-green-100 border-l-4 border-green-500 text-green-700 p-6" [ngClass]="{
 success: messageType == 'success',
 error: messageType == 'error'

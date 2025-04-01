@@ -39,6 +39,9 @@ export class registerComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if(localStorage.getItem("idUser")) {
+            this.router.navigate(['/Home']);
+        }
         this.registerForm = new FormGroup({
             nombre: new FormControl('', [Validators.required]),
             apellidos: new FormControl('', [Validators.required]),
@@ -105,18 +108,14 @@ export class registerComponent implements OnInit {
 
 
     onRegister() {
-        let password = this.registerForm3.get("confirmContraseña")?.value;
-        let hashedPassword = bcrypt.hashSync(password, 10);
-
         let user = {
             nombre: this.registerForm.get('nombre')?.value + " " + this.registerForm.get('apellidos')?.value,
             email: this.registerForm2.get('email2')?.value,
-            pass: hashedPassword
+            pass: this.registerForm3.get("confirmContraseña")?.value
         };
 
         this.cineflixservice.registerUser(user).subscribe({
             next: (response) => {
-                console.log(response)
                 localStorage.setItem("idUser", response.id);
                 this.createMessage(response.logError, "success");
 
@@ -125,13 +124,11 @@ export class registerComponent implements OnInit {
                 }, 2000);
             },
             error: (err) => {
-                console.log(err)
                 this.createMessage(err.error.logError, "error");
             },
         });
         this.isSubmitting = false;
     }
-
 }
 
 
