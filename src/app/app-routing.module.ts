@@ -7,6 +7,7 @@ import { ComponentHome } from './component-home/component-home';
 import { componentListar } from './component-Listar/component-Listar';
 
 const routes: Routes = [
+  { path: '', component: loginComponent },
   { path: 'Register', component: registerComponent },
   { path: 'Home', component: ComponentHome },
   { path: 'Listar/:genre', component: componentListar },
@@ -18,4 +19,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

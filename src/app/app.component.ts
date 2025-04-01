@@ -14,7 +14,7 @@ export class AppComponent {
   constructor(private router: Router) {
     this.router.events.subscribe(() => {
       const url = this.router.url;
-      this.mostrarHeaderFooter = url !== '/Register' && url !== '/Login';
+      this.mostrarHeaderFooter = url !== '/Register' && url !== '/Login' && url !== '/';
     });
   }
 

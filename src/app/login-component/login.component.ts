@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { CineFlixService } from '../app.service.injectable';
 import { Router } from '@angular/router';
+ 
+
 
 
 
@@ -19,6 +21,7 @@ export class loginComponent implements OnInit {
     constructor(
         private router: Router,
         private cineflixservice: CineFlixService,
+
     ) { }
 
     llaveIzq = "{";
@@ -29,6 +32,9 @@ export class loginComponent implements OnInit {
     messageType: 'success' | 'error' = 'success';
 
     ngOnInit() {
+        if(localStorage.getItem("idUser")) {
+            this.router.navigate(['/Listar/listFilms']);
+        }
         this.loginForm = new FormGroup({
             email: new FormControl('', [Validators.required, Validators.email]),
             password: new FormControl('', [Validators.required, Validators.minLength(8)])
@@ -56,7 +62,7 @@ export class loginComponent implements OnInit {
                 this.createMessage(response.logError, "success")
 
                 setTimeout(() => {
-                    this.router.navigate(['/']);
+                    this.router.navigate(['/Listar/listFilms']);
                 }, 2000);
             },
             error: (err) => {
