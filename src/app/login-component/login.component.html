@@ -21,7 +21,7 @@
                     name="email" formControlName="email" placeholder="Ingrese su Email" id="email">
 
                 <div *ngIf="loginForm?.get('email')?.invalid && loginForm?.get('email')?.touched"
-                    class="text-red-500 font-bold" style="font-size: 17px;">
+                    class=" text-red-500 animate-fadeIn" style="font-size: 17px;">
                     <p *ngIf="loginForm?.get('email')?.errors?.['required']">Este campo es obligatorio</p>
                     <p *ngIf="loginForm?.get('email')?.errors?.['email']">El correo no es valido</p>
                 </div>
@@ -32,7 +32,7 @@
                     id="password">
 
                 <div *ngIf="loginForm?.get('password')?.invalid && loginForm?.get('password')?.touched"
-                    class="text-red-500 font-bold" style="font-size: 17px;">
+                    class="text-red-500 animate-fadeIn" style="font-size: 17px;">
                     <p *ngIf="loginForm?.get('password')?.errors?.['required']">Este campo es obligatorio</p>
                     <p *ngIf="loginForm?.get('password')?.errors?.['minlength']">La contraseña debe de tener minimo 8
                         caracteres</p>
@@ -42,18 +42,19 @@
             </form>
 
             <div class="mt-10 flex justify-center">
-                <button [disabled]="loginForm.invalid" (click)=" loginUser()"
+                <button [disabled]="loginForm.invalid" (click)="loginUser()"
                     class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center cursor-pointer text-2xl">
                     Iniciar Sesión <span class="material-icons ml-2">arrow_forward</span>
                 </button>
             </div>
 
             <div [hidden]="!showMessage"
-                class="animacion w-[40%] m-auto bg-green-100 border-l-4 border-green-500 text-green-700 p-6"
-                role="alert">
+                class="animacion w-[40%] m-auto bg-green-100 border-l-4 border-green-500 text-green-700 p-6" [ngClass]="{
+               success: messageType == 'success',
+               error: messageType == 'error'
+            }" role="alert">
                 <p style="font-size: 16px;">{{message}}</p>
             </div>
-
         </div>
     </div>
 

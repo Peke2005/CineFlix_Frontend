@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { CineFlixService } from '../app.service.injectable';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import * as bcrypt from 'bcryptjs';
+
 @Component({
     selector: 'register',
     templateUrl: './register.component.html',
@@ -12,23 +16,32 @@ export class registerComponent implements OnInit {
     llaveIzq = "{";
     llaveDer = "}";
 
-
     activeTemplate: string = 'register1';
     registerForm!: FormGroup;
     registerForm2!: FormGroup;
     registerForm3!: FormGroup;
 
-    errorMessage = '';
+    message = "";
     showMessage = false;
+    errorMessage = "";
+    isSubmitting = false;
+    messageType: 'success' | 'error' = 'success';
 
-
-    constructor(private register: FormBuilder) { }
+    constructor(private register: FormBuilder,
+        private router: Router,
+        private cineflixservice: CineFlixService,
+    ) { }
 
     changeTemplate(template: any) {
+        this.message = ""
+        this.errorMessage = "";
         this.activeTemplate = template;
     }
 
     ngOnInit(): void {
+        if(localStorage.getItem("idUser")) {
+            this.router.navigate(['/Home']);
+        }
         this.registerForm = new FormGroup({
             nombre: new FormControl('', [Validators.required]),
             apellidos: new FormControl('', [Validators.required]),
@@ -70,17 +83,52 @@ export class registerComponent implements OnInit {
                 }, 3000);
             } else {
                 this.errorMessage = '';
-                this.changeTemplate('register3');
+
+                if (this.activeTemplate != "register3") {
+                    this.changeTemplate('register3');
+                } else {
+                    this.onRegister()
+                    this.isSubmitting = true;
+                }
+
             }
         }
     }
 
-    
+    createMessage(message: string, type: 'success' | 'error') {
+        this.message = message;
+        this.showMessage = true;
+        this.messageType = type;
+
+        setTimeout(() => {
+            this.showMessage = false;
+            this.errorMessage = "";
+        }, 2000)
+    }
 
 
+    onRegister() {
+        let user = {
+            nombre: this.registerForm.get('nombre')?.value + " " + this.registerForm.get('apellidos')?.value,
+            email: this.registerForm2.get('email2')?.value,
+            pass: this.registerForm3.get("confirmContraseña")?.value
+        };
 
+        this.cineflixservice.registerUser(user).subscribe({
+            next: (response) => {
+                localStorage.setItem("idUser", response.id);
+                this.createMessage(response.logError, "success");
 
-
+                setTimeout(() => {
+                    this.router.navigate(['/Login']);
+                }, 2000);
+            },
+            error: (err) => {
+                this.createMessage(err.error.logError, "error");
+            },
+        });
+        this.isSubmitting = false;
+    }
 }
 
 

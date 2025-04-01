@@ -5,8 +5,19 @@
     "changeOrigin": true,
     "logLevel": "debug"
   },
-
   "/movieSearchCategory": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/userLogin": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/userRegister": {
     "target": "http://localhost:8000",
     "secure": false,
     "changeOrigin": true,
