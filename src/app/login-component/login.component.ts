@@ -33,7 +33,7 @@ export class loginComponent implements OnInit {
 
     ngOnInit() {
         if(localStorage.getItem("idUser")) {
-            this.router.navigate(['/Listar/listFilms']);
+            this.router.navigate(['/Home']);
         }
         this.loginForm = new FormGroup({
             email: new FormControl('', [Validators.required, Validators.email]),
@@ -62,7 +62,7 @@ export class loginComponent implements OnInit {
                 this.createMessage(response.logError, "success")
 
                 setTimeout(() => {
-                    this.router.navigate(['/Listar/listFilms']);
+                    this.router.navigate(['/Home']);
                 }, 2000);
             },
             error: (err) => {

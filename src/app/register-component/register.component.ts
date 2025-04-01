@@ -40,7 +40,7 @@ export class registerComponent implements OnInit {
 
     ngOnInit(): void {
         if(localStorage.getItem("idUser")) {
-            this.router.navigate(['/Listar/listFilms']);
+            this.router.navigate(['/Home']);
         }
         this.registerForm = new FormGroup({
             nombre: new FormControl('', [Validators.required]),

@@ -13,6 +13,8 @@ const routes: Routes = [
   { path: 'Listar/:genre', component: componentListar },
   { path: 'Login', component: loginComponent },
   { path: 'Profile', component: profileComponent },
+  { path: '**', redirectTo: 'Home', pathMatch: 'full' },
+
 ];
 
 @NgModule({
