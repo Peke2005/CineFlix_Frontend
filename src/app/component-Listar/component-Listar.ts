@@ -12,6 +12,7 @@ export class componentListar implements OnInit {
   genre: string | null = null;
   movies: any[] = [];
   featuredMovie: any = null;
+  categoria: boolean = false;
   errorMessage: string | null = null;
 
   constructor(
@@ -29,6 +30,7 @@ export class componentListar implements OnInit {
 
   loadMovies() {
     if (this.genre) {
+      this.categoria = true;
       this.cineflixservice.getMoviesByCategory(this.genre).subscribe({
         next: (response) => {
           if (response.data) {
@@ -47,6 +49,7 @@ export class componentListar implements OnInit {
         },
       });
     } else {
+      this.categoria = false;
       this.cineflixservice.getAllMovies().subscribe({
         next: (response) => {
           this.movies = response.data || response;
