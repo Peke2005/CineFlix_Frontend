@@ -95,6 +95,7 @@
 .movie-card {
   text-align: center;
   position: relative;
+  cursor: pointer;
 }
 
 .movie-card img {
