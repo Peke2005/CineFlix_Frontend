@@ -13,6 +13,7 @@ import { componentListar } from './component-Listar/component-Listar';
 import { loginComponent } from './login-component/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatPaginatorModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

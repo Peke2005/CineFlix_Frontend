@@ -17,7 +17,11 @@
     <h2>Películas</h2>
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
     <div class="movie-grid">
-      <div class="movie-card" *ngFor="let movie of movies">
+      <!-- Mostrar paginatedMovies si categoria es true, de lo contrario mostrar movies -->
+      <div
+        class="movie-card"
+        *ngFor="let movie of categoria ? paginatedMovies : movies"
+      >
         <div class="movie-overlay">
           <div class="movie-info">
             <div class="movie-title-year">
@@ -41,12 +45,14 @@
         />
       </div>
     </div>
-    <div *ngIf="categoria" class="pagination">
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>4</button>
-      <button>5</button>
+    <div class="pagination" *ngIf="categoria && movies.length > 0">
+      <button
+        *ngFor="let page of pageNumbers"
+        [class.active]="pageIndex === page - 1"
+        (click)="goToPage(page - 1)"
+      >
+        {{ page }}
+      </button>
     </div>
   </div>
 </div>

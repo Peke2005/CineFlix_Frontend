@@ -119,6 +119,7 @@ export class registerComponent implements OnInit {
 
     this.cineflixservice.registerUser(user).subscribe({
       next: (response) => {
+        console.log(response);
         localStorage.setItem('idUser', response.id);
         this.createMessage(response.logError, 'success');
 
@@ -127,6 +128,7 @@ export class registerComponent implements OnInit {
         }, 2000);
       },
       error: (err) => {
+        console.log(err);
         this.createMessage(err.error.logError, 'error');
       },
     });
