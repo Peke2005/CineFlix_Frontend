@@ -88,6 +88,7 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 250px));
   gap: 20px;
   justify-content: center;
+  background-color: black;
   flex: 1;
   padding: 0 20px;
 }
