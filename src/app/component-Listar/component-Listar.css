@@ -106,7 +106,7 @@
 
 .movie-overlay {
   position: absolute;
-  bottom: -100%;
+  bottom: -5%;
   left: 0;
   width: 100%;
   height: 70%;
@@ -142,7 +142,7 @@
 }
 
 .movie-title-year h4 {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-family: "Roboto", sans-serif;
   color: #ffffff;
   margin: 0;
@@ -151,8 +151,13 @@
 .movie-year {
   font-size: 1rem;
   font-family: "Roboto", sans-serif;
-  color: #b3b3b3;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 15px;
+  background-color: #209283;
+  align-self: start;
 }
+
 
 .movie-description {
   font-size: 0.9rem;
@@ -162,23 +167,44 @@
   color: #b3b3b3;
 }
 
+.moviee {
+  justify-content: end;
+  height: 100%;
+}
+
+.prueba {
+  align-items: center;
+}
+
 .movie-categories-duration {
   display: flex;
+  align-items: end;
+  position: absolute;
+  bottom: 0;
   justify-content: space-between;
-  align-items: center;
+  width: 94%;
+  padding: 0 0 10px;
 }
 
 .movie-categories {
   font-size: 0.8rem;
   font-family: "Roboto", sans-serif;
-  color: #999999;
+  color: white;
   margin: 0;
+  align-self: center;
+  padding: 3px 10px;
+  border-radius: 15px;
+  background-color: #209283;
 }
 
 .movie-duration {
   font-size: 0.8rem;
   font-family: "Roboto", sans-serif;
   color: #ffffff;
+  padding: 3px 10px;
+  border-radius: 15px;
+  background-color: #A61C2E;
+  ;
 }
 
 .error {
