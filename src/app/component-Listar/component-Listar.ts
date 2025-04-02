@@ -15,6 +15,11 @@ export class componentListar implements OnInit {
   categoria: boolean = false;
   errorMessage: string | null = null;
 
+  paginatedMovies: any[] = [];
+  pageSize: number = 10;
+  pageIndex: number = 0;
+  pageNumbers: number[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private cineflixservice: CineFlixService
@@ -37,6 +42,7 @@ export class componentListar implements OnInit {
             this.movies = response.data;
             this.selectFeaturedMovie();
             this.errorMessage = null;
+            this.updatePaginatedMovies();
           } else {
             this.movies = [];
             this.errorMessage =
@@ -73,5 +79,26 @@ export class componentListar implements OnInit {
     } else {
       this.featuredMovie = null;
     }
+  }
+
+  updatePaginatedMovies(): void {
+    if (this.categoria) {
+      const startIndex = this.pageIndex * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      this.paginatedMovies = this.movies.slice(startIndex, endIndex);
+
+      const totalPages = Math.ceil(this.movies.length / this.pageSize);
+      this.pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+      if (this.pageIndex >= totalPages && totalPages > 0) {
+        this.pageIndex = totalPages - 1;
+        this.updatePaginatedMovies();
+      }
+    }
+  }
+
+  goToPage(pageIndex: number): void {
+    this.pageIndex = pageIndex;
+    this.updatePaginatedMovies();
   }
 }
