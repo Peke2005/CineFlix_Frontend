@@ -12,7 +12,9 @@ const routes: Routes = [
   { path: 'Register', component: registerComponent },
   { path: 'Film', component: ComponentFilm },
   { path: 'Home', component: ComponentHome },
-  { path: 'Listar/:genre', component: componentListar },
+  { path: 'Listar/title/:title', component: componentListar },
+  { path: 'Listar/genre/:genre', component: componentListar },
+  { path: 'Listar', component: componentListar },
   { path: 'Login', component: loginComponent },
   { path: 'Profile', component: profileComponent },
   { path: '**', redirectTo: 'Home', pathMatch: 'full' },
@@ -22,4 +24,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

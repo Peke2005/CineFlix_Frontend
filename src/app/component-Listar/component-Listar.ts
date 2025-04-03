@@ -10,9 +10,11 @@ import { CineFlixService } from '../app.service.injectable';
 })
 export class componentListar implements OnInit {
   genre: string | null = null;
+  title: string | null = null;
   movies: any[] = [];
   featuredMovie: any = null;
   categoria: boolean = false;
+  filtradoPorTitulo: boolean = false;
   errorMessage: string | null = null;
 
   paginatedMovies: any[] = [];
@@ -28,19 +30,47 @@ export class componentListar implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.genre = params.get('genre');
+      this.title = params.get('title');
       console.log('Género recibido:', this.genre);
+      console.log('Título recibido:', this.title);
       this.loadMovies();
     });
   }
 
   loadMovies() {
-    if (this.genre) {
+    if (this.title) {
+      this.filtradoPorTitulo = true;
+      this.categoria = false;
+      this.cineflixservice.getMovieByName(this.title).subscribe({
+        next: (response) => {
+          if (response.data && Array.isArray(response.data)) {
+            this.movies = response.data.filter((film: any) =>
+              film.title
+                .trim()
+                .toUpperCase()
+                .replace(/\s+/g, '')
+                .includes(this.title!.trim().toUpperCase().replace(/\s+/g, ''))
+            );
+            this.errorMessage = null;
+            this.updatePaginatedMovies();
+          } else {
+            this.movies = [];
+            this.errorMessage =
+              response.message || 'No se encontraron películas con ese título.';
+          }
+        },
+        error: (err) => {
+          this.movies = [];
+          this.errorMessage = 'Error al cargar las películas: ' + err.message;
+        },
+      });
+    } else if (this.genre) {
       this.categoria = true;
+      this.filtradoPorTitulo = false;
       this.cineflixservice.getMoviesByCategory(this.genre).subscribe({
         next: (response) => {
           if (response.data) {
             this.movies = response.data;
-            this.selectFeaturedMovie();
             this.errorMessage = null;
             this.updatePaginatedMovies();
           } else {
@@ -56,6 +86,7 @@ export class componentListar implements OnInit {
       });
     } else {
       this.categoria = false;
+      this.filtradoPorTitulo = false;
       this.cineflixservice.getAllMovies().subscribe({
         next: (response) => {
           this.movies = response.data || response;
@@ -82,7 +113,7 @@ export class componentListar implements OnInit {
   }
 
   updatePaginatedMovies(): void {
-    if (this.categoria) {
+    if (this.categoria || this.filtradoPorTitulo) {
       const startIndex = this.pageIndex * this.pageSize;
       const endIndex = startIndex + this.pageSize;
       this.paginatedMovies = this.movies.slice(startIndex, endIndex);
