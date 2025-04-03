@@ -45,9 +45,12 @@ export class componentListar implements OnInit {
         next: (response) => {
           if (response.data && Array.isArray(response.data)) {
             this.movies = response.data.filter((film: any) =>
-              film.title.toUpperCase().includes(this.title!.toUpperCase())
+              film.title
+                .trim()
+                .toUpperCase()
+                .replace(/\s+/g, '')
+                .includes(this.title!.trim().toUpperCase().replace(/\s+/g, ''))
             );
-            this.selectFeaturedMovie();
             this.errorMessage = null;
             this.updatePaginatedMovies();
           } else {
@@ -68,7 +71,6 @@ export class componentListar implements OnInit {
         next: (response) => {
           if (response.data) {
             this.movies = response.data;
-            this.selectFeaturedMovie();
             this.errorMessage = null;
             this.updatePaginatedMovies();
           } else {

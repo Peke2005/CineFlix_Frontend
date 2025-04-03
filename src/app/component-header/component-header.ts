@@ -34,7 +34,11 @@ export class ComponentHeader {
           console.log(response.data);
           if (response.data && Array.isArray(response.data)) {
             this.resultados = response.data.filter((film: any) =>
-              film.title.toUpperCase().includes(title.toUpperCase())
+              film.title
+                .trim()
+                .toUpperCase()
+                .replace(/\s+/g, '')
+                .includes(title.trim().toUpperCase().replace(/\s+/g, ''))
             );
             if (this.resultados.length > 0) {
               console.log('Navigating to:', '/Listar/title', title);
