@@ -24,11 +24,11 @@
         <div class="movie-overlay">
           <div class="movie-info">
             <div class="movie-title-year">
-              <h4>{{ movie.title }}</h4>
+              <h4 class="movie-title">{{ movie.title }}</h4>
               <span class="movie-year">{{ movie.year || 'N/A' }}</span>
             </div>
             <p class="movie-description">
-              {{ movie.description | slice:0:50 }}...
+              {{ movie.description | slice:0:100 }}...
             </p>
             <div class="movie-categories-duration">
               <span class="movie-categories"
