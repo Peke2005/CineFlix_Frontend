@@ -2,7 +2,12 @@
   <div class="logo" routerLink="/">CineFlix</div>
   <div class="search">
     <span class="material-icons">search</span>
-    <input type="search" placeholder="Búsqueda" />
+    <input
+      type="search"
+      placeholder="Búsqueda"
+      id="nameFilm"
+      (keyup.enter)="searchFlimName()"
+    />
   </div>
   <nav class="nav">
     <ul>
