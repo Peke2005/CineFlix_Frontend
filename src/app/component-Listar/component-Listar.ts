@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Route } from '@angular/router';
 
 import { CineFlixService } from '../app.service.injectable';
 
@@ -18,7 +17,7 @@ export class componentListar implements OnInit {
   categoria: boolean = false;
   filtradoPorTitulo: boolean = false;
   errorMessage: string | null = null;
-  titlePage: string = "Peliculas";
+  titlePage: string = 'Peliculas';
 
   paginatedMovies: any[] = [];
   pageSize: number = 10;
@@ -29,7 +28,7 @@ export class componentListar implements OnInit {
     private route: ActivatedRoute,
     private Route: Router,
     private cineflixservice: CineFlixService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -42,7 +41,7 @@ export class componentListar implements OnInit {
   }
 
   seeFilm(film: any) {
-    console.log(film)
+    console.log(film);
     this.Route.navigate(['/Film', film.categories[0], film.title]);
   }
 

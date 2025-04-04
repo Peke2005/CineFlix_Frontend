@@ -1,115 +1,134 @@
-.profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    padding: 50px 0;
-    min-height: 70vh;
-    
+section {
+  height: 90vh;
+  background: linear-gradient(to bottom, #0052cc, #4d8cff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.profile-card, .profile-details {
-    background: rgb(255, 255, 255);
-    border-radius: 15px;
-    padding: 40px;
-    box-shadow: 0 8px 16px rgba(0.1, 0.1, 0.1, 0.4);
-    text-align: center;
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 70px;
+  padding: 50px 0;
+  min-height: 70vh;
+}
+
+.profile-card,
+.profile-details {
+  background: rgb(255, 255, 255);
+  border-radius: 30px;
+  padding: 70px;
+  box-shadow: 0 8px 16px rgba(0.1, 0.1, 0.1, 0.4);
+  text-align: center;
+  height: 600px;
 }
 
 .profile-card {
-    align-content: center;
-    width: 355px;
-    height: auto;    
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile-img {
-    align-content: center;
-    margin-left: 70px;
-    margin-bottom: 20px;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 2px solid red;
+  margin-bottom: 40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 5px solid red;
+}
+
+.profile-card h3 {
+  font-weight: bold;
+  font-size: 28px;
+  margin-bottom: 30px;
 }
 
 .profile-info {
-    background: hsl(0, 0%, 80%);
-    padding: 8px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 10px;
+  background: hsl(0, 0%, 80%);
+  padding: 18px;
+  border-radius: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  width: 100%;
 }
 
 .profile-details {
-    width: 400px;
-    padding: 30px;
+  width: 900px; /* Aumentado de 800px a 900px para que sea más ancho */
+  padding: 60px;
 }
 
 h2 {
-    font-weight: bold;
-    font-size: 22px;
-    margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 36px;
+  margin-bottom: 25px;
 }
 
 hr {
-    border: none;
-    height: 2px;
-    background: black;
-    margin-bottom: 15px;
+  border: none;
+  height: 1px;
+  background: black;
+  margin: 30px 0;
 }
 
 label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 16px;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 12px;
+  font-size: 22px;
+  text-align: left;
 }
 
 .email-container {
-    background: #cccccc;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 16px;
-    text-align: center;
-    width: 100%;
+  background: #d3d3d3;
+  padding: 18px;
+  border-radius: 15px;
+  font-size: 22px;
+  text-align: center;
+  width: 100%;
 }
 
 input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .button-group {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  margin: 35px 0;
+  gap: 30px; /* Aumentado de 25px a 30px para que los botones no se vean apretados */
 }
 
 .btn {
-    border: none;
-    padding: 12px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: bold;
-    transition: 0.3s;
+  border: none;
+  padding: 20px 35px;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
 .rojo {
-    background: red;
-    color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  background: #ff0000;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  flex: 1;
 }
 
 .rojo:hover {
-    background: darkred;
+  background: darkred;
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
+  margin-top: 25px;
 }
