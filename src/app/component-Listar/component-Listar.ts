@@ -31,6 +31,10 @@ export class componentListar implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (!localStorage.getItem('idUser')) {
+      this.Route.navigate(['/Login']);
+    }
+
     this.route.paramMap.subscribe((params) => {
       this.genre = params.get('genre');
       this.title = params.get('title');
