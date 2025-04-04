@@ -10,7 +10,7 @@ import { ComponentFilm } from './component-film/component-film';
 const routes: Routes = [
   { path: '', component: loginComponent },
   { path: 'Register', component: registerComponent },
-  { path: 'Film', component: ComponentFilm },
+  { path: 'Film/:genre/:titleFilm', component: ComponentFilm },
   { path: 'Home', component: ComponentHome },
   { path: 'Listar/title/:title', component: componentListar },
   { path: 'Listar/genre/:genre', component: componentListar },

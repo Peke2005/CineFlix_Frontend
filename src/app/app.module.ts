@@ -14,6 +14,7 @@ import { loginComponent } from './login-component/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ComponentFilm } from './component-film/component-film';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     FooterComponent,
     registerComponent,
     ComponentHome,
+    ComponentFilm,
     componentListar,
     loginComponent,
   ],
@@ -34,6 +36,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ReactiveFormsModule,
     MatPaginatorModule,
   ],
+  exports: [componentListar],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
