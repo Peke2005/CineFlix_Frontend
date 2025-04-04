@@ -15,6 +15,11 @@ export class ComponentHeader {
     private Route: Router,
     private cineflixservice: CineFlixService
   ) {}
+
+  navegateToProfile() {
+    this.Route.navigate(['/Profile']);
+  }
+
   searchCategory(genre: String) {
     this.Route.navigate(['/Listar/genre', genre]);
   }
