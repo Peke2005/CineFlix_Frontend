@@ -16,8 +16,11 @@ export class ComponentHeader {
     private cineflixservice: CineFlixService
   ) {}
 
-  navegateToProfile() {
-    this.Route.navigate(['/Profile']);
+  logOut() {
+    if (localStorage.getItem('idUser')) {
+      localStorage.removeItem('idUser');
+      this.Route.navigate(['/Login']);
+    }
   }
 
   searchCategory(genre: String) {

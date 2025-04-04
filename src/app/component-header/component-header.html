@@ -12,7 +12,9 @@
   <nav class="nav">
     <ul>
       <li>
-        <span class="material-icons">power_settings_new</span>
+        <span class="material-icons" (click)="logOut()"
+          >power_settings_new</span
+        >
       </li>
       <li class="dropdown">
         <span class="material-icons">filter_list</span>
@@ -29,9 +31,7 @@
         </ul>
       </li>
       <li>
-        <span class="material-icons" (click)="navegateToProfile()"
-          >account_circle</span
-        >
+        <span class="material-icons" routerLink="/Profile">account_circle</span>
       </li>
     </ul>
   </nav>
