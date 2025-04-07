@@ -15,15 +15,15 @@ export class ComponentFilm implements OnInit {
   ) { }
 
   trailerUrl!: SafeResourceUrl;
-
-
   film: any;
+  showActors: boolean = false;
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: any) => {
       this.cineflixService.getMovieByName(params.get('titleFilm')).subscribe({
         next: (response) => {
           this.film = response.data[0];
           this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.film.trailer);
+          console.log(this.film)
         },
         error: (err) => {
           console.log(err)

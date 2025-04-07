@@ -12,8 +12,10 @@ import { CineFlixService } from '../app.service.injectable';
 export class componentListar implements OnInit {
   genre: string | null = null;
   title: string | null = null;
+  film: string | null = null;
   movies: any[] = [];
   featuredMovie: any = null;
+  showTitle: boolean = true;
   categoria: boolean = false;
   filtradoPorTitulo: boolean = false;
   errorMessage: string | null = null;
@@ -28,7 +30,7 @@ export class componentListar implements OnInit {
     private route: ActivatedRoute,
     private Route: Router,
     private cineflixservice: CineFlixService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (!localStorage.getItem('idUser')) {
@@ -38,15 +40,21 @@ export class componentListar implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.genre = params.get('genre');
       this.title = params.get('title');
+      this.film = params.get('titleFilm');
       console.log('Género recibido:', this.genre);
       console.log('Título recibido:', this.title);
+      console.log('Pelicula para ver Recibida: ', this.film);
       this.loadMovies();
     });
   }
 
   seeFilm(film: any) {
-    console.log(film);
     this.Route.navigate(['/Film', film.categories[0], film.title]);
+    setTimeout(() => window.scrollTo({
+      top: 200,
+      left: 100,
+      behavior: "smooth",
+    }), 1000);
   }
 
   loadMovies() {
@@ -79,6 +87,9 @@ export class componentListar implements OnInit {
     } else if (this.genre) {
       this.categoria = true;
       this.filtradoPorTitulo = false;
+      if (this.film) {
+        this.showTitle = false;
+      }
       this.cineflixservice.getMoviesByCategory(this.genre).subscribe({
         next: (response) => {
           if (response.data) {
