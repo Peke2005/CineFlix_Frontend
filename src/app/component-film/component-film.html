@@ -20,8 +20,8 @@
 
     <div class="text-justify text-white py-6">
         <div class="flex gap-3 py-1">
-            <h4 class="font-semibold" style="font-family: 'ADLaM Display', cursive;">Reparto: </h4>
-            <a class="hover:underline" (click)="showActors = true" *ngFor="let actor of this.film.actors">{{ actor.name
+            <h4 class="font-semibold" style="font-family: 'ADLaM Display', cursive;">Actores: </h4>
+            <a class="hover:underline cursor-pointer" (click)="showActors = true" *ngFor="let actor of this.film.actors">{{ actor.name
                 }}</a>
         </div>
         <h4 class="font-semibold">Descripción:</h4>
@@ -31,7 +31,7 @@
     <div *ngIf="showActors" class="bg-black opacity-40 text-white shadow-2xl fixed top-0 right-0 left-0 bottom-0 z-50 ">
     </div>
 
-    <div *ngIf="showActors" (click)="this.showActors = false"
+    <div *ngIf="showActors"
         class="fixed inset-0 z-50 flex items-center justify-center p-4">
 
         <div
@@ -55,8 +55,8 @@
                         <h3 class="text-xl font-semibold mb-1">{{ actor.name }}</h3>
 
                         <div class="text-center">
-                            <p class="text-sm text-gray-200"><span class="font-medium text-white">Nacimiento:</span> {{
-                                actor.birthdate.date }}
+                            <p class="text-sm text-gray-200"><span class="font-medium text-white">Nacimiento:</span>
+                                {{ formatFechaNacimiento(actor.birthdate.date) }}
                             </p>
                             <p class="text-sm text-gray-200"><span class="font-medium text-white">Nacionalidad:</span>
                                 {{ actor.nationality }}</p>

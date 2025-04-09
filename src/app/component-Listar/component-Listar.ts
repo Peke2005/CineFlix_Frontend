@@ -51,7 +51,7 @@ export class componentListar implements OnInit {
   seeFilm(film: any) {
     this.Route.navigate(['/Film', film.categories[0], film.title]);
     setTimeout(() => window.scrollTo({
-      top: 200,
+      top: 0,
       left: 100,
       behavior: "smooth",
     }), 1000);
@@ -95,6 +95,11 @@ export class componentListar implements OnInit {
           if (response.data) {
             this.movies = response.data;
             this.errorMessage = null;
+
+            if (this.film) {
+              this.showTitle = false;
+              let m = this.movies.find((element) => element == this.film);
+            }
             this.updatePaginatedMovies();
           } else {
             this.movies = [];
@@ -107,6 +112,7 @@ export class componentListar implements OnInit {
           this.errorMessage = 'Error al cargar las películas: ' + err.message;
         },
       });
+
     } else {
       this.categoria = false;
       this.filtradoPorTitulo = false;
