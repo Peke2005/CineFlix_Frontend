@@ -87,14 +87,17 @@ export class componentListar implements OnInit {
     } else if (this.genre) {
       this.categoria = true;
       this.filtradoPorTitulo = false;
-      if (this.film) {
-        this.showTitle = false;
-      }
+
       this.cineflixservice.getMoviesByCategory(this.genre).subscribe({
         next: (response) => {
           if (response.data) {
             this.movies = response.data;
             this.errorMessage = null;
+
+            if (this.film) {
+              this.showTitle = false;
+              this.deleteSelectedMovie(this.film, this.movies);
+            }
 
             if (this.film) {
               this.showTitle = false;
@@ -138,6 +141,14 @@ export class componentListar implements OnInit {
       this.movies = this.movies.filter((_, index) => index !== randomIndex);
     } else {
       this.featuredMovie = null;
+    }
+  }
+
+  deleteSelectedMovie(title: string, movies: Array<any>) {
+    console.log(movies);
+    const index = movies.findIndex((element) => element.title === title);
+    if (index !== -1) {
+      movies.splice(index, 1);
     }
   }
 
