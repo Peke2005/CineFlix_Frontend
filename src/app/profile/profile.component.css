@@ -57,7 +57,7 @@ section {
 }
 
 .profile-details {
-  width: 900px; /* Aumentado de 800px a 900px para que sea más ancho */
+  width: 900px;
   padding: 60px;
 }
 
@@ -104,7 +104,7 @@ input {
   display: flex;
   justify-content: space-between;
   margin: 35px 0;
-  gap: 30px; /* Aumentado de 25px a 30px para que los botones no se vean apretados */
+  gap: 30px;
 }
 
 .btn {
@@ -131,4 +131,26 @@ input {
 .full-width {
   width: 100%;
   margin-top: 25px;
+}
+
+.message {
+  position: absolute;
+  top: 75vh;
+  left: 65%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  z-index: 1000;
+  min-width: 200px;
+  text-align: center;
+}
+
+.message.success {
+  background-color: #4caf50;
+}
+
+.message.error {
+  background-color: #f44336;
 }

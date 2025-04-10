@@ -43,9 +43,6 @@ export class registerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('idUser')) {
-      this.router.navigate(['/Home']);
-    }
     this.registerForm = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       apellidos: new FormControl('', [Validators.required]),
@@ -70,7 +67,6 @@ export class registerComponent implements OnInit {
 
   validateEqual(input1: any, input2: any, message: any) {
     const inp1 = document.getElementById(input1) as HTMLInputElement | null;
-
     const inp2 = document.getElementById(input2) as HTMLInputElement | null;
 
     if (inp1 && inp2) {
@@ -120,9 +116,7 @@ export class registerComponent implements OnInit {
     this.cineflixservice.registerUser(user).subscribe({
       next: (response) => {
         console.log(response);
-        localStorage.setItem('idUser', response.id);
         this.createMessage(response.logError, 'success');
-
         setTimeout(() => {
           this.router.navigate(['/Login']);
         }, 2000);
