@@ -6,7 +6,12 @@
 
         <h3>Nombre Completo</h3>
         <div class="profile-info">
-          <input type="text" [(ngModel)]="usuario.nombre" name="name" disabled />
+          <input
+            type="text"
+            [(ngModel)]="usuario.nombre"
+            name="name"
+            disabled
+          />
         </div>
       </div>
 
@@ -15,7 +20,12 @@
         <hr />
         <label for="email">Correo Electrónico</label>
         <div class="email-container">
-          <input type="text" [(ngModel)]="usuario.email" name="email" disabled />
+          <input
+            type="text"
+            [(ngModel)]="usuario.email"
+            name="email"
+            disabled
+          />
         </div>
 
         <div class="button-group">
@@ -27,4 +37,7 @@
       </div>
     </div>
   </form>
+  <div *ngIf="showMessage" class="message" [ngClass]="messageType">
+    {{ message }}
+  </div>
 </section>
