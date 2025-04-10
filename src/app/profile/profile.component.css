@@ -135,22 +135,44 @@ input {
 
 .message {
   position: absolute;
-  top: 75vh;
-  left: 65%;
-  transform: translateX(-50%);
-  padding: 10px 20px;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
-  z-index: 1000;
-  min-width: 200px;
-  text-align: center;
+  top: 70.5vh;
+  left: 58%;
+  width: 17%;
+  height: 6%;
+  
 }
 
-.message.success {
-  background-color: #4caf50;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-.message.error {
-  background-color: #f44336;
+.animacion {
+    animation: fadeIn ease-in-out 0.3s;
+    margin-top: calc(var(--spacing) * 15);
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.success {
+    background-color: #DCFCE7;
+    border-left: 4px solid #48bb78;
+    color: #2f855a;
+    padding: 1rem;
+}
+
+.error {
+    background-color: #FEE2E2;
+    border-left: 4px solid #f56565;
+    color: #af2424;
+    padding: 1rem;
 }
