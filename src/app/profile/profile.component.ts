@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CineFlixService } from '../app.service.injectable';
+import { LoadingService } from '../services/app.loading.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'Profile',
@@ -13,7 +15,7 @@ export class PerfilComponent implements OnInit {
     id: '',
     nombre: '',
     email: '',
-    contraseña: ''
+    contraseña: '',
   };
 
   showEmailModal: boolean = false;
@@ -29,13 +31,29 @@ export class PerfilComponent implements OnInit {
   idUser: any = localStorage.getItem('idUser');
   private apiUrl = `http://127.0.0.1:8000/userSearchById?id=${this.idUser}`;
 
-  constructor(private http: HttpClient, private cineflixservice: CineFlixService) {}
+  message: string = '';
+  messageType: 'success' | 'error' = 'success';
+  showMessage: boolean = false;
+
+  constructor(
+    private http: HttpClient,
+    private cineflixservice: CineFlixService,
+    private loadingService: LoadingService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.loadingService.show();
+    if (!localStorage.getItem('idUser')) {
+      this.router.navigate(['/Login']);
+      this.loadingService.hide();
+      return;
+    }
     this.cargarDatosUsuario();
   }
 
   cargarDatosUsuario(): void {
+    this.loadingService.show();
     this.cineflixservice.profileUser(this.idUser).subscribe({
       next: (response: any) => {
         console.log(response);
@@ -47,13 +65,16 @@ export class PerfilComponent implements OnInit {
       },
       error: (err: any) => {
         console.error('Error al cargar datos del usuario:', err);
-      }
+      },
+      complete: () => {
+        this.loadingService.hide();
+      },
     });
   }
 
   openEmailModal(): void {
     this.showEmailModal = true;
-    this.newEmail = this.tempEmail; 
+    this.newEmail = this.tempEmail;
     this.confirmEmail = '';
   }
 
@@ -119,4 +140,18 @@ export class PerfilComponent implements OnInit {
       }
     });
   }
+
+  createMessage(message: string, type: 'success' | 'error') {
+    this.message = message;
+    this.messageType = type;
+    this.showMessage = true;
+
+    setTimeout(() => {
+      this.showMessage = false;
+      this.message = '';
+    }, 3000);
+  }
 }
+
+
+

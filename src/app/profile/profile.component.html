@@ -26,6 +26,14 @@
         </div>
 
         <button class="btn rojo full-width">Guardar</button>
+        <div *ngIf="showMessage"
+          class="message animacion w-[40%] m-auto bg-green-100 border-l-4 border-green-500 text-green-700 p-6"
+          [ngClass]="{
+          success: messageType == 'success',
+          error: messageType == 'error'
+          }" role="alert">
+          <p style="font-size: 16px;">{{message}}</p>
+        </div>
       </div>
     </div>
   </form>

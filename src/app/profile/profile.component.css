@@ -57,7 +57,7 @@ section {
 }
 
 .profile-details {
-  width: 900px; /* Aumentado de 800px a 900px para que sea más ancho */
+  width: 900px;
   padding: 60px;
 }
 
@@ -104,7 +104,7 @@ input {
   display: flex;
   justify-content: space-between;
   margin: 35px 0;
-  gap: 30px; /* Aumentado de 25px a 30px para que los botones no se vean apretados */
+  gap: 30px;
 }
 
 .btn {
@@ -179,4 +179,48 @@ input {
 
 .modal-buttons .btn {
   padding: 10px 20px;
+
+  .message {
+    position: absolute;
+    top: 70.5vh;
+    left: 58%;
+    width: 17%;
+    height: 6%;
+
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animacion {
+    animation: fadeIn ease-in-out 0.3s;
+    margin-top: calc(var(--spacing) * 15);
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .success {
+    background-color: #DCFCE7;
+    border-left: 4px solid #48bb78;
+    color: #2f855a;
+    padding: 1rem;
+  }
+
+  .error {
+    background-color: #FEE2E2;
+    border-left: 4px solid #f56565;
+    color: #af2424;
+    padding: 1rem;
+  }
 }
