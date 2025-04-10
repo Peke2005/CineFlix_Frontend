@@ -11,7 +11,7 @@
   </div>
 
   <div class="movie-list">
-    <h2>{{titlePage}}</h2>
+    <h2 *ngIf="showTitle">{{titlePage}}</h2>
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
     <div class="movie-grid">
       <div class="movie-card" *ngFor="let movie of (categoria || filtradoPorTitulo) ? paginatedMovies : movies">
