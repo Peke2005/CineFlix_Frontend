@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ComponentFilm } from './component-film/component-film';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ComponentFilm } from './component-film/component-film';
     ComponentFilm,
     componentListar,
     loginComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,

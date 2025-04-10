@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { CineFlixService } from '../app.service.injectable';
+import { LoadingService } from '../services/app.loading.service';
 
 @Component({
   selector: 'component-Listar',
@@ -29,12 +29,17 @@ export class componentListar implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private Route: Router,
-    private cineflixservice: CineFlixService
-  ) { }
+    private cineflixservice: CineFlixService,
+    private loadingService: LoadingService
+  ) {}
 
   ngOnInit(): void {
+    this.loadingService.show();
+
     if (!localStorage.getItem('idUser')) {
       this.Route.navigate(['/Login']);
+      this.loadingService.hide();
+      return;
     }
 
     this.route.paramMap.subscribe((params) => {
@@ -49,15 +54,21 @@ export class componentListar implements OnInit {
   }
 
   seeFilm(film: any) {
+    this.loadingService.show();
     this.Route.navigate(['/Film', film.categories[0], film.title]);
-    setTimeout(() => window.scrollTo({
-      top: 0,
-      left: 100,
-      behavior: "smooth",
-    }), 1000);
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 100,
+        behavior: 'smooth',
+      });
+      this.loadingService.hide();
+    }, 1000);
   }
 
   loadMovies() {
+    this.loadingService.show();
+
     if (this.title) {
       this.filtradoPorTitulo = true;
       this.categoria = false;
@@ -82,6 +93,9 @@ export class componentListar implements OnInit {
         error: (err) => {
           this.movies = [];
           this.errorMessage = 'Error al cargar las películas: ' + err.message;
+        },
+        complete: () => {
+          this.loadingService.hide();
         },
       });
     } else if (this.genre) {
@@ -111,8 +125,10 @@ export class componentListar implements OnInit {
           this.movies = [];
           this.errorMessage = 'Error al cargar las películas: ' + err.message;
         },
+        complete: () => {
+          this.loadingService.hide();
+        },
       });
-
     } else {
       this.categoria = false;
       this.filtradoPorTitulo = false;
@@ -127,6 +143,9 @@ export class componentListar implements OnInit {
           this.errorMessage =
             'Error al cargar todas las películas: ' + err.message;
         },
+        complete: () => {
+          this.loadingService.hide();
+        },
       });
     }
   }
@@ -139,6 +158,7 @@ export class componentListar implements OnInit {
     } else {
       this.featuredMovie = null;
     }
+    this.updatePaginatedMovies();
   }
 
   updatePaginatedMovies(): void {
