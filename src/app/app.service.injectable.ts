@@ -31,4 +31,8 @@ export class CineFlixService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>('/userRegister', body, { headers: headers });
   }
+
+  profileUser(id : any): Observable<any> {
+    return this.http.get(`/userSearchById?id=${id}`);
+  }
 }
