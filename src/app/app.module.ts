@@ -6,6 +6,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ComponentHeader } from './component-header/component-header';
 import { FooterComponent } from './footer/footer.component';
 
+
 import { registerComponent } from './register-component/register.component';
 import { ComponentHome } from './component-home/component-home';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ComponentFilm } from './component-film/component-film';
+import { PerfilComponent } from './profile/profile.component';
+
 
 @NgModule({
   declarations: [
@@ -26,6 +29,7 @@ import { ComponentFilm } from './component-film/component-film';
     ComponentFilm,
     componentListar,
     loginComponent,
+    PerfilComponent,
   ],
   imports: [
     BrowserModule,
