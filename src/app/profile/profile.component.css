@@ -1,5 +1,5 @@
 section {
-  height: 90vh;
+  height: 95vh;
   background: linear-gradient(to bottom, #0052cc, #4d8cff);
   display: flex;
   justify-content: center;
@@ -186,7 +186,6 @@ input {
     left: 58%;
     width: 17%;
     height: 6%;
-
   }
 
   @keyframes fadeIn {
@@ -211,14 +210,14 @@ input {
   }
 
   .success {
-    background-color: #DCFCE7;
+    background-color: #dcfce7;
     border-left: 4px solid #48bb78;
     color: #2f855a;
     padding: 1rem;
   }
 
   .error {
-    background-color: #FEE2E2;
+    background-color: #fee2e2;
     border-left: 4px solid #f56565;
     color: #af2424;
     padding: 1rem;
