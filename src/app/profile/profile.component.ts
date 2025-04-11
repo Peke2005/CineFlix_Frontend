@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CineFlixService } from '../app.service.injectable';
 import { LoadingService } from '../services/app.loading.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'Profile',
@@ -17,6 +17,17 @@ export class PerfilComponent implements OnInit {
     email: '',
     contraseña: '',
   };
+
+  showEmailModal: boolean = false;
+  showPasswordModal: boolean = false;
+  newEmail: string = '';
+  confirmEmail: string = '';
+  newPassword: string = '';
+  confirmPassword: string = '';
+
+  tempEmail: string = '';
+  tempPassword: string = '';
+
   idUser: any = localStorage.getItem('idUser');
   private apiUrl = `http://127.0.0.1:8000/userSearchById?id=${this.idUser}`;
 
@@ -29,7 +40,7 @@ export class PerfilComponent implements OnInit {
     private cineflixservice: CineFlixService,
     private loadingService: LoadingService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadingService.show();
@@ -48,6 +59,8 @@ export class PerfilComponent implements OnInit {
         console.log(response);
         if (response && response.data) {
           this.usuario = response.data;
+          this.tempEmail = this.usuario.email;
+          this.tempPassword = this.usuario.contraseña;
         }
       },
       error: (err: any) => {
@@ -56,6 +69,75 @@ export class PerfilComponent implements OnInit {
       complete: () => {
         this.loadingService.hide();
       },
+    });
+  }
+
+  openEmailModal(): void {
+    this.showEmailModal = true;
+    this.newEmail = this.tempEmail;
+    this.confirmEmail = '';
+  }
+
+  closeEmailModal(): void {
+    this.showEmailModal = false;
+  }
+
+  saveEmail(): void {
+    const trimmedNewEmail = this.newEmail.trim();
+    const trimmedConfirmEmail = this.confirmEmail.trim();
+
+    console.log('newEmail:', trimmedNewEmail);
+    console.log('confirmEmail:', trimmedConfirmEmail);
+
+    if (trimmedNewEmail === trimmedConfirmEmail && trimmedNewEmail !== '') {
+      this.tempEmail = trimmedNewEmail;
+      this.closeEmailModal();
+    } else {
+      alert('Los correos no coinciden o están vacíos');
+    }
+  }
+
+  openPasswordModal(): void {
+    this.showPasswordModal = true;
+    this.newPassword = '';
+    this.confirmPassword = '';
+  }
+
+  closePasswordModal(): void {
+    this.showPasswordModal = false;
+  }
+
+  savePassword(): void {
+    const trimmedNewPassword = this.newPassword.trim();
+    const trimmedConfirmPassword = this.confirmPassword.trim();
+
+    if (trimmedNewPassword === trimmedConfirmPassword && trimmedNewPassword !== '') {
+      this.tempPassword = trimmedNewPassword;
+      this.closePasswordModal();
+    } else {
+      alert('Las contraseñas no coinciden o están vacías');
+    }
+  }
+
+  guardarCambios(): void {
+    this.usuario.email = this.tempEmail;
+    this.usuario.contraseña = this.tempPassword;
+
+    const body = {
+      id: this.usuario.id,
+      email: this.usuario.email,
+      contrasena: this.usuario.contraseña
+    };
+
+    this.cineflixservice.updateUser(body).subscribe({
+      next: (res: any) => {
+        alert('Datos actualizados correctamente');
+        this.cargarDatosUsuario();
+      },
+      error: (err: any) => {
+        console.error('Error al actualizar:', err);
+        alert('Error al actualizar los datos.');
+      }
     });
   }
 
@@ -69,28 +151,7 @@ export class PerfilComponent implements OnInit {
       this.message = '';
     }, 3000);
   }
-
-  guardarCambios(): void {
-    this.loadingService.show();
-    const body = {
-      id: this.usuario.id,
-      email: this.usuario.email,
-      contrasena: this.usuario.contrasena,
-    };
-
-    this.cineflixservice.profileUser(this.idUser).subscribe({
-      next: (res: any) => {
-        this.createMessage('Datos actualizados correctamente', 'success');
-      },
-      error: (err: any) => {
-        console.error('Error al actualizar:', err);
-        this.createMessage('Error al actualizar los datos.', 'error');
-      },
-      complete: () => {
-        this.loadingService.hide();
-      },
-    });
-  }
-
-  
 }
+
+
+

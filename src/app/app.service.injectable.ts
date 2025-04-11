@@ -35,4 +35,8 @@ export class CineFlixService {
   profileUser(id : any): Observable<any> {
     return this.http.get(`/userSearchById?id=${id}`);
   }
+
+  updateUser(body: any): Observable<any> {
+    return this.http.put(`/updateUser`, body); 
+  }
 }

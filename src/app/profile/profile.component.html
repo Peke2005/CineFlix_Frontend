@@ -3,7 +3,6 @@
     <div class="profile-container">
       <div class="profile-card">
         <img src="asset/M_de_Marc.png" alt="Perfil" class="profile-img" />
-
         <h3>Nombre Completo</h3>
         <div class="profile-info">
           <input type="text" [(ngModel)]="usuario.nombre" name="name" disabled />
@@ -16,14 +15,17 @@
         <label for="email">Correo Electrónico</label>
         <div class="email-container">
           <input type="text" [(ngModel)]="usuario.email" name="email" disabled />
+          <span *ngIf="tempEmail !== usuario.email" style="color: red; font-size: 14px;">
+            (Cambio pendiente: {{ tempEmail }})
+          </span>
         </div>
 
         <div class="button-group">
-          <button class="btn rojo">Modificar Email</button>
-          <button class="btn rojo">Modificar Contraseña</button>
+          <button type="button" class="btn rojo" (click)="openEmailModal()">Modificar Email</button>
+          <button type="button" class="btn rojo" (click)="openPasswordModal()">Modificar Contraseña</button>
         </div>
 
-        <button class="btn rojo full-width">Modificar</button>
+        <button class="btn rojo full-width">Guardar</button>
         <div *ngIf="showMessage"
           class="message animacion w-[40%] m-auto bg-green-100 border-l-4 border-green-500 text-green-700 p-6"
           [ngClass]="{
@@ -36,4 +38,39 @@
     </div>
   </form>
 
+  <div class="modal" *ngIf="showEmailModal">
+    <div class="modal-content">
+      <h3>Cambiar Correo Electrónico</h3>
+      <div class="modal-input">
+        <label>Nuevo Email</label>
+        <input type="email" [(ngModel)]="newEmail" placeholder="Nuevo email" />
+      </div>
+      <div class="modal-input">
+        <label>Confirmar Email</label>
+        <input type="email" [(ngModel)]="confirmEmail" placeholder="Confirmar email" />
+      </div>
+      <div class="modal-buttons">
+        <button class="btn rojo" (click)="saveEmail()">Guardar</button>
+        <button class="btn" (click)="closeEmailModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="showPasswordModal">
+    <div class="modal-content">
+      <h3>Cambiar Contraseña</h3>
+      <div class="modal-input">
+        <label>Nueva Contraseña</label>
+        <input type="password" [(ngModel)]="newPassword" placeholder="Nueva contraseña" />
+      </div>
+      <div class="modal-input">
+        <label>Confirmar Contraseña</label>
+        <input type="password" [(ngModel)]="confirmPassword" placeholder="Confirmar contraseña" />
+      </div>
+      <div class="modal-buttons">
+        <button class="btn rojo" (click)="savePassword()">Guardar</button>
+        <button class="btn" (click)="closePasswordModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
 </section>
