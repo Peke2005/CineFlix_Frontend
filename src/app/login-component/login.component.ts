@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { CineFlixService } from '../app.service.injectable';
 import { Router } from '@angular/router';
- 
+
 
 
 
@@ -32,7 +32,7 @@ export class loginComponent implements OnInit {
     messageType: 'success' | 'error' = 'success';
 
     ngOnInit() {
-        if(localStorage.getItem("idUser")) {
+        if (localStorage.getItem("idUser")) {
             this.router.navigate(['/Home']);
         }
         this.loginForm = new FormGroup({
@@ -62,7 +62,12 @@ export class loginComponent implements OnInit {
                 this.createMessage(response.logError, "success")
 
                 setTimeout(() => {
-                    this.router.navigate(['/Home']);
+                    console.log(response)
+                    if (response.rol == "administrador") {
+                        this.router.navigate(['/Panel']);
+                    } else {
+                        this.router.navigate(['/Home']);
+                    }
                 }, 2000);
             },
             error: (err) => {

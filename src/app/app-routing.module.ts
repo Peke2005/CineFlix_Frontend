@@ -6,6 +6,7 @@ import { PerfilComponent } from './profile/profile.component';
 import { ComponentHome } from './component-home/component-home';
 import { componentListar } from './component-Listar/component-Listar';
 import { ComponentFilm } from './component-film/component-film';
+import { panelComponent } from './panel/panel.component';
 
 const routes: Routes = [
   { path: '', component: loginComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'Listar/genre/:genre', component: componentListar },
   { path: 'Listar', component: componentListar },
   { path: 'Login', component: loginComponent },
+  { path: 'Panel', component: panelComponent },
   { path: 'Profile', component: PerfilComponent },
   { path: '**', redirectTo: 'Home', pathMatch: 'full' },
 ];
@@ -24,4 +26,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
