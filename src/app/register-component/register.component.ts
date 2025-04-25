@@ -26,6 +26,7 @@ export class registerComponent implements OnInit {
 
   message = '';
   showMessage = false;
+  showMessage2 = false;
   errorMessage = '';
   isSubmitting = false;
   messageType: 'success' | 'error' = 'success';
@@ -77,11 +78,12 @@ export class registerComponent implements OnInit {
         this.showMessage = true;
         this.errorMessage = message;
         setTimeout(() => {
+          this.showMessage = false;
           this.errorMessage = '';
         }, 3000);
       } else {
         this.errorMessage = '';
-
+        this.showMessage = false;
         if (this.activeTemplate != 'register3') {
           this.changeTemplate('register3');
         } else {
@@ -94,12 +96,11 @@ export class registerComponent implements OnInit {
 
   createMessage(message: string, type: 'success' | 'error') {
     this.message = message;
-    this.showMessage = true;
+    this.showMessage2 = true;
     this.messageType = type;
 
     setTimeout(() => {
-      this.showMessage = false;
-      this.errorMessage = '';
+      this.showMessage2 = false;
     }, 2000);
   }
 

@@ -50,7 +50,7 @@
                     <div *ngFor="let actor of film.actors"
                         class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex flex-col items-center text-white hover:scale-105 transition-all duration-300 shadow-lg">
 
-                        <img class="w-28 h-28 object-cover rounded-full mb-4 shadow-md" src="asset/M_de_Marc.png" />
+                        <img class="w-28 h-28 object-cover rounded-full mb-4 shadow-md" [src]="actor.foto" />
 
                         <h3 class="text-xl font-semibold mb-1">{{ actor.name }}</h3>
 
