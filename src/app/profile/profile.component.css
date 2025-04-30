@@ -33,13 +33,49 @@ section {
   align-items: center;
 }
 
-.profile-img {
+.image-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
   margin-bottom: 40px;
-  width: 200px;
-  height: 200px;
   border-radius: 50%;
-  border: 5px solid red;
+  overflow: hidden;
+  box-sizing: border-box;
 }
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  border: none;
+}
+
+.hover-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(30, 30, 30, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-icon {
+  font-size: 28px;
+  color: white;
+  user-select: none;
+}
+
+
+.hover-overlay {
+  transition: background-color 0.3s ease;
+}
+
 
 .profile-card h3 {
   font-weight: bold;
@@ -171,55 +207,48 @@ input {
   font-size: 16px;
 }
 
-.modal-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
 .modal-buttons .btn {
   padding: 10px 20px;
+}
 
-  .message {
-    position: absolute;
-    top: 70.5vh;
-    left: 58%;
-    width: 17%;
-    height: 6%;
+.message {
+  position: absolute;
+  top: 70.5vh;
+  left: 58%;
+  width: 17%;
+  height: 6%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
   }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
+}
 
-  .animacion {
-    animation: fadeIn ease-in-out 0.3s;
-    margin-top: calc(var(--spacing) * 15);
-  }
+.animacion {
+  animation: fadeIn ease-in-out 0.3s;
+  margin-top: calc(var(--spacing) * 15);
+}
 
-  .animate-fadeIn {
-    animation: fadeIn 0.3s ease-in-out;
-  }
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
 
-  .success {
-    background-color: #dcfce7;
-    border-left: 4px solid #48bb78;
-    color: #2f855a;
-    padding: 1rem;
-  }
+.success {
+  background-color: #dcfce7;
+  border-left: 4px solid #48bb78;
+  color: #2f855a;
+  padding: 1rem;
+}
 
-  .error {
-    background-color: #fee2e2;
-    border-left: 4px solid #f56565;
-    color: #af2424;
-    padding: 1rem;
-  }
+.error {
+  background-color: #fee2e2;
+  border-left: 4px solid #f56565;
+  color: #af2424;
+  padding: 1rem;
 }
