@@ -17,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ComponentFilm } from './component-film/component-film';
 import { PerfilComponent } from './profile/profile.component';
 import { LoadingComponent } from './loading/loading.component';
+import { panelComponent } from './panel/panel.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { LoadingComponent } from './loading/loading.component';
     loginComponent,
     PerfilComponent,
     LoadingComponent,
+    panelComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CineFlixService } from '../app.service.injectable';
 import { LoadingService } from '../services/app.loading.service';
@@ -11,11 +11,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.component.css'],
 })
 export class PerfilComponent implements OnInit {
+  hovering: boolean = false;
+
   usuario: any = {
     id: '',
     nombre: '',
     email: '',
     contraseña: '',
+    imagen: '',
   };
 
   showEmailModal: boolean = false;
@@ -39,8 +42,9 @@ export class PerfilComponent implements OnInit {
     private http: HttpClient,
     private cineflixservice: CineFlixService,
     private loadingService: LoadingService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadingService.show();
@@ -56,11 +60,14 @@ export class PerfilComponent implements OnInit {
     this.loadingService.show();
     this.cineflixservice.profileUser(this.idUser).subscribe({
       next: (response: any) => {
-        console.log(response);
         if (response && response.data) {
-          this.usuario = response.data;
-          this.tempEmail = this.usuario.email;
-          this.tempPassword = this.usuario.contraseña;
+          setTimeout(() => {
+            this.usuario = response.data;
+            this.tempEmail = this.usuario.email;
+            this.tempPassword = this.usuario.contraseña;
+            this.usuario.imagen = response.data.imagen || '';
+            this.cdr.detectChanges();
+          });
         }
       },
       error: (err: any) => {
@@ -70,7 +77,7 @@ export class PerfilComponent implements OnInit {
         this.loadingService.hide();
       },
     });
-  }
+  }  
 
   openEmailModal(): void {
     this.showEmailModal = true;
@@ -85,9 +92,6 @@ export class PerfilComponent implements OnInit {
   saveEmail(): void {
     const trimmedNewEmail = this.newEmail.trim();
     const trimmedConfirmEmail = this.confirmEmail.trim();
-
-    console.log('newEmail:', trimmedNewEmail);
-    console.log('confirmEmail:', trimmedConfirmEmail);
 
     if (trimmedNewEmail === trimmedConfirmEmail && trimmedNewEmail !== '') {
       this.tempEmail = trimmedNewEmail;
@@ -126,18 +130,18 @@ export class PerfilComponent implements OnInit {
     const body = {
       id: this.usuario.id,
       email: this.usuario.email,
-      contrasena: this.usuario.contraseña
+      contrasena: this.usuario.contraseña,
     };
 
     this.cineflixservice.updateUser(body).subscribe({
-      next: (res: any) => {
+      next: () => {
         alert('Datos actualizados correctamente');
         this.cargarDatosUsuario();
       },
       error: (err: any) => {
         console.error('Error al actualizar:', err);
         alert('Error al actualizar los datos.');
-      }
+      },
     });
   }
 
@@ -151,7 +155,29 @@ export class PerfilComponent implements OnInit {
       this.message = '';
     }, 3000);
   }
+
+  onImageSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (!file) return;
+
+    const validTypes = ['image/png', 'image/jpeg'];
+    if (!validTypes.includes(file.type)) {
+      alert('Solo se permiten archivos PNG o JPG.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('id', this.idUser);
+    formData.append('imagen', file);
+
+    this.http.post('http://localhost:8000/uploadImage', formData).subscribe({
+      next: () => {
+        this.cargarDatosUsuario();
+        this.createMessage('Imagen actualizada correctamente', 'success');
+      },
+      error: () => {
+        alert('Error al subir la imagen');
+      }
+    });
+  }
 }
-
-
-
