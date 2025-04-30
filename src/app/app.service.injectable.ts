@@ -39,4 +39,21 @@ export class CineFlixService {
   updateUser(body: any): Observable<any> {
     return this.http.put(`/updateUser`, body); 
   }
+
+  /* Panel Administrador */
+  getPeliculas(): Observable<any[]> {
+    return this.http.get<any>(`/listFilms`);
+  }
+
+  crearPelicula(pelicula: any): Observable<any> {
+    return this.http.post<any>(`/createFilm`, pelicula);
+  }
+
+  actualizarPelicula(id: number, pelicula: any): Observable<any> {
+    return this.http.put<any>(`updateFilm/${id}`, pelicula);
+  }
+
+  eliminarPelicula(id: number): Observable<void> {
+    return this.http.delete<void>(`deleteFilm/${id}`);
+  }
 }
