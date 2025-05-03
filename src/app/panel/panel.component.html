@@ -1,19 +1,16 @@
-<section class="min-h-screen bg-gray-100 py-10 px-6">
+<section class="min-h-screen bg-gray-100 py-25 px-6">
   <div class="w-full">
     <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">
       Panel de Películas
     </h2>
-
     <div class="text-right mb-6">
       <button
         (click)="crearNuevaPelicula()"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full shadow-lg transition duration-200"
+        class="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white px-6 py-3 rounded-full shadow-lg transition duration-200"
       >
         Crear Nueva Película
       </button>
     </div>
-
-    <!-- Formulario para añadir/editar película -->
     <div
       *ngIf="editando || creando"
       class="bg-white p-8 rounded-lg shadow-lg mb-8 max-w-4xl mx-auto"
@@ -25,97 +22,109 @@
         (ngSubmit)="guardar()"
         class="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
-        <input
-          type="text"
-          [(ngModel)]="peliculaForm.titulo"
-          name="titulo"
-          placeholder="Título"
-          class="border p-3 rounded-lg w-full"
-        />
-        <input
-          type="text"
-          [(ngModel)]="peliculaForm.descripcion"
-          name="descripcion"
-          placeholder="Descripción"
-          class="border p-3 rounded-lg w-full"
-        />
-
-        <!-- Descripción como textarea para mayor visibilidad -->
-        <textarea
-          [(ngModel)]="peliculaForm.descripcion"
-          name="descripcion"
-          placeholder="Descripción"
-          class="border p-3 rounded-lg w-full h-32 resize-none"
-        ></textarea>
-
-        <input
-          type="text"
-          [(ngModel)]="peliculaForm.anio"
-          name="anio"
-          placeholder="Año"
-          class="border p-3 rounded-lg w-full"
-        />
-        <input
-          type="number"
-          [(ngModel)]="peliculaForm.duracion"
-          name="duracion"
-          placeholder="Duración (min)"
-          class="border p-3 rounded-lg w-full"
-        />
-        <input
-          type="text"
-          [(ngModel)]="peliculaForm.portada"
-          name="portada"
-          placeholder="URL Portada"
-          class="border p-3 rounded-lg w-full"
-        />
-        <input
-          type="text"
-          [(ngModel)]="peliculaForm.trailer"
-          name="trailer"
-          placeholder="URL Trailer"
-          class="border p-3 rounded-lg w-full"
-        />
-
-        <!-- Aquí puedes añadir selectores dinámicos -->
-        <div class="col-span-full">
-          <label for="actores" class="block font-medium text-gray-600"
-            >Selecciona Actores</label
+        <div class="flex flex-col">
+          <label for="title" class="block font-medium text-gray-600 mb-2"
+            >Title</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="peliculaForm.title"
+            name="title"
+            placeholder="Title"
+            class="border p-3 rounded-lg w-full"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="description" class="block font-medium text-gray-600 mb-2"
+            >Description</label
+          >
+          <textarea
+            [(ngModel)]="peliculaForm.description"
+            name="description"
+            placeholder="Description"
+            class="border p-3 rounded-lg w-full h-32 resize-none"
+          ></textarea>
+        </div>
+        <div class="flex flex-col">
+          <label for="year" class="block font-medium text-gray-600 mb-2"
+            >Year</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="peliculaForm.year"
+            name="year"
+            placeholder="Year"
+            class="border p-3 rounded-lg w-full"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="duration" class="block font-medium text-gray-600 mb-2"
+            >Duration</label
+          >
+          <input
+            type="number"
+            [(ngModel)]="peliculaForm.duration"
+            name="duration"
+            placeholder="Duration (min)"
+            class="border p-3 rounded-lg w-full"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="imageUrl" class="block font-medium text-gray-600 mb-2"
+            >Poster</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="peliculaForm.imageUrl"
+            name="imageUrl"
+            placeholder="Poster URL"
+            class="border p-3 rounded-lg w-full"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="trailer" class="block font-medium text-gray-600 mb-2"
+            >Trailer</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="peliculaForm.trailer"
+            name="trailer"
+            placeholder="Trailer URL"
+            class="border p-3 rounded-lg w-full"
+          />
+        </div>
+        <div class="col-span-full flex flex-col">
+          <label for="actors" class="block font-medium text-gray-600 mb-2"
+            >Select Actors</label
           >
           <select
             multiple
-            [(ngModel)]="peliculaForm.actores"
-            name="actores"
+            [(ngModel)]="peliculaForm.actors"
+            name="actors"
             class="border p-3 w-full rounded-lg"
           >
-            <option
-              *ngFor="let actor of peliculaForm.actores"
-              [value]="actor.id_actor"
-            >
-              {{ actor.nombre }}
+            <option *ngFor="let actor of actores" [ngValue]="actor">
+              {{ actor.name }}
             </option>
           </select>
         </div>
-
         <div class="col-span-full flex justify-end gap-4 mt-6">
           <button
             type="button"
             (click)="resetForm()"
-            class="px-6 py-3 bg-gray-300 rounded-lg text-gray-700 hover:bg-gray-400 transition"
+            class="px-6 cursor-pointer py-3 bg-gray-300 rounded-lg text-gray-700 hover:bg-gray-400 transition"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+            class="px-6 cursor-pointer py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
           >
             Guardar
           </button>
         </div>
       </form>
     </div>
-
-    <!-- Tabla de películas -->
     <div class="overflow-x-auto mb-10">
       <table
         class="w-full mx-auto table-auto border-collapse rounded-lg shadow-lg"
@@ -126,31 +135,31 @@
               class="px-6 py-4 text-left text-white"
               style="background-color: #e53935"
             >
-              Título
+              Title
             </th>
             <th
               class="px-6 py-4 text-left text-white"
               style="background-color: #e53935"
             >
-              Descripción
+              Description
             </th>
             <th
               class="px-6 py-4 text-left text-white"
               style="background-color: #e53935"
             >
-              Año
+              Year
             </th>
             <th
               class="px-6 py-4 text-left text-white"
               style="background-color: #e53935"
             >
-              Duración
+              Duration
             </th>
             <th
               class="px-6 py-4 text-left text-white"
               style="background-color: #e53935"
             >
-              Portada
+              Poster
             </th>
             <th
               class="px-6 py-4 text-left text-white"
@@ -162,7 +171,7 @@
               class="px-6 py-4 text-left text-white"
               style="background-color: #e53935"
             >
-              Acciones
+              Actions
             </th>
           </tr>
         </thead>
@@ -175,26 +184,25 @@
             <td class="px-6 py-4">
               <img
                 [src]="p.imageUrl"
-                alt="portada"
+                alt="poster"
                 class="w-20 h-28 object-cover mx-auto rounded-md shadow-sm"
               />
             </td>
             <td class="px-6 py-4 truncate max-w-xs text-gray-600">
               {{ p.trailer }}
             </td>
-            <td class="px-6 py-4 space-x-2 flex items-center ">
+            <td class="px-6 py-4 space-x-2 flex items-center">
               <button
                 (click)="editar(p)"
                 class="bg-blue-500 hover:bg-blue-600 cursor-pointer text-white p-5 rounded-full transition"
-                title="Editar"
+                title="Edit"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
-
               <button
                 (click)="eliminar(p.id_pelicula!)"
                 class="bg-red-500 hover:bg-red-600 cursor-pointer text-white p-5 rounded-full transition"
-                title="Eliminar"
+                title="Delete"
               >
                 <i class="fa-solid fa-trash"></i>
               </button>

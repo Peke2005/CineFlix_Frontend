@@ -20,6 +20,10 @@ export class CineFlixService {
     return this.http.get(`/movieSearchTitle?title=${name}`);
   }
 
+  getActores(): Observable<any> {
+    return this.http.get(`/actores`);
+  }
+
   loginUser(user: any): Observable<any> {
     let body = JSON.stringify(user);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
