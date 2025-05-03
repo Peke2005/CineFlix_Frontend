@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CineFlixService } from '../app.service.injectable';
 import { Router } from '@angular/router';
+import { LoadingService } from '../services/app.loading.service';
 
 @Component({
   selector: 'Panel',
@@ -10,19 +10,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./panel.component.css'],
 })
 export class panelComponent implements OnInit {
-  resultados: any[] = [];
-
   peliculas: any[] = [];
-  peliculaForm = {
-    titulo: '',
-    descripcion: '',
-    anio: '',
-    duracion: 0,
-    portada: '',
+  actores: any[] = [];
+  peliculaForm: any = {
+    title: '',
+    description: '',
+    year: '',
+    duration: 0,
+    imageUrl: '',
     trailer: '',
-    actores: [] as any[]
+    actors: [],
   };
-
 
   editando = false;
   editId: number | null = null;
@@ -30,75 +28,115 @@ export class panelComponent implements OnInit {
 
   constructor(
     private cineflixservice: CineFlixService,
-    private Route: Router
+    private router: Router,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
+    if(localStorage.getItem("rol") != "administrador"){
+      this.router.navigate(['/Home']);
+    }
+    this.loadingService.show();
     this.loadPeliculas();
+    this.loadActores();
   }
 
   loadPeliculas(): void {
     this.cineflixservice.getPeliculas().subscribe({
       next: (response: any) => {
-        console.log(response.data);
         this.peliculas = response.data;
       },
-      error: (err: any) => {
-        console.error('Error al cargar datos del usuario:', err);
+      error: (err: any) => {},
+      complete: () => {
+        this.loadingService.hide();
       },
     });
   }
 
+  loadActores(): void {
+    this.cineflixservice.getActores().subscribe({
+      next: (response: any) => {
+        this.actores = response.data;
+      },
+      error: (err: any) => {},
+    });
+  }
+
   guardar(): void {
+    const peliculaData = {
+      title: this.peliculaForm.title,
+      description: this.peliculaForm.description,
+      year: this.peliculaForm.year,
+      duration: this.peliculaForm.duration,
+      imageUrl: this.peliculaForm.imageUrl,
+      trailer: this.peliculaForm.trailer,
+      actors: this.peliculaForm.actors.map((actor: any) => actor.id_actor),
+    };
+
     if (this.editando && this.editId) {
-      // Si estamos editando, llamamos al endpoint de actualización
       this.cineflixservice
-        .actualizarPelicula(this.editId, this.peliculaForm)
-        .subscribe(() => {
-          this.resetForm();
-          this.loadPeliculas(); // Recargamos las películas después de editar
+        .actualizarPelicula(this.editId, peliculaData)
+        .subscribe({
+          next: () => {
+            this.resetForm();
+            this.loadPeliculas();
+          },
+          error: (err) => {},
         });
     } else {
-      // Si estamos creando una nueva película
-      this.cineflixservice.crearPelicula(this.peliculaForm).subscribe(() => {
-        this.resetForm();
-        this.loadPeliculas(); // Recargamos las películas después de crear
+      this.cineflixservice.crearPelicula(peliculaData).subscribe({
+        next: () => {
+          this.resetForm();
+          this.loadPeliculas();
+        },
+        error: (err) => {},
       });
     }
   }
 
   editar(pelicula: any): void {
-    // Llenamos el formulario con los datos de la película seleccionada para editar
-    this.peliculaForm = { ...pelicula };
+    this.peliculaForm = {
+      title: pelicula.title || '',
+      description: pelicula.description || '',
+      year: pelicula.year || '',
+      duration: pelicula.duration || 0,
+      imageUrl: pelicula.imageUrl || '',
+      trailer: pelicula.trailer || '',
+      actors: pelicula.actors.map(
+        (actor: any) =>
+          this.actores.find((a: any) => a.id_actor === actor.id_actor) || actor
+      ),
+    };
     this.editando = true;
-    this.editId = pelicula.id_pelicula!;
+    this.creando = false;
+    this.editId = pelicula.id_pelicula || null;
   }
 
   eliminar(id: number): void {
-    // Llamamos al endpoint de eliminación
-    this.cineflixservice.eliminarPelicula(id).subscribe(() => {
-      this.loadPeliculas(); // Recargamos la lista después de eliminar
+    this.cineflixservice.eliminarPelicula(id).subscribe({
+      next: () => this.loadPeliculas(),
+      error: (err) => {},
     });
   }
 
   resetForm(): void {
-    // Reiniciamos el formulario
     this.peliculaForm = {
-      titulo: '',
-      descripcion: '',
-      anio: '',
-      duracion: 0,
-      portada: '',
+      title: '',
+      description: '',
+      year: '',
+      duration: 0,
+      imageUrl: '',
       trailer: '',
-      actores: []
+      actors: [],
     };
     this.editando = false;
+    this.creando = false;
     this.editId = null;
   }
 
   crearNuevaPelicula(): void {
     this.resetForm();
-    this.editando = false;
     this.creando = true;
+    this.editando = false;
   }
 }
