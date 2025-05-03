@@ -135,9 +135,9 @@ export class PerfilComponent implements OnInit {
     const body = {
       id: this.usuario.id,
       email: this.usuario.email,
-      contrasena: this.usuario.contraseña,
+      contraseña: this.usuario.contraseña,
     };
-
+    
     this.cineflixservice.updateUser(body).subscribe({
       next: () => {
         this.createMessage('Datos actualizados correctamente', 'success');
