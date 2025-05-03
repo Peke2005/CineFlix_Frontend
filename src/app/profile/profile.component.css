@@ -240,3 +240,47 @@ input {
   color: #af2424;
   padding: 1rem;
 }
+
+.botonEliminar {
+  width: 100%;            
+  max-width: 250px;         
+  padding: 16px 24px;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 10px;
+  display: block;          
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+
+}
+.modal-content {
+  margin-top: 350px;
+  margin-left: 700px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.centrar{
+  margin-left: 100px;
+}

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CineFlixService } from '../app.service.injectable';
 import { LoadingService } from '../services/app.loading.service';
 import { Router } from '@angular/router';
@@ -23,6 +23,7 @@ export class PerfilComponent implements OnInit {
 
   showEmailModal: boolean = false;
   showPasswordModal: boolean = false;
+  showModalEliminar = false;
   newEmail: string = '';
   confirmEmail: string = '';
   newPassword: string = '';
@@ -185,4 +186,34 @@ export class PerfilComponent implements OnInit {
       },
     });
   }
+
+  openModal() {
+    this.showModalEliminar = true;
+  }
+
+  closeModal() {
+    this.showModalEliminar = false;
+  }
+
+  deleteAccount() {
+  
+    const userId = localStorage.getItem('idUser');
+  
+    if (!userId) {
+      return;
+    }
+  
+    this.cineflixservice.eliminarUsuario(userId).subscribe({
+      next: () => {
+        this.createMessage('Cuenta eliminada correctamente', 'success');
+        localStorage.removeItem('idUser');
+        this.router.navigate(['/Login']);
+      },
+      error: () => {
+        this.createMessage('Error al eliminar la cuenta', 'error');
+      }
+    });
+  
+    this.closeModal();
+  } 
 }
