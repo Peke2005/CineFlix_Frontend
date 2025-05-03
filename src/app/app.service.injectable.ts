@@ -40,6 +40,21 @@ export class CineFlixService {
     return this.http.put('http://localhost:8000/updateUser', body, {
       headers: { 'Content-Type': 'application/json' }
     });
-  }  
+  }
+  /* Panel Administrador */
+  getPeliculas(): Observable<any[]> {
+    return this.http.get<any>(`/listFilms`);
+  }
 
+  crearPelicula(pelicula: any): Observable<any> {
+    return this.http.post<any>(`/createFilm`, pelicula);
+  }
+
+  actualizarPelicula(id: number, pelicula: any): Observable<any> {
+    return this.http.put<any>(`updateFilm/${id}`, pelicula);
+  }
+
+  eliminarPelicula(id: number): Observable<void> {
+    return this.http.delete<void>(`deleteFilm/${id}`);
+  }
 }

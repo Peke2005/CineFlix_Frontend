@@ -34,5 +34,23 @@
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
+  },
+  "/createFilm": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/updateFilm": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/deleteFilm": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
   }
 }
