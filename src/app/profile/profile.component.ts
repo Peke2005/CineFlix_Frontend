@@ -32,7 +32,6 @@ export class PerfilComponent implements OnInit {
   tempPassword: string = '';
 
   idUser: any = localStorage.getItem('idUser');
-  private apiUrl = `http://127.0.0.1:8000/userSearchById?id=${this.idUser}`;
 
   message: string = '';
   messageType: 'success' | 'error' = 'success';
@@ -77,7 +76,7 @@ export class PerfilComponent implements OnInit {
         this.loadingService.hide();
       },
     });
-  }  
+  }
 
   openEmailModal(): void {
     this.showEmailModal = true;
@@ -97,7 +96,7 @@ export class PerfilComponent implements OnInit {
       this.tempEmail = trimmedNewEmail;
       this.closeEmailModal();
     } else {
-      alert('Los correos no coinciden o están vacíos');
+      this.createMessage('Los correos no coinciden o están vacíos', 'error');
     }
   }
 
@@ -115,11 +114,17 @@ export class PerfilComponent implements OnInit {
     const trimmedNewPassword = this.newPassword.trim();
     const trimmedConfirmPassword = this.confirmPassword.trim();
 
-    if (trimmedNewPassword === trimmedConfirmPassword && trimmedNewPassword !== '') {
+    if (
+      trimmedNewPassword === trimmedConfirmPassword &&
+      trimmedNewPassword !== ''
+    ) {
       this.tempPassword = trimmedNewPassword;
       this.closePasswordModal();
     } else {
-      alert('Las contraseñas no coinciden o están vacías');
+      this.createMessage(
+        'Las contraseñas no coinciden o están vacías',
+        'error'
+      );
     }
   }
 
@@ -135,12 +140,12 @@ export class PerfilComponent implements OnInit {
 
     this.cineflixservice.updateUser(body).subscribe({
       next: () => {
-        alert('Datos actualizados correctamente');
+        this.createMessage('Datos actualizados correctamente', 'success');
         this.cargarDatosUsuario();
       },
       error: (err: any) => {
         console.error('Error al actualizar:', err);
-        alert('Error al actualizar los datos.');
+        this.createMessage('Error al actualizar los datos', 'error');
       },
     });
   }
@@ -162,7 +167,7 @@ export class PerfilComponent implements OnInit {
 
     const validTypes = ['image/png', 'image/jpeg'];
     if (!validTypes.includes(file.type)) {
-      alert('Solo se permiten archivos PNG o JPG.');
+      this.createMessage('Solo se permiten archivos PNG o JPG', 'error');
       return;
     }
 
@@ -176,8 +181,8 @@ export class PerfilComponent implements OnInit {
         this.createMessage('Imagen actualizada correctamente', 'success');
       },
       error: () => {
-        alert('Error al subir la imagen');
-      }
+        this.createMessage('Error al subir la imagen', 'error');
+      },
     });
   }
 }
