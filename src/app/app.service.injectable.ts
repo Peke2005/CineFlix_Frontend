@@ -41,9 +41,10 @@ export class CineFlixService {
   }
 
   updateUser(body: any): Observable<any> {
-    return this.http.put(`/updateUser`, body); 
+    return this.http.put('http://localhost:8000/updateUser', body, {
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
-
   /* Panel Administrador */
   getPeliculas(): Observable<any[]> {
     return this.http.get<any>(`/listFilms`);
