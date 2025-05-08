@@ -19,8 +19,10 @@ export class ComponentFilm implements OnInit {
 
   trailerUrl!: SafeResourceUrl;
   film: any;
-  
+
   showActors: boolean = false;
+  showButtons: boolean = false;
+  inputValue: String = '';
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: any) => {
@@ -55,4 +57,24 @@ export class ComponentFilm implements OnInit {
     const fechaPartes = fechaParte.split('-');
     return `${fechaPartes[2]}/${fechaPartes[1]}/${fechaPartes[0]}`;
   }
+
+  submitComment(): void {
+    if (this.inputValue.trim()) {
+      console.log(this.film);
+      this.cineflixService.subirComentario(localStorage.getItem("idUser"),this.film.id, this.inputValue).subscribe({
+          next: (response) => {
+            console.log('Comentario añadido con éxito', response);
+            this.inputValue = ''; // Limpiar el campo de comentario
+          },
+          error: (error) => {
+            console.error('Error al agregar comentario', error);
+          }
+        });
+    }
+  }
+  cancelAction() {
+    this.inputValue = '';
+    this.showButtons = false;
+  }
+
 }

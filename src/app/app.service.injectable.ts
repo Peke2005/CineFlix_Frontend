@@ -64,5 +64,11 @@ export class CineFlixService {
 
   eliminarUsuario(id: any): Observable<any> {
     return this.http.delete<any>(`/deleteUser?id=${id}`);
-  }  
+  }
+
+  subirComentario(idUser: any, idPelicula: any, comentario: any): Observable<any> {
+    let body = {userId: idUser, movieId: idPelicula,commentMessage: comentario};
+    console.log(body);
+    return this.http.post<any>(`/uploadComentario`, body);
+  }
 }

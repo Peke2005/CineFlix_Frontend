@@ -3,12 +3,11 @@
     <iframe
       class="trailer-iframe w-[80%] h-[500px] md:h-[600px] lg:h-[600px]"
       [src]="trailerUrl"
-      title="Cars 2"
+      title="video"
       frameborder="0"
       allow="autoplay; encrypted-media; picture-in-picture"
       allowfullscreen
-    >
-    </iframe>
+    ></iframe>
   </div>
 
   <div class="flex justify-start text-white items-center mt-10">
@@ -16,21 +15,22 @@
       class="text-4xl underline mr-8"
       style="font-family: 'ADLaM Display', cursive"
     >
-      {{ this.film.title }}
+      {{ film.title }}
     </h1>
 
     <div class="h-full flex">
       <span
-        *ngFor="let category of this.film.categories"
+        *ngFor="let category of film.categories"
         class="m-1 py-1 px-2 rounded-[15px] bg-[#209283]"
-        >{{ category }}</span
       >
-      <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-[#209283]"
-        >{{ this.film.year }}</span
-      >
-      <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-red-800"
-        >{{ this.film.duration }}m</span
-      >
+        {{ category }}
+      </span>
+      <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-[#209283]">
+        {{ film.year }}
+      </span>
+      <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-red-800">
+        {{ film.duration }}m
+      </span>
     </div>
   </div>
 
@@ -42,12 +42,13 @@
       <a
         class="hover:underline cursor-pointer"
         (click)="showActors = true"
-        *ngFor="let actor of this.film.actors"
-        >{{ actor.name }}</a
+        *ngFor="let actor of film.actors"
       >
+        {{ actor.name }}
+      </a>
     </div>
     <h4 class="font-semibold">Descripción:</h4>
-    <p>{{ this.film.description }}</p>
+    <p>{{ film.description }}</p>
   </div>
 
   <div
@@ -63,7 +64,7 @@
       class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-6xl overflow-y-auto max-h-[90vh] border border-white/20"
     >
       <button
-        (click)="this.showActors = false"
+        (click)="showActors = false"
         class="z-150 absolute right-0 p-3 rounded-bl-2xl cursor-pointer bg-white hover:bg-gray-200"
       >
         <i class="text-xl fa-solid fa-xmark"></i>
@@ -87,17 +88,15 @@
               class="w-28 h-28 object-cover rounded-full mb-4 shadow-md"
               [src]="actor.foto"
             />
-
             <h3 class="text-xl font-semibold mb-1">{{ actor.name }}</h3>
-
             <div class="text-center">
               <p class="text-sm text-gray-200">
                 <span class="font-medium text-white">Nacimiento:</span>
                 {{ formatFechaNacimiento(actor.birthdate.date) }}
               </p>
               <p class="text-sm text-gray-200">
-                <span class="font-medium text-white">Nacionalidad:</span> {{
-                actor.nationality }}
+                <span class="font-medium text-white">Nacionalidad:</span>
+                {{ actor.nationality }}
               </p>
             </div>
           </div>
@@ -106,6 +105,7 @@
     </div>
   </div>
 
+  <!-- Comentarios -->
   <div class="flex justify-start text-white flex-col mt-20">
     <h1
       class="text-3xl underline mr-8"
@@ -114,13 +114,71 @@
       Comentarios
     </h1>
 
-    <div class="shadow-2xl bg-white border rounded-2xl">
-      <div *ngFor="" class="shadow-2xl bg-white border rounded-2xl">
-        
+    <div class="w-full mt-10">
+      <input
+        type="text"
+        class="w-full border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600 p-2"
+        (click)="showButtons = true"
+        [(ngModel)]="inputValue"
+        placeholder="Escribe algo..."
+      />
+    
+      <div *ngIf="showButtons" class="mt-2 flex justify-end gap-2">
+        <button
+          [disabled]="!inputValue.trim()"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
+          (click)="submitComment()"
+        >
+          Comentar
+        </button>
+        <button
+          [disabled]="!inputValue.trim()"
+          class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 disabled:bg-gray-300 disabled:cursor-not-alloweden"
+          (click)="cancelAction()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+    
+    
+    <div
+      *ngFor="let comentario of film.comentarios"
+      class="mx-auto my-8 flex rounded-xl border bg-white border-gray-100 p-4 text-left text-gray-600 shadow-lg sm:p-8"
+    >
+      <i class="text-blue-800 mr-3 text-5xl fa-solid fa-circle-user"></i>
+      <div class="w-full text-left">
+        <div
+          class="mb-2 flex flex-col justify-between text-gray-600 sm:flex-row"
+        >
+          <h3 class="font-medium">{{ comentario.author }}</h3>
+          <time class="text-xs">{{ comentario.fechaCreacion }}</time>
+        </div>
+        <p class="text-sm">{{ comentario.mensaje }}</p>
+        <div class="mt-5 flex items-center justify-between text-gray-600">
+          <button
+            class="cursor-pointer border py-2 px-8 text-xs rounded-lg hover:border-gray-500"
+          >
+            Reply
+          </button>
+        </div>
+
+        <div *ngIf="comentario.respuesta" class="p-9 w-full text-left">
+          <div
+            class="mb-2 flex flex-col justify-between text-gray-600 sm:flex-row"
+          >
+            <h3 class="font-medium">{{ comentario.respuesta.autor }}</h3>
+            <time class="text-xs"
+              >{{ comentario.respuesta.fechaCreacion }}</time
+            >
+          </div>
+          <p class="text-sm">{{ comentario.respuesta.mensaje }}</p>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Recomendadas -->
   <div class="flex justify-start text-white flex-col mt-20">
     <h1
       class="text-3xl underline mr-8"
@@ -128,6 +186,6 @@
     >
       Películas Recomendadas
     </h1>
-    <component-Listar />
+    <component-Listar></component-Listar>
   </div>
 </section>
