@@ -19,6 +19,7 @@ export class ComponentFilm implements OnInit {
 
   trailerUrl!: SafeResourceUrl;
   film: any;
+  
   showActors: boolean = false;
 
   ngOnInit(): void {
@@ -26,7 +27,9 @@ export class ComponentFilm implements OnInit {
       this.cineflixService.getMovieByName(params.get('titleFilm')).subscribe({
         next: (response) => {
           this.film = response.data[0];
-          this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.film.trailer);
+          this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+            this.film.trailer
+          );
           console.log(this.film);
         },
         error: (err) => {
@@ -36,20 +39,20 @@ export class ComponentFilm implements OnInit {
     });
   }
 
-formatFechaNacimiento(fecha: string | null): string {
-  if (!fecha || fecha === 'undefined/00:00:00.0000000/') {
-    return 'No disponible';
+  formatFechaNacimiento(fecha: string | null): string {
+    if (!fecha || fecha === 'undefined/00:00:00.0000000/') {
+      return 'No disponible';
+    }
+
+    const partes = fecha.split(' ');
+    console.log(partes);
+    const fechaParte = partes[0];
+
+    if (!fechaParte) {
+      return 'No disponible';
+    }
+
+    const fechaPartes = fechaParte.split('-');
+    return `${fechaPartes[2]}/${fechaPartes[1]}/${fechaPartes[0]}`;
   }
-
-  const partes = fecha.split(' ');
-  console.log(partes);
-  const fechaParte = partes[0];
-
-  if (!fechaParte) {
-    return 'No disponible';
-  }
-
-  const fechaPartes = fechaParte.split('-');
-  return `${fechaPartes[2]}/${fechaPartes[1]}/${fechaPartes[0]}`;
-}
 }
