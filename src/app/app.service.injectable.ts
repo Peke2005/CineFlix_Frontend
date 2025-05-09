@@ -45,7 +45,7 @@ export class CineFlixService {
       headers: { 'Content-Type': 'application/json' }
     });
   }
-  /* Panel Administrador */
+
   getPeliculas(): Observable<any[]> {
     return this.http.get<any>(`/listFilms`);
   }
@@ -60,5 +60,15 @@ export class CineFlixService {
 
   eliminarPelicula(id: number): Observable<void> {
     return this.http.delete<void>(`deleteFilm/${id}`);
+  }
+
+  eliminarUsuario(id: any): Observable<any> {
+    return this.http.delete<any>(`/deleteUser?id=${id}`);
+  }
+
+  subirComentario(idUser: any, idPelicula: any, comentario: any): Observable<any> {
+    let body = {userId: idUser, movieId: idPelicula,commentMessage: comentario};
+    console.log(body);
+    return this.http.post<any>(`/uploadComentario`, body);
   }
 }

@@ -2,16 +2,22 @@
   <form (ngSubmit)="guardarCambios()">
     <div class="profile-container">
       <div class="profile-card">
-        <div class="image-wrapper borde-rojo" (mouseenter)="hovering=true" (mouseleave)="hovering=false"> 
-          <img *ngIf="usuario.imagen" [src]="'data:image/png;base64,' + usuario.imagen" alt="Perfil" class="profile-img" />
+        <div class="image-wrapper borde-rojo" (mouseenter)="hovering = true" (mouseleave)="hovering = false">
+          <img *ngIf="usuario.imagen" [src]="'data:image/png;base64,' + usuario.imagen" alt="Perfil"
+            class="profile-img" />
           <div class="hover-overlay" *ngIf="hovering" (click)="fileInput.click()" title="Cambiar imagen">
             <span class="edit-icon">✎</span>
           </div>
-          <input type="file" #fileInput accept="image/png, image/jpeg" (change)="onImageSelected($event)" hidden />          
+          <input type="file" #fileInput accept="image/png, image/jpeg" (change)="onImageSelected($event)" hidden />
         </div>
         <h3>{{ usuario.nombre }}</h3>
         <div class="profile-info">
           <input type="text" [(ngModel)]="usuario.nombre" name="name" disabled />
+        </div>
+        <div>
+          <button type="button" class="botonEliminar rojo" (click)="openModal()">
+            Eliminar cuenta
+          </button>
         </div>
       </div>
 
@@ -21,29 +27,33 @@
         <label for="email">Correo Electrónico</label>
         <div class="email-container">
           <input type="text" [(ngModel)]="usuario.email" name="email" disabled />
-          <span *ngIf="tempEmail !== usuario.email" style="color: red; font-size: 14px;">
+          <span *ngIf="tempEmail !== usuario.email" style="color: red; font-size: 14px">
             (Cambio pendiente: {{ tempEmail }})
           </span>
         </div>
 
         <div class="button-group">
-          <button type="button" class="btn rojo" (click)="openEmailModal()">Modificar Email</button>
-          <button type="button" class="btn rojo" (click)="openPasswordModal()">Modificar Contraseña</button>
+          <button type="button" class="btn rojo" (click)="openEmailModal()">
+            Modificar Email
+          </button>
+          <button type="button" class="btn rojo" (click)="openPasswordModal()">
+            Modificar Contraseña
+          </button>
         </div>
 
         <button class="btn rojo full-width">Guardar</button>
         <div *ngIf="showMessage"
           class="message animacion w-[40%] m-auto bg-green-100 border-l-4 border-green-500 text-green-700 p-6"
           [ngClass]="{
-          success: messageType == 'success',
-          error: messageType == 'error'
+            success: messageType == 'success',
+            error: messageType == 'error'
           }" role="alert">
-          <p style="font-size: 16px;">{{message}}</p>
+          <p style="font-size: 16px">{{ message }}</p>
         </div>
       </div>
     </div>
   </form>
-  
+
   <div class="modal" *ngIf="showEmailModal">
     <div class="modal-content">
       <h3>Cambiar Correo Electrónico</h3>
@@ -79,4 +89,31 @@
       </div>
     </div>
   </div>
+
+  <div class="modal" tabindex="-1" [ngClass]="{ show: showModalEliminar }"
+    [ngStyle]="{ display: showModalEliminar ? 'block' : 'none' }">
+    <div class="modal-dialog">
+      <div class="modal-content2">
+        <div class="modal-header">
+          <b><h5 class="modal-title">Confirmar eliminación</h5></b>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            ¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se
+            puede deshacer.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary  centrar" (click)="closeModal()">
+            Cancelar
+          </button>
+          <button type="button" class="botonEliminar rojo" (click)="deleteAccount()">
+            Eliminar cuenta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>

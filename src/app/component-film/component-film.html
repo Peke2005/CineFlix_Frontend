@@ -1,76 +1,191 @@
 <section class="w-full p-20 bg-black min-h-screen">
-    <div class="flex justify-center">
-        <iframe class="trailer-iframe w-[80%] h-[500px] md:h-[600px] lg:h-[600px]" [src]="trailerUrl" title="Cars 2"
-            frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen>
-        </iframe>
+  <div class="flex justify-center">
+    <iframe
+      class="trailer-iframe w-[80%] h-[500px] md:h-[600px] lg:h-[600px]"
+      [src]="trailerUrl"
+      title="video"
+      frameborder="0"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+
+  <div class="flex justify-start text-white items-center mt-10">
+    <h1
+      class="text-4xl underline mr-8"
+      style="font-family: 'ADLaM Display', cursive"
+    >
+      {{ film.title }}
+    </h1>
+
+    <div class="h-full flex">
+      <span
+        *ngFor="let category of film.categories"
+        class="m-1 py-1 px-2 rounded-[15px] bg-[#209283]"
+      >
+        {{ category }}
+      </span>
+      <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-[#209283]">
+        {{ film.year }}
+      </span>
+      <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-red-800">
+        {{ film.duration }}m
+      </span>
     </div>
+  </div>
 
-    <div class="flex justify-start text-white items-center mt-10">
-        <h1 class="text-4xl underline mr-8" style="font-family: 'ADLaM Display', cursive;">
-            {{ this.film.title }}
-        </h1>
-
-        <div class="h-full flex">
-            <span *ngFor="let category of this.film.categories" class="m-1 py-1 px-2 rounded-[15px] bg-[#209283]">{{
-                category }}</span>
-            <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-[#209283]">{{ this.film.year }}</span>
-            <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-red-800">{{ this.film.duration }}m</span>
-        </div>
+  <div class="text-justify text-white py-6">
+    <div class="flex gap-3 py-1">
+      <h4 class="font-semibold" style="font-family: 'ADLaM Display', cursive">
+        Actores:
+      </h4>
+      <a
+        class="hover:underline cursor-pointer"
+        (click)="showActors = true"
+        *ngFor="let actor of film.actors"
+      >
+        {{ actor.name }}
+      </a>
     </div>
+    <h4 class="font-semibold">Descripción:</h4>
+    <p>{{ film.description }}</p>
+  </div>
 
-    <div class="text-justify text-white py-6">
-        <div class="flex gap-3 py-1">
-            <h4 class="font-semibold" style="font-family: 'ADLaM Display', cursive;">Actores: </h4>
-            <a class="hover:underline cursor-pointer" (click)="showActors = true" *ngFor="let actor of this.film.actors">{{ actor.name
-                }}</a>
-        </div>
-        <h4 class="font-semibold">Descripción:</h4>
-        <p>{{ this.film.description }}</p>
-    </div>
+  <div
+    *ngIf="showActors"
+    class="bg-black opacity-40 text-white shadow-2xl fixed top-0 right-0 left-0 bottom-0 z-50"
+  ></div>
 
-    <div *ngIf="showActors" class="bg-black opacity-40 text-white shadow-2xl fixed top-0 right-0 left-0 bottom-0 z-50 ">
-    </div>
-
-    <div *ngIf="showActors"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4">
+  <div
+    *ngIf="showActors"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4"
+  >
+    <div
+      class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-6xl overflow-y-auto max-h-[90vh] border border-white/20"
+    >
+      <button
+        (click)="showActors = false"
+        class="z-150 absolute right-0 p-3 rounded-bl-2xl cursor-pointer bg-white hover:bg-gray-200"
+      >
+        <i class="text-xl fa-solid fa-xmark"></i>
+      </button>
+      <div class="p-10">
+        <h2
+          class="text-3xl font-bold text-white mb-8 text-center"
+          style="font-family: 'ADLaM Display', cursive"
+        >
+          Reparto de la Pelicula
+        </h2>
 
         <div
-            class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-6xl  overflow-y-auto max-h-[90vh] border border-white/20">
-
-            <button (click)="this.showActors = false"
-                class="z-150 absolute right-0 p-3 rounded-bl-2xl cursor-pointer bg-white hover:bg-gray-200"> <i
-                    class="text-xl fa-solid fa-xmark"></i></button>
-            <div class="p-10">
-                <h2 class="text-3xl font-bold text-white mb-8 text-center"
-                    style="font-family: 'ADLaM Display', cursive;">
-                    Reparto de la Pelicula
-                </h2>
-
-                <div class="justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    <div *ngFor="let actor of film.actors"
-                        class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex flex-col items-center text-white hover:scale-105 transition-all duration-300 shadow-lg">
-
-                        <img class="w-28 h-28 object-cover rounded-full mb-4 shadow-md" [src]="actor.foto" />
-
-                        <h3 class="text-xl font-semibold mb-1">{{ actor.name }}</h3>
-
-                        <div class="text-center">
-                            <p class="text-sm text-gray-200"><span class="font-medium text-white">Nacimiento:</span>
-                                {{ formatFechaNacimiento(actor.birthdate.date) }}
-                            </p>
-                            <p class="text-sm text-gray-200"><span class="font-medium text-white">Nacionalidad:</span>
-                                {{ actor.nationality }}</p>
-                        </div>
-
-                    </div>
-                </div>
+          class="justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+        >
+          <div
+            *ngFor="let actor of film.actors"
+            class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex flex-col items-center text-white hover:scale-105 transition-all duration-300 shadow-lg"
+          >
+            <img
+              class="w-28 h-28 object-cover rounded-full mb-4 shadow-md"
+              [src]="actor.foto"
+            />
+            <h3 class="text-xl font-semibold mb-1">{{ actor.name }}</h3>
+            <div class="text-center">
+              <p class="text-sm text-gray-200">
+                <span class="font-medium text-white">Nacimiento:</span>
+                {{ formatFechaNacimiento(actor.birthdate.date) }}
+              </p>
+              <p class="text-sm text-gray-200">
+                <span class="font-medium text-white">Nacionalidad:</span>
+                {{ actor.nationality }}
+              </p>
             </div>
-
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="flex justify-start text-white flex-col mt-20">
-        <h1 class="text-3xl underline mr-8" style="font-family: 'ADLaM Display', cursive;">Películas Recomendadas</h1>
-        <component-Listar />
+  <!-- Comentarios -->
+  <div class="flex justify-start text-white flex-col mt-20">
+    <h1
+      class="text-3xl underline mr-8"
+      style="font-family: 'ADLaM Display', cursive"
+    >
+      Comentarios
+    </h1>
+
+    <div class="w-full mt-10">
+      <input
+        type="text"
+        class="w-full border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600 p-2"
+        (click)="showButtons = true"
+        [(ngModel)]="inputValue"
+        placeholder="Escribe algo..."
+      />
+    
+      <div *ngIf="showButtons" class="mt-2 flex justify-end gap-2">
+        <button
+          [disabled]="!inputValue.trim()"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
+          (click)="submitComment()"
+        >
+          Comentar
+        </button>
+        <button
+          [disabled]="!inputValue.trim()"
+          class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 disabled:bg-gray-300 disabled:cursor-not-alloweden"
+          (click)="cancelAction()"
+        >
+          Cancelar
+        </button>
+      </div>
     </div>
+    
+    
+    <div
+      *ngFor="let comentario of film.comentarios"
+      class="mx-auto my-8 flex rounded-xl border bg-white border-gray-100 p-4 text-left text-gray-600 shadow-lg sm:p-8"
+    >
+      <i class="text-blue-800 mr-3 text-5xl fa-solid fa-circle-user"></i>
+      <div class="w-full text-left">
+        <div
+          class="mb-2 flex flex-col justify-between text-gray-600 sm:flex-row"
+        >
+          <h3 class="font-medium">{{ comentario.author }}</h3>
+          <time class="text-xs">{{ comentario.fechaCreacion }}</time>
+        </div>
+        <p class="text-sm">{{ comentario.mensaje }}</p>
+        <div class="mt-5 flex items-center justify-between text-gray-600">
+          <button
+            class="cursor-pointer border py-2 px-8 text-xs rounded-lg hover:border-gray-500"
+          >
+            Reply
+          </button>
+        </div>
+
+        <div *ngIf="comentario.respuesta" class="p-9 w-full text-left">
+          <div
+            class="mb-2 flex flex-col justify-between text-gray-600 sm:flex-row"
+          >
+            <h3 class="font-medium">{{ comentario.respuesta.autor }}</h3>
+            <time class="text-xs"
+              >{{ comentario.respuesta.fechaCreacion }}</time
+            >
+          </div>
+          <p class="text-sm">{{ comentario.respuesta.mensaje }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recomendadas -->
+  <div class="flex justify-start text-white flex-col mt-20">
+    <h1
+      class="text-3xl underline mr-8"
+      style="font-family: 'ADLaM Display', cursive"
+    >
+      Películas Recomendadas
+    </h1>
+    <component-Listar></component-Listar>
+  </div>
 </section>

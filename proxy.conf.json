@@ -53,7 +53,19 @@
     "changeOrigin": true,
     "logLevel": "debug"
   },
+  "/deleteUser": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
   "/actores": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/uploadComentario": {
     "target": "http://localhost:8000",
     "secure": false,
     "changeOrigin": true,
