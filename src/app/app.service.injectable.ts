@@ -36,13 +36,13 @@ export class CineFlixService {
     return this.http.post<any>('/userRegister', body, { headers: headers });
   }
 
-  profileUser(id : any): Observable<any> {
+  profileUser(id: any): Observable<any> {
     return this.http.get(`/userSearchById?id=${id}`);
   }
 
   updateUser(body: any): Observable<any> {
     return this.http.put('http://localhost:8000/updateUser', body, {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 
@@ -66,9 +66,30 @@ export class CineFlixService {
     return this.http.delete<any>(`/deleteUser?id=${id}`);
   }
 
-  subirComentario(idUser: any, idPelicula: any, comentario: any): Observable<any> {
-    let body = {userId: idUser, movieId: idPelicula,commentMessage: comentario};
-    console.log(body);
+  subirComentario(
+    idUser: any,
+    idPelicula: any,
+    comentario: any
+  ): Observable<any> {
+    let body = {
+      userId: idUser,
+      movieId: idPelicula,
+      commentMessage: comentario,
+    };
     return this.http.post<any>(`/uploadComentario`, body);
+  }
+
+  sumbitRespuesta(
+    idUser: any,
+    idComentario: any,
+    comentario: any
+  ): Observable<any> {
+    let body = {
+      userId: idUser,
+      commentId: idComentario,
+      responseMessage: comentario,
+    };
+    console.log(body);
+    return this.http.post<any>(`/uploadCommentResponse`, body);
   }
 }

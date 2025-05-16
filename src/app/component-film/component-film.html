@@ -1,4 +1,5 @@
 <section class="w-full p-20 bg-black min-h-screen">
+  <!-- Trailer -->
   <div class="flex justify-center">
     <iframe
       class="trailer-iframe w-[80%] h-[500px] md:h-[600px] lg:h-[600px]"
@@ -10,6 +11,7 @@
     ></iframe>
   </div>
 
+  <!-- Film Details -->
   <div class="flex justify-start text-white items-center mt-10">
     <h1
       class="text-4xl underline mr-8"
@@ -51,6 +53,7 @@
     <p>{{ film.description }}</p>
   </div>
 
+  <!-- Actors Modal -->
   <div
     *ngIf="showActors"
     class="bg-black opacity-40 text-white shadow-2xl fixed top-0 right-0 left-0 bottom-0 z-50"
@@ -74,7 +77,7 @@
           class="text-3xl font-bold text-white mb-8 text-center"
           style="font-family: 'ADLaM Display', cursive"
         >
-          Reparto de la Pelicula
+          Reparto de la Película
         </h2>
 
         <div
@@ -122,57 +125,101 @@
         [(ngModel)]="inputValue"
         placeholder="Escribe algo..."
       />
-    
+
       <div *ngIf="showButtons" class="mt-2 flex justify-end gap-2">
         <button
           [disabled]="!inputValue.trim()"
-          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed cursor-pointer"
           (click)="submitComment()"
         >
           Comentar
         </button>
         <button
           [disabled]="!inputValue.trim()"
-          class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 disabled:bg-gray-300 disabled:cursor-not-alloweden"
+          class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 disabled:bg-gray-300 disabled:cursor-not-allowed cursor-pointer"
           (click)="cancelAction()"
         >
           Cancelar
         </button>
       </div>
     </div>
-    
-    
+
     <div
       *ngFor="let comentario of film.comentarios"
-      class="mx-auto my-8 flex rounded-xl border bg-white border-gray-100 p-4 text-left text-gray-600 shadow-lg sm:p-8"
+      class="my-4 flex items-start bg-gray-900 p-3 rounded-lg"
     >
-      <i class="text-blue-800 mr-3 text-5xl fa-solid fa-circle-user"></i>
-      <div class="w-full text-left">
-        <div
-          class="mb-2 flex flex-col justify-between text-gray-600 sm:flex-row"
-        >
-          <h3 class="font-medium">{{ comentario.author }}</h3>
-          <time class="text-xs">{{ comentario.fechaCreacion }}</time>
+      <img
+        *ngIf="comentario.usuario.foto_perfil"
+        [src]="sanitizeImage(comentario.usuario.foto_perfil)"
+        alt="Foto de perfil"
+        class="w-10 h-10 rounded-full mr-4"
+      />
+
+      <div class="w-full">
+        <div class="flex items-center justify-between mb-1">
+          <h3 class="font-medium text-white text-sm">
+            {{ comentario.usuario.nombre }}
+          </h3>
+          <time class="text-xs text-gray-300">
+            {{ comentario.fecha_creacion }}
+          </time>
         </div>
-        <p class="text-sm">{{ comentario.mensaje }}</p>
-        <div class="mt-5 flex items-center justify-between text-gray-600">
-          <button
-            class="cursor-pointer border py-2 px-8 text-xs rounded-lg hover:border-gray-500"
-          >
-            Reply
-          </button>
+        <p class="text-sm text-white leading-relaxed mb-2">
+          {{ comentario.mensaje }}
+        </p>
+        <button
+          class="text-xs text-gray-300 hover:underline cursor-pointer"
+          (click)="onRespondClick(comentario.id)"
+        >
+          Responder
+        </button>
+
+        <!-- Response input and buttons -->
+        <div
+          *ngIf="showResponseInput && selectedCommentId === comentario.id"
+          class="mt-2"
+        >
+          <input
+            type="text"
+            class="w-full border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600 p-2"
+            [(ngModel)]="responseValue"
+            placeholder="Escribe tu respuesta..."
+          />
+          <div class="mt-2 flex justify-end gap-2">
+            <button
+              [disabled]="!responseValue.trim()"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed cursor-pointer"
+              (click)="submitResponse()"
+            >
+              Enviar
+            </button>
+            <button
+              class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 cursor-pointer"
+              (click)="cancelResponse()"
+            >
+              Cancelar
+            </button>
+          </div>
         </div>
 
-        <div *ngIf="comentario.respuesta" class="p-9 w-full text-left">
+        <!-- Mostrar respuestas -->
+        <div *ngIf="comentario.respuesta" class="mt-4 ml-10">
           <div
-            class="mb-2 flex flex-col justify-between text-gray-600 sm:flex-row"
+            *ngFor="let respuesta of getResponses(comentario.respuesta)"
+            class="mb-2"
           >
-            <h3 class="font-medium">{{ comentario.respuesta.autor }}</h3>
-            <time class="text-xs"
-              >{{ comentario.respuesta.fechaCreacion }}</time
-            >
+            <div class="flex items-center justify-between mb-1">
+              <h3 class="font-medium text-white text-sm">
+                {{ respuesta.autor }}
+              </h3>
+              <time class="text-xs text-gray-300">
+                {{ respuesta.fechaCreacion }}
+              </time>
+            </div>
+            <p class="text-sm text-white leading-relaxed">
+              {{ respuesta.mensaje }}
+            </p>
           </div>
-          <p class="text-sm">{{ comentario.respuesta.mensaje }}</p>
         </div>
       </div>
     </div>
