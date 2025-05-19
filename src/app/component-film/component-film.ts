@@ -66,15 +66,23 @@ export class ComponentFilm implements OnInit {
               ) {
                 usuario.foto_perfil = usuariosConImagen.get(usuario.id);
               }
-              console.log('Comentario:', comentario);
-              console.log('Usuario del comentario:', usuario);
-              console.log('Foto de perfil:', usuario?.foto_perfil);
+
+              if (
+                comentario.respuesta &&
+                !Array.isArray(comentario.respuesta)
+              ) {
+                comentario.respuesta = [comentario.respuesta];
+              } else if (!comentario.respuesta) {
+                comentario.respuesta = [];
+              }
             });
+          } else {
+            this.film.comentarios = [];
           }
           console.log('Datos de la película:', this.film);
         },
         error: (err) => {
-          console.log(err);
+          console.error('Error al cargar la película:', err);
         },
       });
     });
@@ -150,31 +158,35 @@ export class ComponentFilm implements OnInit {
         commentId: this.selectedCommentId,
         responseMessage: this.responseValue,
       });
+
       this.cineflixService
         .sumbitRespuesta(userId, this.selectedCommentId, this.responseValue)
         .subscribe({
           next: (response) => {
             console.log('Respuesta añadida con éxito', response);
             const newResponse = {
-              autor: localStorage.getItem('nameUser'),
+              usuario: {
+                nombre: localStorage.getItem('nameUser') || 'Usuario',
+                foto_perfil: localStorage.getItem('foto_perfil') || null,
+              },
               mensaje: this.responseValue.trim(),
-              fechaCreacion: new Date()
+              fecha_creacion: new Date()
                 .toISOString()
                 .slice(0, 19)
                 .replace('T', ' '),
             };
+
             const comment = this.film.comentarios.find(
               (c: any) => c.id === this.selectedCommentId
             );
+
             if (comment) {
-              if (!comment.respuesta) {
-                comment.respuesta = [];
+              if (!comment.respuestas) {
+                comment.respuestas = [];
               }
-              if (!Array.isArray(comment.respuesta)) {
-                comment.respuesta = [comment.respuesta];
-              }
-              comment.respuesta.push(newResponse);
+              comment.respuestas.push(newResponse);
             }
+
             this.showResponseInput = false;
             this.selectedCommentId = null;
             this.responseValue = '';
