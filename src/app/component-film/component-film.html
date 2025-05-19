@@ -203,17 +203,21 @@
         </div>
 
         <!-- Mostrar respuestas -->
-        <div *ngIf="comentario.respuesta" class="mt-4 ml-10">
-          <div
-            *ngFor="let respuesta of getResponses(comentario.respuesta)"
-            class="mb-2"
-          >
+        <div *ngIf="comentario.respuestas" class="mt-4 ml-10">
+          <div *ngFor="let respuesta of comentario.respuestas" class="mb-2">
             <div class="flex items-center justify-between mb-1">
+              <img
+                *ngIf="respuesta.usuario.foto_perfil"
+                [src]="sanitizeImage(respuesta.usuario.foto_perfil)"
+                alt="Foto de perfil"
+                class="w-10 h-10 rounded-full mr-4"
+              />
+
               <h3 class="font-medium text-white text-sm">
-                {{ respuesta.autor }}
+                {{ respuesta.usuario.nombre }}
               </h3>
               <time class="text-xs text-gray-300">
-                {{ respuesta.fechaCreacion }}
+                {{ respuesta.fecha_creacion }}
               </time>
             </div>
             <p class="text-sm text-white leading-relaxed">
