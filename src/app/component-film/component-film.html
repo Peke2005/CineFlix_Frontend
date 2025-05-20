@@ -16,7 +16,6 @@
     <h1 class="text-4xl underline mr-8" style="font-family: 'ADLaM Display', cursive">
       {{ film.title }}
     </h1>
-
     <div class="h-full flex">
       <span *ngFor="let category of film.categories" class="m-1 py-1 px-2 rounded-[15px] bg-[#209283]">
         {{ category }}
@@ -47,7 +46,7 @@
   </div>
 
   <!-- Actors Modal -->
-  <div *ngIf="showActors" class="bg-black opacity-40 text-white shadow-2xl fixed top-0 right-0 left-0 bottom-0 z-50"></div>
+  <div *ngIf="showActors" class="bg-black opacity-40 fixed top-0 right-0 left-0 bottom-0 z-50"></div>
   <div *ngIf="showActors" class="fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-6xl overflow-y-auto max-h-[90vh] border border-white/20">
       <button
@@ -65,10 +64,7 @@
             *ngFor="let actor of film.actors"
             class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex flex-col items-center text-white hover:scale-105 transition-all duration-300 shadow-lg"
           >
-            <img
-              class="w-28 h-28 object-cover rounded-full mb-4 shadow-md"
-              [src]="actor.foto"
-            />
+            <img class="w-28 h-28 object-cover rounded-full mb-4 shadow-md" [src]="actor.foto" />
             <h3 class="text-xl font-semibold mb-1">{{ actor.name }}</h3>
             <div class="text-center">
               <p class="text-sm text-gray-200">
@@ -90,6 +86,7 @@
   <div class="flex justify-start text-white flex-col mt-20">
     <h1 class="text-3xl underline mr-8" style="font-family: 'ADLaM Display', cursive">Comentarios</h1>
 
+    <!-- Input nuevo comentario -->
     <div class="w-full mt-10">
       <input
         type="text"
@@ -101,14 +98,13 @@
       <div *ngIf="showButtons" class="mt-2 flex justify-end gap-2">
         <button
           [disabled]="!inputValue.trim()"
-          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed cursor-pointer"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
           (click)="submitComment()"
         >
           Comentar
         </button>
         <button
-          [disabled]="!inputValue.trim()"
-          class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 disabled:bg-gray-300 disabled:cursor-not-allowed cursor-pointer"
+          class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
           (click)="cancelAction()"
         >
           Cancelar
@@ -116,6 +112,7 @@
       </div>
     </div>
 
+    <!-- Lista de comentarios -->
     <div *ngFor="let comentario of film.comentarios" class="my-4 flex items-start bg-gray-900 p-3 rounded-lg">
       <img
         *ngIf="comentario.usuario.foto_perfil"
@@ -129,17 +126,27 @@
           <h3 class="font-medium text-white text-sm">{{ comentario.usuario.nombre }}</h3>
           <time class="text-xs text-gray-300">{{ comentario.fecha_creacion }}</time>
         </div>
-        <p class="text-sm text-white leading-relaxed mb-2">
-          {{ comentario.mensaje }}
-        </p>
-        <button
-          class="text-xs text-gray-300 hover:underline cursor-pointer"
-          (click)="onRespondClick(comentario.id)"
-        >
-          Responder
-        </button>
+        <p class="text-sm text-white leading-relaxed mb-2">{{ comentario.mensaje }}</p>
 
-        <!-- Response input -->
+        <!-- Botones responder / ver respuestas -->
+        <div class="flex items-center gap-4">
+          <button
+            class="text-xs text-gray-300 hover:underline cursor-pointer"
+            (click)="onRespondClick(comentario.id)"
+          >
+            Responder
+          </button>
+
+          <button
+            *ngIf="comentario.respuestas && comentario.respuestas.length"
+            class="text-xs text-blue-400 hover:underline cursor-pointer"
+            (click)="toggleRespuestas(comentario.id)"
+          >
+            {{ comentariosExpandido[comentario.id] ? 'Ocultar respuestas' : 'Ver respuestas (' + comentario.respuestas.length + ')' }}
+          </button>
+        </div>
+
+        <!-- Caja de respuesta -->
         <div *ngIf="showResponseInput && selectedCommentId === comentario.id" class="mt-2">
           <input
             type="text"
@@ -150,13 +157,13 @@
           <div class="mt-2 flex justify-end gap-2">
             <button
               [disabled]="!responseValue.trim()"
-              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed cursor-pointer"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
               (click)="submitResponse()"
             >
               Enviar
             </button>
             <button
-              class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 cursor-pointer"
+              class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
               (click)="cancelResponse()"
             >
               Cancelar
@@ -165,7 +172,7 @@
         </div>
 
         <!-- Respuestas -->
-        <div *ngIf="comentario.respuestas" class="mt-4 ml-10">
+        <div *ngIf="comentariosExpandido[comentario.id]" class="mt-4 ml-10">
           <div *ngFor="let respuesta of comentario.respuestas" class="mb-4">
             <div class="flex items-start">
               <img
@@ -184,7 +191,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
