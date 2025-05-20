@@ -153,6 +153,7 @@ export class ComponentFilm implements OnInit {
   submitResponse(): void {
     if (this.responseValue.trim() && this.selectedCommentId !== null) {
       const userId = localStorage.getItem('idUser');
+      console.log("id Usuario Emisor: " + userId);
       console.log('Enviando respuesta:', {
         userId,
         commentId: this.selectedCommentId,
