@@ -13,18 +13,12 @@
 
   <!-- Film Details -->
   <div class="flex justify-start text-white items-center mt-10">
-    <h1
-      class="text-4xl underline mr-8"
-      style="font-family: 'ADLaM Display', cursive"
-    >
+    <h1 class="text-4xl underline mr-8" style="font-family: 'ADLaM Display', cursive">
       {{ film.title }}
     </h1>
 
     <div class="h-full flex">
-      <span
-        *ngFor="let category of film.categories"
-        class="m-1 py-1 px-2 rounded-[15px] bg-[#209283]"
-      >
+      <span *ngFor="let category of film.categories" class="m-1 py-1 px-2 rounded-[15px] bg-[#209283]">
         {{ category }}
       </span>
       <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-[#209283]">
@@ -36,11 +30,10 @@
     </div>
   </div>
 
+  <!-- Description -->
   <div class="text-justify text-white py-6">
     <div class="flex gap-3 py-1">
-      <h4 class="font-semibold" style="font-family: 'ADLaM Display', cursive">
-        Actores:
-      </h4>
+      <h4 class="font-semibold" style="font-family: 'ADLaM Display', cursive">Actores:</h4>
       <a
         class="hover:underline cursor-pointer"
         (click)="showActors = true"
@@ -54,18 +47,9 @@
   </div>
 
   <!-- Actors Modal -->
-  <div
-    *ngIf="showActors"
-    class="bg-black opacity-40 text-white shadow-2xl fixed top-0 right-0 left-0 bottom-0 z-50"
-  ></div>
-
-  <div
-    *ngIf="showActors"
-    class="fixed inset-0 z-50 flex items-center justify-center p-4"
-  >
-    <div
-      class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-6xl overflow-y-auto max-h-[90vh] border border-white/20"
-    >
+  <div *ngIf="showActors" class="bg-black opacity-40 text-white shadow-2xl fixed top-0 right-0 left-0 bottom-0 z-50"></div>
+  <div *ngIf="showActors" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-6xl overflow-y-auto max-h-[90vh] border border-white/20">
       <button
         (click)="showActors = false"
         class="z-150 absolute right-0 p-3 rounded-bl-2xl cursor-pointer bg-white hover:bg-gray-200"
@@ -73,16 +57,10 @@
         <i class="text-xl fa-solid fa-xmark"></i>
       </button>
       <div class="p-10">
-        <h2
-          class="text-3xl font-bold text-white mb-8 text-center"
-          style="font-family: 'ADLaM Display', cursive"
-        >
+        <h2 class="text-3xl font-bold text-white mb-8 text-center" style="font-family: 'ADLaM Display', cursive">
           Reparto de la Película
         </h2>
-
-        <div
-          class="justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-        >
+        <div class="justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div
             *ngFor="let actor of film.actors"
             class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex flex-col items-center text-white hover:scale-105 transition-all duration-300 shadow-lg"
@@ -110,12 +88,7 @@
 
   <!-- Comentarios -->
   <div class="flex justify-start text-white flex-col mt-20">
-    <h1
-      class="text-3xl underline mr-8"
-      style="font-family: 'ADLaM Display', cursive"
-    >
-      Comentarios
-    </h1>
+    <h1 class="text-3xl underline mr-8" style="font-family: 'ADLaM Display', cursive">Comentarios</h1>
 
     <div class="w-full mt-10">
       <input
@@ -125,7 +98,6 @@
         [(ngModel)]="inputValue"
         placeholder="Escribe algo..."
       />
-
       <div *ngIf="showButtons" class="mt-2 flex justify-end gap-2">
         <button
           [disabled]="!inputValue.trim()"
@@ -144,25 +116,18 @@
       </div>
     </div>
 
-    <div
-      *ngFor="let comentario of film.comentarios"
-      class="my-4 flex items-start bg-gray-900 p-3 rounded-lg"
-    >
+    <div *ngFor="let comentario of film.comentarios" class="my-4 flex items-start bg-gray-900 p-3 rounded-lg">
       <img
         *ngIf="comentario.usuario.foto_perfil"
         [src]="sanitizeImage(comentario.usuario.foto_perfil)"
         alt="Foto de perfil"
-        class="w-10 h-10 rounded-full mr-4"
+        class="w-10 h-10 rounded-full mr-4 object-cover"
       />
 
       <div class="w-full">
         <div class="flex items-center justify-between mb-1">
-          <h3 class="font-medium text-white text-sm">
-            {{ comentario.usuario.nombre }}
-          </h3>
-          <time class="text-xs text-gray-300">
-            {{ comentario.fecha_creacion }}
-          </time>
+          <h3 class="font-medium text-white text-sm">{{ comentario.usuario.nombre }}</h3>
+          <time class="text-xs text-gray-300">{{ comentario.fecha_creacion }}</time>
         </div>
         <p class="text-sm text-white leading-relaxed mb-2">
           {{ comentario.mensaje }}
@@ -174,11 +139,8 @@
           Responder
         </button>
 
-        <!-- Response input and buttons -->
-        <div
-          *ngIf="showResponseInput && selectedCommentId === comentario.id"
-          class="mt-2"
-        >
+        <!-- Response input -->
+        <div *ngIf="showResponseInput && selectedCommentId === comentario.id" class="mt-2">
           <input
             type="text"
             class="w-full border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600 p-2"
@@ -202,39 +164,34 @@
           </div>
         </div>
 
-        <!-- Mostrar respuestas -->
+        <!-- Respuestas -->
         <div *ngIf="comentario.respuestas" class="mt-4 ml-10">
-          <div *ngFor="let respuesta of comentario.respuestas" class="mb-2">
-            <div class="flex items-center justify-between mb-1">
+          <div *ngFor="let respuesta of comentario.respuestas" class="mb-4">
+            <div class="flex items-start">
               <img
                 *ngIf="respuesta.usuario.foto_perfil"
                 [src]="sanitizeImage(respuesta.usuario.foto_perfil)"
                 alt="Foto de perfil"
-                class="w-10 h-10 rounded-full mr-4"
+                class="w-10 h-10 rounded-full mr-3 object-cover"
               />
-
-              <h3 class="font-medium text-white text-sm">
-                {{ respuesta.usuario.nombre }}
-              </h3>
-              <time class="text-xs text-gray-300">
-                {{ respuesta.fecha_creacion }}
-              </time>
+              <div class="flex flex-col bg-gray-800 p-3 rounded-lg w-full">
+                <div class="flex justify-between items-center mb-1">
+                  <h3 class="font-medium text-white text-sm">{{ respuesta.usuario.nombre }}</h3>
+                  <time class="text-xs text-gray-300">{{ respuesta.fecha_creacion }}</time>
+                </div>
+                <p class="text-sm text-white leading-relaxed">{{ respuesta.mensaje }}</p>
+              </div>
             </div>
-            <p class="text-sm text-white leading-relaxed">
-              {{ respuesta.mensaje }}
-            </p>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 
   <!-- Recomendadas -->
   <div class="flex justify-start text-white flex-col mt-20">
-    <h1
-      class="text-3xl underline mr-8"
-      style="font-family: 'ADLaM Display', cursive"
-    >
+    <h1 class="text-3xl underline mr-8" style="font-family: 'ADLaM Display', cursive">
       Películas Recomendadas
     </h1>
     <component-Listar></component-Listar>
