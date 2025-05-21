@@ -23,6 +23,7 @@ export class ComponentFilm implements OnInit {
 
   trailerUrl!: SafeResourceUrl;
   film: any;
+  comentarios: any[] = [];
   showActors: boolean = false;
   showButtons: boolean = false;
   inputValue: string = '';
@@ -35,20 +36,29 @@ export class ComponentFilm implements OnInit {
     if (base64.startsWith('data:image')) {
       return this.sanitizer.bypassSecurityTrustUrl(base64);
     }
-    return this.sanitizer.bypassSecurityTrustUrl(`data:image/png;base64,${base64}`);
+    return this.sanitizer.bypassSecurityTrustUrl(
+      `data:image/png;base64,${base64}`
+    );
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: any) => {
-      this.cineflixService.getMovieByName(params.get('titleFilm')).subscribe({
+      const title = params.get('titleFilm');
+
+      this.cineflixService.getMovieByName(title).subscribe({
         next: (response) => {
           this.film = response.data[0];
-          this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.film.trailer);
+          this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+            this.film.trailer
+          );
+          this.loadComentarios(this.film.id);
 
           if (this.film.comentarios) {
             this.film.comentarios.forEach((comentario: any) => {
               if (!Array.isArray(comentario.respuestas)) {
-                comentario.respuestas = comentario.respuesta ? [comentario.respuesta] : [];
+                comentario.respuestas = comentario.respuesta
+                  ? [comentario.respuesta]
+                  : [];
               }
               this.comentariosExpandido[comentario.id] = false;
             });
@@ -63,8 +73,32 @@ export class ComponentFilm implements OnInit {
     });
   }
 
+  loadComentarios(filmId: number): void {
+    this.cineflixService.loadComments(filmId).subscribe({
+      next: (response: any) => {
+        const comentariosArray = response.data || [];
+        this.comentarios = comentariosArray.map((comentario: any) => ({
+          ...comentario,
+          respuestas: Array.isArray(comentario.respuestas)
+            ? comentario.respuestas
+            : comentario.respuesta
+            ? [comentario.respuesta]
+            : [],
+        }));
+        this.comentarios.forEach((comentario: any) => {
+          this.comentariosExpandido[comentario.id] = false;
+        });
+      },
+      error: (err) => {
+        console.error('Error al cargar comentarios:', err);
+        this.comentarios = [];
+      },
+    });
+  }
+
   formatFechaNacimiento(fecha: string | null): string {
-    if (!fecha || fecha === 'undefined/00:00:00.0000000/') return 'No disponible';
+    if (!fecha || fecha === 'undefined/00:00:00.0000000/')
+      return 'No disponible';
     const partes = fecha.split(' ')[0].split('-');
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
   }
@@ -82,7 +116,10 @@ export class ComponentFilm implements OnInit {
             const newComment = {
               id: Date.now(),
               mensaje: this.inputValue.trim(),
-              fecha_creacion: new Date().toISOString().slice(0, 19).replace('T', ' '),
+              fecha_creacion: new Date()
+                .toISOString()
+                .slice(0, 19)
+                .replace('T', ' '),
               usuario: {
                 id: Number(userId),
                 nombre,
@@ -91,7 +128,7 @@ export class ComponentFilm implements OnInit {
               respuestas: [],
             };
 
-            this.film.comentarios.unshift(newComment);
+            this.comentarios.unshift(newComment);
             this.comentariosExpandido[newComment.id] = false;
             this.inputValue = '';
           },
@@ -114,7 +151,8 @@ export class ComponentFilm implements OnInit {
   }
 
   toggleRespuestas(commentId: number): void {
-    this.comentariosExpandido[commentId] = !this.comentariosExpandido[commentId];
+    this.comentariosExpandido[commentId] =
+      !this.comentariosExpandido[commentId];
   }
 
   submitResponse(): void {
@@ -129,7 +167,10 @@ export class ComponentFilm implements OnInit {
           next: () => {
             const newResponse = {
               mensaje: this.responseValue.trim(),
-              fecha_creacion: new Date().toISOString().slice(0, 19).replace('T', ' '),
+              fecha_creacion: new Date()
+                .toISOString()
+                .slice(0, 19)
+                .replace('T', ' '),
               usuario: {
                 id: Number(userId),
                 nombre: nameUser,
@@ -137,7 +178,9 @@ export class ComponentFilm implements OnInit {
               },
             };
 
-            const comment = this.film.comentarios.find((c: any) => c.id === this.selectedCommentId);
+            const comment = this.comentarios.find(
+              (c: any) => c.id === this.selectedCommentId
+            );
             if (comment) {
               if (!comment.respuestas) comment.respuestas = [];
               comment.respuestas.push(newResponse);
