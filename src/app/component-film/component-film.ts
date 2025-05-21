@@ -19,7 +19,7 @@ export class ComponentFilm implements OnInit {
     private route: ActivatedRoute,
     private cineflixService: CineFlixService,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   trailerUrl!: SafeResourceUrl;
   film: any;
@@ -45,46 +45,48 @@ export class ComponentFilm implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: any) => {
-      this.cineflixService.getMovieByName(params.get('titleFilm')).subscribe({
-        next: (response) => {
-          this.film = response.data[0];
-          this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-            this.film.trailer
-          );
+      this.cineflixService
+        .getMovieByName(params.get('titleFilm'), localStorage.getItem('idUser'))
+        .subscribe({
+          next: (response) => {
+            this.film = response.data[0];
+            this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+              this.film.trailer
+            );
 
-          const usuariosConImagen = new Map<number, string>();
-          if (this.film.comentarios) {
-            this.film.comentarios.forEach((comentario: any) => {
-              const usuario = comentario.usuario;
-              if (usuario?.id && usuario.foto_perfil) {
-                usuariosConImagen.set(usuario.id, usuario.foto_perfil);
-              }
-              if (
-                usuario?.id &&
-                (!usuario.foto_perfil || usuario.foto_perfil === null) &&
-                usuariosConImagen.has(usuario.id)
-              ) {
-                usuario.foto_perfil = usuariosConImagen.get(usuario.id);
-              }
+            const usuariosConImagen = new Map<number, string>();
+            if (this.film.comentarios) {
+              this.film.comentarios.forEach((comentario: any) => {
+                const usuario = comentario.usuario;
+                if (usuario?.id && usuario.foto_perfil) {
+                  usuariosConImagen.set(usuario.id, usuario.foto_perfil);
+                }
+                if (
+                  usuario?.id &&
+                  (!usuario.foto_perfil || usuario.foto_perfil === null) &&
+                  usuariosConImagen.has(usuario.id)
+                ) {
+                  usuario.foto_perfil = usuariosConImagen.get(usuario.id);
+                }
 
-              if (
-                comentario.respuesta &&
-                !Array.isArray(comentario.respuesta)
-              ) {
-                comentario.respuesta = [comentario.respuesta];
-              } else if (!comentario.respuesta) {
-                comentario.respuesta = [];
-              }
-            });
-          } else {
-            this.film.comentarios = [];
-          }
-          console.log('Datos de la película:', this.film);
-        },
-        error: (err) => {
-          console.error('Error al cargar la película:', err);
-        },
-      });
+                if (
+                  comentario.respuesta &&
+                  !Array.isArray(comentario.respuesta)
+                ) {
+                  comentario.respuesta = [comentario.respuesta];
+                } else if (!comentario.respuesta) {
+                  comentario.respuesta = [];
+                }
+              });
+            } else {
+              this.film.comentarios = [];
+            }
+            console.log('Datos de la película:', this.film);
+          },
+          error: (err) => {
+            console.error('Error al cargar la película:', err);
+          },
+        });
     });
   }
 
@@ -153,7 +155,7 @@ export class ComponentFilm implements OnInit {
   submitResponse(): void {
     if (this.responseValue.trim() && this.selectedCommentId !== null) {
       const userId = localStorage.getItem('idUser');
-      console.log("id Usuario Emisor: " + userId);
+      console.log('id Usuario Emisor: ' + userId);
       console.log('Enviando respuesta:', {
         userId,
         commentId: this.selectedCommentId,
@@ -206,5 +208,18 @@ export class ComponentFilm implements OnInit {
     this.showResponseInput = false;
     this.selectedCommentId = null;
     this.responseValue = '';
+  }
+
+  reactToComment(comentario: any, tipo: 'like' | 'dislike'): void {
+    const userId = localStorage.getItem('idUser');
+    if (!userId) return;
+
+    this.cineflixService
+      .reaccionComentario(comentario.id, userId, tipo)
+      .subscribe((response: any) => {
+        comentario.likes = response.likes;
+        comentario.dislikes = response.dislikes;
+        comentario.userReaction = tipo;
+      });
   }
 }

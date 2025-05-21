@@ -31,7 +31,7 @@ export class componentListar implements OnInit {
     private Route: Router,
     private cineflixservice: CineFlixService,
     private loadingService: LoadingService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadingService.show();
@@ -72,32 +72,33 @@ export class componentListar implements OnInit {
     if (this.title) {
       this.filtradoPorTitulo = true;
       this.categoria = false;
-      this.cineflixservice.getMovieByName(this.title).subscribe({
-        next: (response) => {
-          if (response.data && Array.isArray(response.data)) {
-            this.movies = response.data.filter((film: any) =>
-              film.title
-                .trim()
-                .toUpperCase()
-                .replace(/\s+/g, '')
-                .includes(this.title!.trim().toUpperCase().replace(/\s+/g, ''))
-            );
-            this.errorMessage = null;
-            this.updatePaginatedMovies();
-          } else {
+      this.cineflixservice.getMovieByName(this.title, localStorage.getItem('idUser'))
+        .subscribe({
+          next: (response) => {
+            if (response.data && Array.isArray(response.data)) {
+              this.movies = response.data.filter((film: any) =>
+                film.title
+                  .trim()
+                  .toUpperCase()
+                  .replace(/\s+/g, '')
+                  .includes(this.title!.trim().toUpperCase().replace(/\s+/g, ''))
+              );
+              this.errorMessage = null;
+              this.updatePaginatedMovies();
+            } else {
+              this.movies = [];
+              this.errorMessage =
+                response.message || 'No se encontraron películas con ese título.';
+            }
+          },
+          error: (err) => {
             this.movies = [];
-            this.errorMessage =
-              response.message || 'No se encontraron películas con ese título.';
-          }
-        },
-        error: (err) => {
-          this.movies = [];
-          this.errorMessage = 'Error al cargar las películas: ' + err.message;
-        },
-        complete: () => {
-          this.loadingService.hide();
-        },
-      });
+            this.errorMessage = 'Error al cargar las películas: ' + err.message;
+          },
+          complete: () => {
+            this.loadingService.hide();
+          },
+        });
     } else if (this.genre) {
       this.categoria = true;
       this.filtradoPorTitulo = false;

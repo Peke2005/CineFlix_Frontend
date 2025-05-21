@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CineFlixService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllMovies(): Observable<any> {
     return this.http.get(`/listFilms`);
@@ -16,9 +16,13 @@ export class CineFlixService {
     return this.http.get(`/movieSearchCategory?category=${category}`);
   }
 
-  getMovieByName(name: string): Observable<any> {
-    return this.http.get(`/movieSearchTitle?title=${name}`);
+  getMovieByName(name: string, userId?: string | null): Observable<any> {
+  let params = new HttpParams().set('title', name);
+  if (userId) {
+    params = params.set('idUser', userId);
   }
+  return this.http.get(`/movieSearchTitle`, { params });
+}
 
   getActores(): Observable<any> {
     return this.http.get(`/actores`);
@@ -92,4 +96,14 @@ export class CineFlixService {
     console.log(body);
     return this.http.post<any>(`/uploadCommentResponse`, body);
   }
+
+  reaccionComentario(comentarioId: number, usuarioId: string, tipo: 'like' | 'dislike') {
+    const formData = new FormData();
+    formData.append('comentario_id', comentarioId.toString());
+    formData.append('usuario_id', usuarioId);
+    formData.append('tipo', tipo);
+
+    return this.http.post<any>('http://localhost:8000/comentario/reaccion', formData);
+  }
+
 }
