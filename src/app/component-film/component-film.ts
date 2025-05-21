@@ -52,6 +52,19 @@ export class ComponentFilm implements OnInit {
             this.film.trailer
           );
           this.loadComentarios(this.film.id);
+
+          if (this.film.comentarios) {
+            this.film.comentarios.forEach((comentario: any) => {
+              if (!Array.isArray(comentario.respuestas)) {
+                comentario.respuestas = comentario.respuesta
+                  ? [comentario.respuesta]
+                  : [];
+              }
+              this.comentariosExpandido[comentario.id] = false;
+            });
+          } else {
+            this.film.comentarios = [];
+          }
         },
         error: (err) => {
           console.error('Error al cargar la película:', err);
