@@ -44,7 +44,7 @@ export class PerfilComponent implements OnInit {
     private loadingService: LoadingService,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadingService.show();
@@ -138,7 +138,7 @@ export class PerfilComponent implements OnInit {
       email: this.usuario.email,
       contraseña: this.usuario.contraseña,
     };
-    
+
     this.cineflixservice.updateUser(body).subscribe({
       next: () => {
         this.createMessage('Datos actualizados correctamente', 'success');
@@ -177,8 +177,9 @@ export class PerfilComponent implements OnInit {
     formData.append('imagen', file);
 
     this.http.post('http://localhost:8000/uploadImage', formData).subscribe({
-      next: () => {
+      next: (response: any) => {
         this.cargarDatosUsuario();
+        localStorage.setItem('foto_perfil', response.foto_perfil);
         this.createMessage('Imagen actualizada correctamente', 'success');
       },
       error: () => {
@@ -196,13 +197,13 @@ export class PerfilComponent implements OnInit {
   }
 
   deleteAccount() {
-  
+
     const userId = localStorage.getItem('idUser');
-  
+
     if (!userId) {
       return;
     }
-  
+
     this.cineflixservice.eliminarUsuario(userId).subscribe({
       next: () => {
         this.createMessage('Cuenta eliminada correctamente', 'success');
@@ -213,7 +214,7 @@ export class PerfilComponent implements OnInit {
         this.createMessage('Error al eliminar la cuenta', 'error');
       }
     });
-  
+
     this.closeModal();
-  } 
+  }
 }
