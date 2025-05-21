@@ -17,6 +17,11 @@
 
   <div class="movie-list">
     <h2 *ngIf="showTitle">{{titlePage}}</h2>
+    <app-historial></app-historial>
+  </div>
+
+  <div class="movie-list">
+    <h2 *ngIf="showTitle">{{titlePage}}</h2>
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
     <div class="movie-grid">
       <div

@@ -1,0 +1,34 @@
+<div class="movie-list">
+  <div class="movie-grid">
+    <div class="movie-card" *ngFor="let movie of movies">
+      <div (click)="seeFilm(movie)">
+        <div class="movie-overlay">
+          <div class="movie-info">
+            <div class="movie-title-year">
+              <h4 class="movie-title">{{ movie.title }}</h4>
+              <span class="movie-year">{{ movie.year || "N/A" }}</span>
+            </div>
+            <p class="movie-description">
+              {{ movie.description | slice : 0 : 100 }}...
+            </p>
+            <div class="movie-categories-duration">
+              <div class="flex gap-1">
+                <span
+                  class="movie-categories"
+                  *ngFor="let category of movie.categories"
+                >
+                  {{ category }}
+                </span>
+              </div>
+              <span class="movie-duration">{{ movie.duration || "N/A" }}</span>
+            </div>
+          </div>
+        </div>
+        <img
+          [src]="movie.imageUrl || 'assets/placeholder.jpg'"
+          alt="{{ movie.title }}"
+        />
+      </div>
+    </div>
+  </div>
+</div>

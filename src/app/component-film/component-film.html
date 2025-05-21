@@ -1,37 +1,21 @@
 <section class="w-full p-20 bg-black min-h-screen">
   <!-- Trailer -->
   <div class="flex justify-center">
-    <iframe
-      class="trailer-iframe w-[80%] h-[500px] md:h-[600px] lg:h-[600px]"
-      [src]="trailerUrl"
-      title="video"
-      frameborder="0"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen
-    ></iframe>
+    <iframe class="trailer-iframe w-[80%] h-[500px] md:h-[600px] lg:h-[600px]" [src]="trailerUrl" title="video"
+      frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
   </div>
 
   <!-- Film Details -->
   <div class="flex justify-start text-white items-center mt-10">
-    <h1
-      class="text-4xl underline mr-8"
-      style="font-family: 'ADLaM Display', cursive"
-    >
+    <h1 class="text-4xl underline mr-8" style="font-family: 'ADLaM Display', cursive">
       {{ film.title }}
     </h1>
     <div class="h-full flex">
-      <span
-        *ngFor="let category of film.categories"
-        class="m-1 py-1 px-2 rounded-[15px] bg-[#209283]"
-      >
+      <span *ngFor="let category of film.categories" class="m-1 py-1 px-2 rounded-[15px] bg-[#209283]">
         {{ category }}
       </span>
-      <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-[#209283]"
-        >{{ film.year }}</span
-      >
-      <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-red-800"
-        >{{ film.duration }}m</span
-      >
+      <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-[#209283]">{{ film.year }}</span>
+      <span class="m-1 px-2 py-1 rounded-[15px] self-center bg-red-800">{{ film.duration }}m</span>
     </div>
   </div>
 
@@ -41,14 +25,8 @@
       <h4 class="font-semibold" style="font-family: 'ADLaM Display', cursive">
         Actores:
       </h4>
-      <ng-container
-        *ngIf="film.actors && film.actors.length > 0; else noActors"
-      >
-        <a
-          class="hover:underline cursor-pointer"
-          (click)="showActors = true"
-          *ngFor="let actor of film.actors"
-        >
+      <ng-container *ngIf="film.actors && film.actors.length > 0; else noActors">
+        <a class="hover:underline cursor-pointer" (click)="showActors = true" *ngFor="let actor of film.actors">
           {{ actor.name }}
         </a>
       </ng-container>
@@ -61,41 +39,22 @@
   </div>
 
   <!-- Actors Modal -->
-  <div
-    *ngIf="showActors"
-    class="bg-black opacity-40 fixed top-0 right-0 left-0 bottom-0 z-50"
-  ></div>
-  <div
-    *ngIf="showActors"
-    class="fixed inset-0 z-50 flex items-center justify-center p-4"
-  >
+  <div *ngIf="showActors" class="bg-black opacity-40 fixed top-0 right-0 left-0 bottom-0 z-50"></div>
+  <div *ngIf="showActors" class="fixed inset-0 z-50 flex items-center justify-center p-4">
     <div
-      class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-6xl overflow-y-auto max-h-[90vh] border border-white/20"
-    >
-      <button
-        (click)="showActors = false"
-        class="z-150 absolute right-0 p-3 rounded-bl-2xl cursor-pointer bg-white hover:bg-gray-200"
-      >
+      class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-6xl overflow-y-auto max-h-[90vh] border border-white/20">
+      <button (click)="showActors = false"
+        class="z-150 absolute right-0 p-3 rounded-bl-2xl cursor-pointer bg-white hover:bg-gray-200">
         <i class="text-xl fa-solid fa-xmark"></i>
       </button>
       <div class="p-10">
-        <h2
-          class="text-3xl font-bold text-white mb-8 text-center"
-          style="font-family: 'ADLaM Display', cursive"
-        >
+        <h2 class="text-3xl font-bold text-white mb-8 text-center" style="font-family: 'ADLaM Display', cursive">
           Reparto de la Película
         </h2>
-        <div
-          class="justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-        >
-          <div
-            *ngFor="let actor of film.actors"
-            class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex flex-col items-center text-white hover:scale-105 transition-all duration-300 shadow-lg"
-          >
-            <img
-              class="w-28 h-28 object-cover rounded-full mb-4 shadow-md"
-              [src]="actor.foto"
-            />
+        <div class="justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div *ngFor="let actor of film.actors"
+            class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex flex-col items-center text-white hover:scale-105 transition-all duration-300 shadow-lg">
+            <img class="w-28 h-28 object-cover rounded-full mb-4 shadow-md" [src]="actor.foto" />
             <h3 class="text-xl font-semibold mb-1">{{ actor.name }}</h3>
             <div class="text-center">
               <p class="text-sm text-gray-200">
@@ -115,103 +74,84 @@
 
   <!-- Comentarios -->
   <div class="flex justify-start text-white flex-col mt-20">
-    <h1
-      class="text-3xl underline mr-8"
-      style="font-family: 'ADLaM Display', cursive"
-    >
+    <h1 class="text-3xl underline mr-8" style="font-family: 'ADLaM Display', cursive">
       Comentarios
     </h1>
 
     <!-- Nuevo comentario -->
     <div class="w-full mt-10">
-      <input
-        type="text"
+      <input type="text"
         class="w-full border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600 p-2"
-        (click)="showButtons = true"
-        [(ngModel)]="inputValue"
-        placeholder="Escribe algo..."
-      />
+        (click)="showButtons = true" [(ngModel)]="inputValue" placeholder="Escribe algo..." />
       <div *ngIf="showButtons" class="mt-2 flex justify-end gap-2">
-        <button
-          [disabled]="!inputValue.trim()"
+        <button [disabled]="!inputValue.trim()"
           class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 cursor-pointer"
-          (click)="submitComment()"
-        >
+          (click)="submitComment()">
           Comentar
         </button>
-        <button
-          class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 cursor-pointer"
-          (click)="cancelAction()"
-        >
+        <button class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 cursor-pointer"
+          (click)="cancelAction()">
           Cancelar
         </button>
       </div>
     </div>
 
     <!-- Lista de comentarios -->
-    <div
-      *ngFor="let comentario of comentarios"
-      class="my-4 flex items-start bg-gray-900 p-3 rounded-lg"
-    >
-      <img
-        *ngIf="comentario.usuario.foto_perfil"
-        [src]="sanitizeImage(comentario.usuario.foto_perfil)"
-        alt="Foto de perfil"
-        class="w-10 h-10 rounded-full mr-4 object-cover"
-      />
+    <div *ngFor="let comentario of comentarios" class="my-4 flex items-start bg-gray-900 p-3 rounded-lg">
+      <img *ngIf="comentario.usuario.foto_perfil" [src]="sanitizeImage(comentario.usuario.foto_perfil)"
+        alt="Foto de perfil" class="w-10 h-10 rounded-full mr-4 object-cover" />
 
       <div class="w-full">
         <div class="flex items-center justify-between mb-1">
           <h3 class="font-medium text-white text-sm">
             {{ comentario.usuario.nombre }}
           </h3>
-          <time class="text-xs text-gray-300"
-            >{{ comentario.fecha_creacion }}</time
-          >
+          <time class="text-xs text-gray-300">{{ comentario.fecha_creacion }}</time>
         </div>
         <p class="text-sm text-white leading-relaxed mb-2">
           {{ comentario.mensaje }}
         </p>
 
         <div class="flex items-center gap-4">
-          <button
-            class="text-xs text-gray-300 hover:underline cursor-pointer"
-            (click)="onRespondClick(comentario.id)"
-          >
+          <button class="text-xs text-gray-300 hover:underline cursor-pointer" (click)="onRespondClick(comentario.id)">
             Responder
           </button>
-          <button
-            *ngIf="comentario.respuestas?.length"
-            class="text-xs text-blue-400 hover:underline cursor-pointer"
-            (click)="toggleRespuestas(comentario.id)"
-          >
-            {{ comentariosExpandido[comentario.id] ? 'Ocultar respuestas' : 'Ver
-            respuestas (' + comentario.respuestas.length + ')' }}
+          <button *ngIf="comentario.respuestas?.length" class="text-xs text-blue-400 hover:underline cursor-pointer"
+            (click)="toggleRespuestas(comentario.id)">
+            {{ comentariosExpandido[comentario.id] ? 'Ocultar respuestas' : 'Ver respuestas (' +
+            comentario.respuestas.length + ')' }}
           </button>
+
         </div>
 
         <!-- Caja de respuesta -->
         <div *ngIf="selectedCommentId === comentario.id" class="mt-2">
-          <input
-            type="text"
+          <input type="text"
             class="w-full border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600 p-2"
-            [(ngModel)]="responseValue"
-            placeholder="Escribe tu respuesta..."
-          />
+            [(ngModel)]="responseValue" placeholder="Escribe tu respuesta..." />
           <div class="mt-2 flex justify-end gap-2">
-            <button
-              [disabled]="!responseValue.trim()"
+            <button [disabled]="!responseValue.trim()"
               class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 cursor-pointer"
-              (click)="submitResponse()"
-            >
+              (click)="submitResponse()">
               Enviar
             </button>
-            <button
-              class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 cursor-pointer"
-              (click)="cancelResponse()"
-            >
+            <button class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 cursor-pointer"
+              (click)="cancelResponse()">
               Cancelar
             </button>
+          </div>
+        </div>
+
+        <!-- Likes y Dislikes -->
+        <div class="mt-2 flex items-center gap-4 text-sm">
+          <div class="flex items-center gap-1 cursor-pointer" (click)="reactToComment(comentario, 'like')">
+            <mat-icon [style.color]="comentario.userReaction === 'like' ? 'blue' : 'gray'">thumb_up</mat-icon>
+            <span class="text-white">{{ comentario.likes || 0 }}</span>
+          </div>
+
+          <div class="flex items-center gap-1 cursor-pointer" (click)="reactToComment(comentario, 'dislike')">
+            <mat-icon [style.color]="comentario.userReaction === 'dislike' ? 'red' : 'gray'">thumb_down</mat-icon>
+            <span class="text-white">{{ comentario.dislikes || 0 }}</span>
           </div>
         </div>
 
@@ -219,38 +159,44 @@
         <div *ngIf="comentariosExpandido[comentario.id]" class="mt-4 ml-10">
           <div *ngFor="let respuesta of comentario.respuestas" class="mb-4">
             <div class="flex items-start">
-              <img
-                *ngIf="respuesta.usuario.foto_perfil"
-                [src]="sanitizeImage(respuesta.usuario.foto_perfil)"
-                alt="Foto de perfil"
-                class="w-10 h-10 rounded-full mr-3 object-cover"
-              />
+              <img *ngIf="respuesta.usuario.foto_perfil" [src]="sanitizeImage(respuesta.usuario.foto_perfil)"
+                alt="Foto de perfil" class="w-10 h-10 rounded-full mr-3 object-cover" />
               <div class="flex flex-col bg-gray-800 p-3 rounded-lg w-full">
                 <div class="flex justify-between items-center mb-1">
                   <h3 class="font-medium text-white text-sm">
                     {{ respuesta.usuario.nombre }}
                   </h3>
-                  <time class="text-xs text-gray-300"
-                    >{{ respuesta.fecha_creacion }}</time
-                  >
+                  <time class="text-xs text-gray-300">{{ respuesta.fecha_creacion }}</time>
                 </div>
                 <p class="text-sm text-white leading-relaxed">
                   {{ respuesta.mensaje }}
                 </p>
               </div>
             </div>
+
+            <!-- Likes y Dislikes para respuesta -->
+            <div class="mt-2 flex items-center gap-4 text-sm">
+              <div class="flex items-center gap-1 cursor-pointer" (click)="reactToRespuesta(respuesta, 'like')">
+                <mat-icon [style.color]="respuesta.userReaction === 'like' ? 'blue' : 'gray'">thumb_up</mat-icon>
+                <span class="text-white">{{ respuesta.likes || 0 }}</span>
+              </div>
+
+              <div class="flex items-center gap-1 cursor-pointer" (click)="reactToRespuesta(respuesta, 'dislike')">
+                <mat-icon [style.color]="respuesta.userReaction === 'dislike' ? 'red' : 'gray'">thumb_down</mat-icon>
+                <span class="text-white">{{ respuesta.dislikes || 0 }}</span>
+              </div>
+              
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 
   <!-- Recomendadas -->
   <div class="flex justify-start text-white flex-col mt-20">
-    <h1
-      class="text-3xl underline mr-8"
-      style="font-family: 'ADLaM Display', cursive"
-    >
+    <h1 class="text-3xl underline mr-8" style="font-family: 'ADLaM Display', cursive">
       Películas Recomendadas
     </h1>
     <component-Listar></component-Listar>
