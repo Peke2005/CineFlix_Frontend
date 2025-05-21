@@ -89,7 +89,10 @@ export class CineFlixService {
       commentId: idComentario,
       responseMessage: comentario,
     };
-    console.log(body);
     return this.http.post<any>(`/uploadCommentResponse`, body);
+  }
+
+  loadComments(idFilm: any): Observable<any> {
+    return this.http.get(`/comments?idFilm=${idFilm}`);
   }
 }
