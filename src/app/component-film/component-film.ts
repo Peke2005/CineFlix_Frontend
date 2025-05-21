@@ -19,7 +19,7 @@ export class ComponentFilm implements OnInit {
     private route: ActivatedRoute,
     private cineflixService: CineFlixService,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   trailerUrl!: SafeResourceUrl;
   film: any;
@@ -48,23 +48,9 @@ export class ComponentFilm implements OnInit {
       this.cineflixService.getMovieByName(title).subscribe({
         next: (response) => {
           this.film = response.data[0];
-          this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-            this.film.trailer
-          );
-          this.loadComentarios(this.film.id);
+          this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.film.trailer);
 
-          if (this.film.comentarios) {
-            this.film.comentarios.forEach((comentario: any) => {
-              if (!Array.isArray(comentario.respuestas)) {
-                comentario.respuestas = comentario.respuesta
-                  ? [comentario.respuesta]
-                  : [];
-              }
-              this.comentariosExpandido[comentario.id] = false;
-            });
-          } else {
-            this.film.comentarios = [];
-          }
+          this.loadComentarios(this.film.id);
         },
         error: (err) => {
           console.error('Error al cargar la película:', err);
@@ -74,7 +60,9 @@ export class ComponentFilm implements OnInit {
   }
 
   loadComentarios(filmId: number): void {
-    this.cineflixService.loadComments(filmId).subscribe({
+    const userId = localStorage.getItem('idUser');
+
+    this.cineflixService.loadComments(filmId, userId).subscribe({
       next: (response: any) => {
         const comentariosArray = response.data || [];
         this.comentarios = comentariosArray.map((comentario: any) => ({
@@ -82,8 +70,8 @@ export class ComponentFilm implements OnInit {
           respuestas: Array.isArray(comentario.respuestas)
             ? comentario.respuestas
             : comentario.respuesta
-            ? [comentario.respuesta]
-            : [],
+              ? [comentario.respuesta]
+              : [],
         }));
         this.comentarios.forEach((comentario: any) => {
           this.comentariosExpandido[comentario.id] = false;
@@ -202,5 +190,33 @@ export class ComponentFilm implements OnInit {
     this.showResponseInput = false;
     this.selectedCommentId = null;
     this.responseValue = '';
+  }
+
+  reactToComment(comentario: any, tipo: 'like' | 'dislike'): void {
+    const userId = localStorage.getItem('idUser');
+    if (!userId) return;
+
+    const isSameReaction = comentario.userReaction === tipo;
+
+    this.cineflixService
+      .reaccionComentario(comentario.id, userId, tipo)
+      .subscribe((response: any) => {
+        comentario.likes = response.likes;
+        comentario.dislikes = response.dislikes;
+        comentario.userReaction = isSameReaction ? null : tipo;
+      });
+  }
+
+  reactToRespuesta(respuesta: any, tipo: 'like' | 'dislike'): void {
+    const userId = localStorage.getItem('idUser');
+    if (!userId) return;
+
+    this.cineflixService
+      .reaccionRespuesta(respuesta.id, userId, tipo)
+      .subscribe((response: any) => {
+        respuesta.likes = response.likes;
+        respuesta.dislikes = response.dislikes;
+        respuesta.userReaction = response.userReaction;
+      });
   }
 }
