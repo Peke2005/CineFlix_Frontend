@@ -48,23 +48,9 @@ export class ComponentFilm implements OnInit {
       this.cineflixService.getMovieByName(title).subscribe({
         next: (response) => {
           this.film = response.data[0];
-          this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-            this.film.trailer
-          );
-          this.loadComentarios(this.film.id);
+          this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.film.trailer);
 
-          if (this.film.comentarios) {
-            this.film.comentarios.forEach((comentario: any) => {
-              if (!Array.isArray(comentario.respuestas)) {
-                comentario.respuestas = comentario.respuesta
-                  ? [comentario.respuesta]
-                  : [];
-              }
-              this.comentariosExpandido[comentario.id] = false;
-            });
-          } else {
-            this.film.comentarios = [];
-          }
+          this.loadComentarios(this.film.id);
         },
         error: (err) => {
           console.error('Error al cargar la película:', err);
@@ -74,27 +60,29 @@ export class ComponentFilm implements OnInit {
   }
 
   loadComentarios(filmId: number): void {
-    this.cineflixService.loadComments(filmId).subscribe({
-      next: (response: any) => {
-        const comentariosArray = response.data || [];
-        this.comentarios = comentariosArray.map((comentario: any) => ({
-          ...comentario,
-          respuestas: Array.isArray(comentario.respuestas)
-            ? comentario.respuestas
-            : comentario.respuesta
-            ? [comentario.respuesta]
-            : [],
-        }));
-        this.comentarios.forEach((comentario: any) => {
-          this.comentariosExpandido[comentario.id] = false;
-        });
-      },
-      error: (err) => {
-        console.error('Error al cargar comentarios:', err);
-        this.comentarios = [];
-      },
-    });
-  }
+  const userId = localStorage.getItem('idUser');
+
+  this.cineflixService.loadComments(filmId, userId).subscribe({
+    next: (response: any) => {
+      const comentariosArray = response.data || [];
+      this.comentarios = comentariosArray.map((comentario: any) => ({
+        ...comentario,
+        respuestas: Array.isArray(comentario.respuestas)
+          ? comentario.respuestas
+          : comentario.respuesta
+          ? [comentario.respuesta]
+          : [],
+      }));
+      this.comentarios.forEach((comentario: any) => {
+        this.comentariosExpandido[comentario.id] = false;
+      });
+    },
+    error: (err) => {
+      console.error('Error al cargar comentarios:', err);
+      this.comentarios = [];
+    },
+  });
+}
 
   formatFechaNacimiento(fecha: string | null): string {
     if (!fecha || fecha === 'undefined/00:00:00.0000000/')
@@ -208,12 +196,14 @@ export class ComponentFilm implements OnInit {
     const userId = localStorage.getItem('idUser');
     if (!userId) return;
 
+    const isSameReaction = comentario.userReaction === tipo;
+
     this.cineflixService
       .reaccionComentario(comentario.id, userId, tipo)
       .subscribe((response: any) => {
         comentario.likes = response.likes;
         comentario.dislikes = response.dislikes;
-        comentario.userReaction = tipo;
+        comentario.userReaction = isSameReaction ? null : tipo; 
       });
   }
 }

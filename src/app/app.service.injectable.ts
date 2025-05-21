@@ -99,9 +99,14 @@ export class CineFlixService {
   // === COMENTARIOS ===
 
   // Cargar comentarios
-  loadComments(idFilm: any): Observable<any> {
-    return this.http.get(`/comments?idFilm=${idFilm}`);
+  loadComments(idFilm: any, userId: string | null = null): Observable<any> {
+  let params = new HttpParams().set('idFilm', idFilm);
+  if (userId) {
+    params = params.set('idUser', userId);
   }
+  return this.http.get('/comments', { params });
+}
+
 
   // Enviar like o dislike
   reaccionComentario(comentarioId: number, usuarioId: string, tipo: 'like' | 'dislike') {
