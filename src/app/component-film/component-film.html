@@ -41,13 +41,20 @@
       <h4 class="font-semibold" style="font-family: 'ADLaM Display', cursive">
         Actores:
       </h4>
-      <a
-        class="hover:underline cursor-pointer"
-        (click)="showActors = true"
-        *ngFor="let actor of film.actors"
+      <ng-container
+        *ngIf="film.actors && film.actors.length > 0; else noActors"
       >
-        {{ actor.name }}
-      </a>
+        <a
+          class="hover:underline cursor-pointer"
+          (click)="showActors = true"
+          *ngFor="let actor of film.actors"
+        >
+          {{ actor.name }}
+        </a>
+      </ng-container>
+      <ng-template #noActors>
+        <p>No hay actores disponibles</p>
+      </ng-template>
     </div>
     <h4 class="font-semibold">Descripción:</h4>
     <p>{{ film.description }}</p>
