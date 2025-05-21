@@ -47,11 +47,9 @@ export class ComponentFilm implements OnInit {
 
           if (this.film.comentarios) {
             this.film.comentarios.forEach((comentario: any) => {
-              // Asegurar array de respuestas
               if (!Array.isArray(comentario.respuestas)) {
                 comentario.respuestas = comentario.respuesta ? [comentario.respuesta] : [];
               }
-              // Inicializar estado de visibilidad de respuestas
               this.comentariosExpandido[comentario.id] = false;
             });
           } else {
