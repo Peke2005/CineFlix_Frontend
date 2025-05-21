@@ -142,6 +142,19 @@
           </div>
         </div>
 
+        <!-- Likes y Dislikes -->
+        <div class="mt-2 flex items-center gap-4 text-sm">
+          <div class="flex items-center gap-1 cursor-pointer" (click)="reactToComment(comentario, 'like')">
+            <mat-icon [style.color]="comentario.userReaction === 'like' ? 'blue' : 'gray'">thumb_up</mat-icon>
+            <span class="text-white">{{ comentario.likes || 0 }}</span>
+          </div>
+
+          <div class="flex items-center gap-1 cursor-pointer" (click)="reactToComment(comentario, 'dislike')">
+            <mat-icon [style.color]="comentario.userReaction === 'dislike' ? 'red' : 'gray'">thumb_down</mat-icon>
+            <span class="text-white">{{ comentario.dislikes || 0 }}</span>
+          </div>
+        </div>
+
         <!-- Respuestas -->
         <div *ngIf="comentariosExpandido[comentario.id]" class="mt-4 ml-10">
           <div *ngFor="let respuesta of comentario.respuestas" class="mb-4">
@@ -160,19 +173,6 @@
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-        
-        <!-- Likes y Dislikes -->
-        <div class="mt-2 flex items-center gap-4 text-sm">
-          <div class="flex items-center gap-1 cursor-pointer" (click)="reactToComment(comentario, 'like')">
-            <mat-icon [style.color]="comentario.userReaction === 'like' ? 'blue' : 'gray'">thumb_up</mat-icon>
-            <span class="text-white">{{ comentario.likes || 0 }}</span>
-          </div>
-
-          <div class="flex items-center gap-1 cursor-pointer" (click)="reactToComment(comentario, 'dislike')">
-            <mat-icon [style.color]="comentario.userReaction === 'dislike' ? 'red' : 'gray'">thumb_down</mat-icon>
-            <span class="text-white">{{ comentario.dislikes || 0 }}</span>
           </div>
         </div>
 
