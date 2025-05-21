@@ -17,12 +17,12 @@ export class CineFlixService {
   }
 
   getMovieByName(name: string, userId?: string | null): Observable<any> {
-  let params = new HttpParams().set('title', name);
-  if (userId) {
-    params = params.set('idUser', userId);
+    let params = new HttpParams().set('title', name);
+    if (userId) {
+      params = params.set('idUser', userId);
+    }
+    return this.http.get(`/movieSearchTitle`, { params });
   }
-  return this.http.get(`/movieSearchTitle`, { params });
-}
 
   getActores(): Observable<any> {
     return this.http.get(`/actores`);
@@ -93,10 +93,17 @@ export class CineFlixService {
       commentId: idComentario,
       responseMessage: comentario,
     };
-    console.log(body);
     return this.http.post<any>(`/uploadCommentResponse`, body);
   }
 
+  // === COMENTARIOS ===
+
+  // Cargar comentarios
+  loadComments(idFilm: any): Observable<any> {
+    return this.http.get(`/comments?idFilm=${idFilm}`);
+  }
+
+  // Enviar like o dislike
   reaccionComentario(comentarioId: number, usuarioId: string, tipo: 'like' | 'dislike') {
     const formData = new FormData();
     formData.append('comentario_id', comentarioId.toString());
@@ -105,5 +112,4 @@ export class CineFlixService {
 
     return this.http.post<any>('http://localhost:8000/comentario/reaccion', formData);
   }
-
 }
