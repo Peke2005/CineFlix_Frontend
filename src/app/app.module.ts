@@ -18,6 +18,7 @@ import { ComponentFilm } from './component-film/component-film';
 import { PerfilComponent } from './profile/profile.component';
 import { LoadingComponent } from './loading/loading.component';
 import { panelComponent } from './panel/panel.component';
+import { HistorialComponent } from './historial/historial.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { panelComponent } from './panel/panel.component';
     loginComponent,
     PerfilComponent,
     LoadingComponent,
-    panelComponent
+    panelComponent,
+    HistorialComponent,
   ],
   imports: [
     BrowserModule,

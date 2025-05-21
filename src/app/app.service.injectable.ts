@@ -95,4 +95,8 @@ export class CineFlixService {
   loadComments(idFilm: any): Observable<any> {
     return this.http.get(`/comments?idFilm=${idFilm}`);
   }
+
+  getHistorial(idUser: any): Observable<any> {
+    return this.http.get(`/historial?id=${idUser}`);
+  }
 }
