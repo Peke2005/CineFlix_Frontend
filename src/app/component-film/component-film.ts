@@ -29,109 +29,70 @@ export class ComponentFilm implements OnInit {
   showResponseInput: boolean = false;
   selectedCommentId: number | null = null;
   responseValue: string = '';
+  comentariosExpandido: { [key: number]: boolean } = {};
 
   sanitizeImage(base64: string): SafeUrl {
     if (base64.startsWith('data:image')) {
       return this.sanitizer.bypassSecurityTrustUrl(base64);
     }
-    return this.sanitizer.bypassSecurityTrustUrl(
-      `data:image/png;base64,${base64}`
-    );
-  }
-
-  getResponses(respuesta: any): any[] {
-    return Array.isArray(respuesta) ? respuesta : [respuesta];
+    return this.sanitizer.bypassSecurityTrustUrl(`data:image/png;base64,${base64}`);
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: any) => {
-      this.cineflixService
-        .getMovieByName(params.get('titleFilm'), localStorage.getItem('idUser'))
-        .subscribe({
-          next: (response) => {
-            this.film = response.data[0];
-            this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-              this.film.trailer
-            );
+      this.cineflixService.getMovieByName(params.get('titleFilm')).subscribe({
+        next: (response) => {
+          this.film = response.data[0];
+          this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.film.trailer);
 
-            const usuariosConImagen = new Map<number, string>();
-            if (this.film.comentarios) {
-              this.film.comentarios.forEach((comentario: any) => {
-                const usuario = comentario.usuario;
-                if (usuario?.id && usuario.foto_perfil) {
-                  usuariosConImagen.set(usuario.id, usuario.foto_perfil);
-                }
-                if (
-                  usuario?.id &&
-                  (!usuario.foto_perfil || usuario.foto_perfil === null) &&
-                  usuariosConImagen.has(usuario.id)
-                ) {
-                  usuario.foto_perfil = usuariosConImagen.get(usuario.id);
-                }
-
-                if (
-                  comentario.respuesta &&
-                  !Array.isArray(comentario.respuesta)
-                ) {
-                  comentario.respuesta = [comentario.respuesta];
-                } else if (!comentario.respuesta) {
-                  comentario.respuesta = [];
-                }
-              });
-            } else {
-              this.film.comentarios = [];
-            }
-            console.log('Datos de la película:', this.film);
-          },
-          error: (err) => {
-            console.error('Error al cargar la película:', err);
-          },
-        });
+          if (this.film.comentarios) {
+            this.film.comentarios.forEach((comentario: any) => {
+              if (!Array.isArray(comentario.respuestas)) {
+                comentario.respuestas = comentario.respuesta ? [comentario.respuesta] : [];
+              }
+              this.comentariosExpandido[comentario.id] = false;
+            });
+          } else {
+            this.film.comentarios = [];
+          }
+        },
+        error: (err) => {
+          console.error('Error al cargar la película:', err);
+        },
+      });
     });
   }
 
   formatFechaNacimiento(fecha: string | null): string {
-    if (!fecha || fecha === 'undefined/00:00:00.0000000/') {
-      return 'No disponible';
-    }
-    const partes = fecha.split(' ');
-    const fechaParte = partes[0];
-    if (!fechaParte) {
-      return 'No disponible';
-    }
-    const fechaPartes = fechaParte.split('-');
-    return `${fechaPartes[2]}/${fechaPartes[1]}/${fechaPartes[0]}`;
+    if (!fecha || fecha === 'undefined/00:00:00.0000000/') return 'No disponible';
+    const partes = fecha.split(' ')[0].split('-');
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
   }
 
   submitComment(): void {
     if (this.inputValue.trim()) {
-      const usuario = {
-        id: Number(localStorage.getItem('idUser')),
-        nombre: localStorage.getItem('nameUser'),
-        foto_perfil: localStorage.getItem('foto_perfil') || null,
-      };
-
-      const newComment = {
-        id: Date.now(),
-        mensaje: this.inputValue.trim(),
-        fecha_creacion: new Date().toISOString().slice(0, 19).replace('T', ' '),
-        respuesta: null,
-        usuario: usuario,
-      };
+      const userId = localStorage.getItem('idUser');
+      const nombre = localStorage.getItem('nameUser');
+      const foto = localStorage.getItem('foto_perfil') || null;
 
       this.cineflixService
-        .subirComentario(
-          localStorage.getItem('idUser'),
-          this.film.id,
-          this.inputValue
-        )
+        .subirComentario(userId, this.film.id, this.inputValue)
         .subscribe({
-          next: (response) => {
-            console.log('Comentario añadido con éxito', response);
-            if (!this.film.comentarios) {
-              this.film.comentarios = [];
-            }
+          next: () => {
+            const newComment = {
+              id: Date.now(),
+              mensaje: this.inputValue.trim(),
+              fecha_creacion: new Date().toISOString().slice(0, 19).replace('T', ' '),
+              usuario: {
+                id: Number(userId),
+                nombre,
+                foto_perfil: foto,
+              },
+              respuestas: [],
+            };
+
             this.film.comentarios.unshift(newComment);
+            this.comentariosExpandido[newComment.id] = false;
             this.inputValue = '';
           },
           error: (error) => {
@@ -141,7 +102,7 @@ export class ComponentFilm implements OnInit {
     }
   }
 
-  cancelAction() {
+  cancelAction(): void {
     this.inputValue = '';
     this.showButtons = false;
   }
@@ -152,42 +113,35 @@ export class ComponentFilm implements OnInit {
     this.responseValue = '';
   }
 
+  toggleRespuestas(commentId: number): void {
+    this.comentariosExpandido[commentId] = !this.comentariosExpandido[commentId];
+  }
+
   submitResponse(): void {
     if (this.responseValue.trim() && this.selectedCommentId !== null) {
       const userId = localStorage.getItem('idUser');
-      console.log('id Usuario Emisor: ' + userId);
-      console.log('Enviando respuesta:', {
-        userId,
-        commentId: this.selectedCommentId,
-        responseMessage: this.responseValue,
-      });
+      const nameUser = localStorage.getItem('nameUser') || 'Usuario';
+      const fotoPerfil = localStorage.getItem('foto_perfil') || null;
 
       this.cineflixService
         .sumbitRespuesta(userId, this.selectedCommentId, this.responseValue)
         .subscribe({
-          next: (response) => {
-            console.log('Respuesta añadida con éxito', response);
+          next: () => {
             const newResponse = {
-              usuario: {
-                nombre: localStorage.getItem('nameUser') || 'Usuario',
-                foto_perfil: localStorage.getItem('foto_perfil') || null,
-              },
               mensaje: this.responseValue.trim(),
-              fecha_creacion: new Date()
-                .toISOString()
-                .slice(0, 19)
-                .replace('T', ' '),
+              fecha_creacion: new Date().toISOString().slice(0, 19).replace('T', ' '),
+              usuario: {
+                id: Number(userId),
+                nombre: nameUser,
+                foto_perfil: fotoPerfil,
+              },
             };
 
-            const comment = this.film.comentarios.find(
-              (c: any) => c.id === this.selectedCommentId
-            );
-
+            const comment = this.film.comentarios.find((c: any) => c.id === this.selectedCommentId);
             if (comment) {
-              if (!comment.respuestas) {
-                comment.respuestas = [];
-              }
+              if (!comment.respuestas) comment.respuestas = [];
               comment.respuestas.push(newResponse);
+              this.comentariosExpandido[comment.id] = true;
             }
 
             this.showResponseInput = false;
@@ -196,9 +150,6 @@ export class ComponentFilm implements OnInit {
           },
           error: (error) => {
             console.error('Error al agregar respuesta', error);
-            if (error.error && error.error.message) {
-              console.error('Mensaje del servidor:', error.error.message);
-            }
           },
         });
     }
