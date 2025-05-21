@@ -173,6 +173,20 @@
                 </p>
               </div>
             </div>
+
+            <!-- Likes y Dislikes para respuesta -->
+            <div class="mt-2 flex items-center gap-4 text-sm">
+              <div class="flex items-center gap-1 cursor-pointer" (click)="reactToRespuesta(respuesta, 'like')">
+                <mat-icon [style.color]="respuesta.userReaction === 'like' ? 'blue' : 'gray'">thumb_up</mat-icon>
+                <span class="text-white">{{ respuesta.likes || 0 }}</span>
+              </div>
+
+              <div class="flex items-center gap-1 cursor-pointer" (click)="reactToRespuesta(respuesta, 'dislike')">
+                <mat-icon [style.color]="respuesta.userReaction === 'dislike' ? 'red' : 'gray'">thumb_down</mat-icon>
+                <span class="text-white">{{ respuesta.dislikes || 0 }}</span>
+              </div>
+              
+            </div>
           </div>
         </div>
 

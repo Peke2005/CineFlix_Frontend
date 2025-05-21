@@ -60,29 +60,29 @@ export class ComponentFilm implements OnInit {
   }
 
   loadComentarios(filmId: number): void {
-  const userId = localStorage.getItem('idUser');
+    const userId = localStorage.getItem('idUser');
 
-  this.cineflixService.loadComments(filmId, userId).subscribe({
-    next: (response: any) => {
-      const comentariosArray = response.data || [];
-      this.comentarios = comentariosArray.map((comentario: any) => ({
-        ...comentario,
-        respuestas: Array.isArray(comentario.respuestas)
-          ? comentario.respuestas
-          : comentario.respuesta
-          ? [comentario.respuesta]
-          : [],
-      }));
-      this.comentarios.forEach((comentario: any) => {
-        this.comentariosExpandido[comentario.id] = false;
-      });
-    },
-    error: (err) => {
-      console.error('Error al cargar comentarios:', err);
-      this.comentarios = [];
-    },
-  });
-}
+    this.cineflixService.loadComments(filmId, userId).subscribe({
+      next: (response: any) => {
+        const comentariosArray = response.data || [];
+        this.comentarios = comentariosArray.map((comentario: any) => ({
+          ...comentario,
+          respuestas: Array.isArray(comentario.respuestas)
+            ? comentario.respuestas
+            : comentario.respuesta
+              ? [comentario.respuesta]
+              : [],
+        }));
+        this.comentarios.forEach((comentario: any) => {
+          this.comentariosExpandido[comentario.id] = false;
+        });
+      },
+      error: (err) => {
+        console.error('Error al cargar comentarios:', err);
+        this.comentarios = [];
+      },
+    });
+  }
 
   formatFechaNacimiento(fecha: string | null): string {
     if (!fecha || fecha === 'undefined/00:00:00.0000000/')
@@ -203,7 +203,20 @@ export class ComponentFilm implements OnInit {
       .subscribe((response: any) => {
         comentario.likes = response.likes;
         comentario.dislikes = response.dislikes;
-        comentario.userReaction = isSameReaction ? null : tipo; 
+        comentario.userReaction = isSameReaction ? null : tipo;
+      });
+  }
+
+  reactToRespuesta(respuesta: any, tipo: 'like' | 'dislike'): void {
+    const userId = localStorage.getItem('idUser');
+    if (!userId) return;
+
+    this.cineflixService
+      .reaccionRespuesta(respuesta.id, userId, tipo)
+      .subscribe((response: any) => {
+        respuesta.likes = response.likes;
+        respuesta.dislikes = response.dislikes;
+        respuesta.userReaction = response.userReaction;
       });
   }
 }

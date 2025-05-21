@@ -96,19 +96,15 @@ export class CineFlixService {
     return this.http.post<any>(`/uploadCommentResponse`, body);
   }
 
-  // === COMENTARIOS ===
-
-  // Cargar comentarios
   loadComments(idFilm: any, userId: string | null = null): Observable<any> {
-  let params = new HttpParams().set('idFilm', idFilm);
-  if (userId) {
-    params = params.set('idUser', userId);
+    let params = new HttpParams().set('idFilm', idFilm);
+    if (userId) {
+      params = params.set('idUser', userId);
+    }
+    return this.http.get('/comments', { params });
   }
-  return this.http.get('/comments', { params });
-}
 
 
-  // Enviar like o dislike
   reaccionComentario(comentarioId: number, usuarioId: string, tipo: 'like' | 'dislike') {
     const formData = new FormData();
     formData.append('comentario_id', comentarioId.toString());
@@ -117,4 +113,14 @@ export class CineFlixService {
 
     return this.http.post<any>('http://localhost:8000/comentario/reaccion', formData);
   }
+
+  reaccionRespuesta(respuestaId: number, usuarioId: string, tipo: 'like' | 'dislike') {
+    const formData = new FormData();
+    formData.append('respuesta_id', respuestaId.toString());
+    formData.append('usuario_id', usuarioId);
+    formData.append('tipo', tipo);
+
+    return this.http.post<any>('http://localhost:8000/respuesta/reaccion', formData);
+  }
+
 }
