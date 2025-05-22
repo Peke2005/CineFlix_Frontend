@@ -104,23 +104,54 @@ export class CineFlixService {
     return this.http.get('/comments', { params });
   }
 
-
-  reaccionComentario(comentarioId: number, usuarioId: string, tipo: 'like' | 'dislike') {
+  reaccionComentario(
+    comentarioId: number,
+    usuarioId: string,
+    tipo: 'like' | 'dislike'
+  ) {
     const formData = new FormData();
     formData.append('comentario_id', comentarioId.toString());
     formData.append('usuario_id', usuarioId);
     formData.append('tipo', tipo);
 
-    return this.http.post<any>('http://localhost:8000/comentario/reaccion', formData);
+    return this.http.post<any>(
+      'http://localhost:8000/comentario/reaccion',
+      formData
+    );
   }
 
-  reaccionRespuesta(respuestaId: number, usuarioId: string, tipo: 'like' | 'dislike') {
+  reaccionRespuesta(
+    respuestaId: number,
+    usuarioId: string,
+    tipo: 'like' | 'dislike'
+  ) {
     const formData = new FormData();
     formData.append('respuesta_id', respuestaId.toString());
     formData.append('usuario_id', usuarioId);
     formData.append('tipo', tipo);
 
-    return this.http.post<any>('http://localhost:8000/respuesta/reaccion', formData);
+    return this.http.post<any>(
+      'http://localhost:8000/respuesta/reaccion',
+      formData
+    );
   }
 
+  getUserRating(userId: string, movieId: number): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId)
+      .set('movieId', movieId.toString());
+
+    return this.http.get(`/getUserRating`, { params });
+  }
+
+  rateMovie(userId: string, movieId: number, stars: number): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId)
+      .set('movieId', movieId.toString())
+      .set('valor', stars.toString());
+
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post(`/rateMovie`, params.toString(), { headers });
+  } 
 }
