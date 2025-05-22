@@ -7,6 +7,7 @@ import { ComponentHome } from './component-home/component-home';
 import { componentListar } from './component-Listar/component-Listar';
 import { ComponentFilm } from './component-film/component-film';
 import { panelComponent } from './panel/panel.component';
+import { HistorialComponent } from './historial/historial.component';
 
 const routes: Routes = [
   { path: '', component: loginComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'Login', component: loginComponent },
   { path: 'Panel', component: panelComponent },
   { path: 'Profile', component: PerfilComponent },
+  { path: 'Historial', component: HistorialComponent },
   { path: '**', redirectTo: 'Home', pathMatch: 'full' },
 ];
 
@@ -26,4 +28,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

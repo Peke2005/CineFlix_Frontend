@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CineFlixService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllMovies(): Observable<any> {
     return this.http.get(`/listFilms`);
@@ -104,6 +104,10 @@ export class CineFlixService {
     return this.http.get('/comments', { params });
   }
 
+  getHistorial(idUser: any): Observable<any> {
+    return this.http.get(`/historial?id=${idUser}`);
+  }
+
   reaccionComentario(
     comentarioId: number,
     usuarioId: string,
@@ -150,8 +154,11 @@ export class CineFlixService {
       .set('movieId', movieId.toString())
       .set('valor', stars.toString());
 
-    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/x-www-form-urlencoded'
+    );
 
     return this.http.post(`/rateMovie`, params.toString(), { headers });
-  } 
+  }
 }
