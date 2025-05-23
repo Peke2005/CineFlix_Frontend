@@ -31,6 +31,8 @@ export class ComponentFilm implements OnInit {
   selectedCommentId: number | null = null;
   responseValue: string = '';
   comentariosExpandido: { [key: number]: boolean } = {};
+  userRating: number = 0;
+  hoveredRating: number = 0;
 
   sanitizeImage(base64: string): SafeUrl {
     if (base64.startsWith('data:image')) {
@@ -44,6 +46,7 @@ export class ComponentFilm implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: any) => {
       const title = params.get('titleFilm');
+      const userId = localStorage.getItem('idUser');
 
       this.cineflixService.getMovieByName(title).subscribe({
         next: (response) => {
@@ -51,6 +54,17 @@ export class ComponentFilm implements OnInit {
           this.trailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.film.trailer);
 
           this.loadComentarios(this.film.id);
+
+          if (userId && this.film?.id) {
+            this.cineflixService.getUserRating(userId, this.film.id).subscribe({
+              next: (res) => {
+                this.userRating = res.valor;
+              },
+              error: () => {
+                this.userRating = 0;
+              }
+            });
+          }
         },
         error: (err) => {
           console.error('Error al cargar la película:', err);
@@ -218,5 +232,41 @@ export class ComponentFilm implements OnInit {
         respuesta.dislikes = response.dislikes;
         respuesta.userReaction = response.userReaction;
       });
+  }
+
+  getUserRating() {
+    const userId = localStorage.getItem('idUser');
+    if (!userId || !this.film?.id) return;
+
+    this.cineflixService.getUserRating(userId, this.film.id).subscribe({
+      next: (res) => {
+        this.userRating = res.valor;
+        console.log('Valoración cargada:', res.valor);
+      },
+      error: () => {
+        this.userRating = 0;
+      }
+    });
+  }
+
+  rateFilm(stars: number) {
+    const userId = localStorage.getItem('idUser');
+    if (!userId) return;
+
+    this.userRating = stars;
+    console.log('Enviando valoración:', stars);
+
+    this.cineflixService.rateMovie(userId, this.film.id, stars).subscribe({
+      next: () => console.log('Valoración enviada correctamente'),
+      error: (err) => console.error('Error al guardar valoración:', err)
+    });
+  }
+
+  setHoveredRating(rating: number) {
+    this.hoveredRating = rating;
+  }
+
+  clearHoveredRating() {
+    this.hoveredRating = 0;
   }
 }

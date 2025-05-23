@@ -153,4 +153,25 @@ export class CineFlixService {
 
     return this.http.post<any>('http://localhost:8000/historial', body);
   }
+  getUserRating(userId: string, movieId: number): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId)
+      .set('movieId', movieId.toString());
+
+    return this.http.get(`/getUserRating`, { params });
+  }
+
+  rateMovie(userId: string, movieId: number, stars: number): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId)
+      .set('movieId', movieId.toString())
+      .set('valor', stars.toString());
+
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/x-www-form-urlencoded'
+    );
+
+    return this.http.post(`/rateMovie`, params.toString(), { headers });
+  }
 }
