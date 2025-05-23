@@ -1,7 +1,6 @@
 .container {
   width: 100%;
   min-height: 90vh;
-  height: 95vh;
   max-width: none;
   padding-bottom: 20px;
   background-color: #000;
@@ -211,7 +210,11 @@
 
 .error {
   color: #e50914;
-  margin-bottom: 20px;
+  margin-top: 43vh;
+  font-weight: bold;
+  font-size: 1.8rem;
+  margin-right: auto;
+  margin-left: auto;
   font-family: "Roboto", sans-serif;
 }
 

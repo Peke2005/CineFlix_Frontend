@@ -13,6 +13,7 @@ export class componentListar implements OnInit {
   genre: string | null = null;
   title: string | null = null;
   film: string | null = null;
+  error: string | null = null;
   movies: any[] = [];
   featuredMovie: any = null;
   showTitle: boolean = true;
@@ -20,6 +21,7 @@ export class componentListar implements OnInit {
   filtradoPorTitulo: boolean = false;
   errorMessage: string | null = null;
   titlePage: string = 'Peliculas';
+  titleHistorial: string = 'Recientes Vistas';
 
   paginatedMovies: any[] = [];
   pageSize: number = 10;
@@ -31,7 +33,7 @@ export class componentListar implements OnInit {
     private Route: Router,
     private cineflixservice: CineFlixService,
     private loadingService: LoadingService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadingService.show();
@@ -46,24 +48,53 @@ export class componentListar implements OnInit {
       this.genre = params.get('genre');
       this.title = params.get('title');
       this.film = params.get('titleFilm');
+      this.error = params.get('error');
       console.log('Género recibido:', this.genre);
       console.log('Título recibido:', this.title);
       console.log('Pelicula para ver Recibida: ', this.film);
       this.loadMovies();
     });
   }
-
   seeFilm(film: any) {
     this.loadingService.show();
-    this.Route.navigate(['/Film', film.categories[0], film.title]);
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        left: 100,
-        behavior: 'smooth',
-      });
+
+    const usuarioId = localStorage.getItem('idUser');
+    const peliculaId = film.id_pelicula;
+    console.log('Película seleccionada:', film);
+
+    console.log('ID de usuario:', usuarioId);
+    console.log('ID de película:', peliculaId);
+
+    if (!usuarioId || !peliculaId) {
       this.loadingService.hide();
-    }, 1000);
+      console.error('Faltan usuarioId o peliculaId');
+      return;
+    }
+
+    this.cineflixservice.addToHistorial(usuarioId, peliculaId).subscribe({
+      next: (response) => {
+        console.log(response.message);
+        this.Route.navigate(['/Film', film.categories[0], film.title]);
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0,
+            left: 100,
+            behavior: 'smooth',
+          });
+          this.loadingService.hide();
+        }, 1000);
+      },
+      error: (err) => {
+        console.error(
+          'Error al añadir al historial:',
+          err.error?.error || err.message
+        );
+        this.loadingService.hide();
+      },
+      complete: () => {
+        console.log('Solicitud completada');
+      },
+    });
   }
 
   loadMovies() {
@@ -72,7 +103,8 @@ export class componentListar implements OnInit {
     if (this.title) {
       this.filtradoPorTitulo = true;
       this.categoria = false;
-      this.cineflixservice.getMovieByName(this.title, localStorage.getItem('idUser'))
+      this.cineflixservice
+        .getMovieByName(this.title, localStorage.getItem('idUser'))
         .subscribe({
           next: (response) => {
             if (response.data && Array.isArray(response.data)) {
@@ -81,14 +113,17 @@ export class componentListar implements OnInit {
                   .trim()
                   .toUpperCase()
                   .replace(/\s+/g, '')
-                  .includes(this.title!.trim().toUpperCase().replace(/\s+/g, ''))
+                  .includes(
+                    this.title!.trim().toUpperCase().replace(/\s+/g, '')
+                  )
               );
               this.errorMessage = null;
               this.updatePaginatedMovies();
             } else {
               this.movies = [];
               this.errorMessage =
-                response.message || 'No se encontraron películas con ese título.';
+                response.message ||
+                'No se encontraron películas con ese título.';
             }
           },
           error: (err) => {
@@ -133,6 +168,9 @@ export class componentListar implements OnInit {
           this.loadingService.hide();
         },
       });
+    } else if (this.error) {
+      this.errorMessage = this.error;
+      this.loadingService.hide();
     } else {
       this.categoria = false;
       this.filtradoPorTitulo = false;

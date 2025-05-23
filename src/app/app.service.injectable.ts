@@ -139,4 +139,18 @@ export class CineFlixService {
       formData
     );
   }
+
+  addToHistorial(
+    usuarioId: string,
+    peliculaId: string,
+    fechaVista?: string
+  ): Observable<any> {
+    const body = {
+      usuarioId,
+      peliculaId,
+      fechaVista: fechaVista || new Date().toISOString(),
+    };
+
+    return this.http.post<any>('http://localhost:8000/historial', body);
+  }
 }
