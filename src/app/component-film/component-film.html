@@ -19,6 +19,16 @@
     </div>
   </div>
 
+  <!-- Valoraciones -->
+  <div class="flex gap-1 mt-4">
+    <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+      <mat-icon class="cursor-pointer" (mouseenter)="setHoveredRating(star)" (mouseleave)="clearHoveredRating()"
+        (click)="rateFilm(star)" [style.color]="(hoveredRating >= star || userRating >= star) ? 'gold' : 'gray'">
+        {{ (hoveredRating >= star || userRating >= star) ? 'star' : 'star_border' }}
+      </mat-icon>
+    </ng-container>
+  </div>
+
   <!-- Description -->
   <div class="text-justify text-white py-6">
     <div class="flex gap-3 py-1">
@@ -185,7 +195,7 @@
                 <mat-icon [style.color]="respuesta.userReaction === 'dislike' ? 'red' : 'gray'">thumb_down</mat-icon>
                 <span class="text-white">{{ respuesta.dislikes || 0 }}</span>
               </div>
-              
+
             </div>
           </div>
         </div>

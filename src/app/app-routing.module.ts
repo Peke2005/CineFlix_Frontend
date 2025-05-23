@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'Film/:genre/:titleFilm', component: ComponentFilm },
   { path: 'Home', component: ComponentHome },
   { path: 'Listar/title/:title', component: componentListar },
+  { path: 'Listar/error/:error', component: componentListar },
   { path: 'Listar/genre/:genre', component: componentListar },
   { path: 'Listar', component: componentListar },
   { path: 'Login', component: loginComponent },

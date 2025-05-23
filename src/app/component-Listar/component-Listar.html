@@ -15,8 +15,8 @@
     </div>
   </div>
 
-  <div class="movie-list">
-    <h2 *ngIf="showTitle">{{titlePage}}</h2>
+  <div *ngIf="showTitle && featuredMovie" class="movie-list">
+    <h2>{{titleHistorial}}</h2>
     <app-historial></app-historial>
   </div>
 

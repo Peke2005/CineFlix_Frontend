@@ -1,34 +1,57 @@
 <div class="movie-list">
-  <div class="movie-grid">
-    <div class="movie-card" *ngFor="let movie of movies">
-      <div (click)="seeFilm(movie)">
-        <div class="movie-overlay">
-          <div class="movie-info">
-            <div class="movie-title-year">
-              <h4 class="movie-title">{{ movie.title }}</h4>
-              <span class="movie-year">{{ movie.year || "N/A" }}</span>
-            </div>
-            <p class="movie-description">
-              {{ movie.description | slice : 0 : 100 }}...
-            </p>
-            <div class="movie-categories-duration">
-              <div class="flex gap-1">
-                <span
-                  class="movie-categories"
-                  *ngFor="let category of movie.categories"
-                >
-                  {{ category }}
-                </span>
+  <div class="movie-grid-container">
+    <button
+      *ngIf="movies.length > 0"
+      class="scroll-btn scroll-btn-left"
+      [disabled]="isAtStart"
+      (click)="scrollLeft()"
+      aria-label="Desplazar películas a la izquierda"
+    >
+      ←
+    </button>
+    <div class="movie-grid" id="movieGrid">
+      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+      <div class="movie-card" *ngFor="let movie of movies; let i = index">
+        <div (click)="seeFilm(movie)">
+          <div class="movie-overlay">
+            <div class="movie-info">
+              <div class="movie-title-year">
+                <h4 class="movie-title">{{ movie.title }}</h4>
+                <span class="movie-year">{{ movie.year || "N/A" }}</span>
               </div>
-              <span class="movie-duration">{{ movie.duration || "N/A" }}</span>
+              <p class="movie-description">
+                {{ movie.description | slice : 0 : 100 }}...
+              </p>
+              <div class="movie-categories-duration">
+                <div class="flex gap-1">
+                  <span
+                    class="movie-categories"
+                    *ngFor="let category of movie.category"
+                  >
+                    {{ category }}
+                  </span>
+                </div>
+                <span class="movie-duration">{{
+                  movie.duration || "N/A"
+                }}</span>
+              </div>
             </div>
           </div>
+          <img
+            [src]="movie.imageUrl || 'assets/placeholder.jpg'"
+            alt="{{ movie.title }}"
+          />
         </div>
-        <img
-          [src]="movie.imageUrl || 'assets/placeholder.jpg'"
-          alt="{{ movie.title }}"
-        />
       </div>
     </div>
+    <button
+      *ngIf="movies.length > 0"
+      class="scroll-btn scroll-btn-right"
+      [disabled]="isAtEnd"
+      (click)="scrollRight()"
+      aria-label="Desplazar películas a la derecha"
+    >
+      →
+    </button>
   </div>
 </div>

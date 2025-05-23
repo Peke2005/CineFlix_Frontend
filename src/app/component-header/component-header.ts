@@ -10,6 +10,7 @@ import { CineFlixService } from '../app.service.injectable';
 })
 export class ComponentHeader {
   resultados: any[] = [];
+  error: String | null = 'No se encontro ninguna pelicula con este titulo';
 
   constructor(
     private Route: Router,
@@ -57,7 +58,8 @@ export class ComponentHeader {
           }
         },
         error: (err) => {
-          console.error('Error fetching movies:', err);
+          this.Route.navigate(['Listar/error', this.error]);
+          /*           console.error('Error fetching movies:', err); */
           this.resultados = [];
         },
       });

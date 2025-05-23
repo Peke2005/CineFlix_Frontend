@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { CineFlixService } from '../app.service.injectable';
 import { LoadingService } from '../services/app.loading.service';
@@ -9,8 +9,11 @@ import { LoadingService } from '../services/app.loading.service';
   templateUrl: './historial.component.html',
   styleUrls: ['./historial.component.css'],
 })
-export class HistorialComponent implements OnInit {
+export class HistorialComponent implements OnInit, AfterViewInit {
   movies: any[] = [];
+  isAtStart: boolean = true;
+  isAtEnd: boolean = false;
+  errorMessage: string | null = null;
 
   constructor(
     private cineflixService: CineFlixService,
@@ -24,9 +27,12 @@ export class HistorialComponent implements OnInit {
     if (userId) {
       this.cineflixService.getHistorial(userId).subscribe({
         next: (data) => {
+          if (data.peliculas.length == 0) {
+            this.errorMessage = 'No se encontraron películas recientes vistas';
+          }
           this.movies = (data.peliculas || []).map((movie: any) => ({
             year: movie.año,
-            category: movie.categorías,
+            category: movie.categories,
             description: movie.descripcion,
             duration: movie.duracion,
             fecha_vista: movie.fecha_vista,
@@ -34,13 +40,11 @@ export class HistorialComponent implements OnInit {
             imageUrl: movie.portada,
             title: movie.titulo,
           }));
-          console.log('Historial data:', this.movies);
-          if (this.movies.length === 0) {
-            console.warn('No movies found in historial');
-          }
+          setTimeout(() => this.updateButtonStates(), 100);
         },
         error: (err) => {
           console.error('Error fetching historial:', err);
+          this.loadingService.hide();
         },
         complete: () => {
           this.loadingService.hide();
@@ -52,16 +56,51 @@ export class HistorialComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => this.updateButtonStates(), 200);
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.updateButtonStates();
+  }
+
   seeFilm(movie: any) {
     this.loadingService.show();
-    this.router.navigate(['/Film', movie.categorías[0], movie.title]);
+    this.router.navigate(['/Film', movie.category[0], movie.title]);
     setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        left: 100,
-        behavior: 'smooth',
-      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       this.loadingService.hide();
     }, 1000);
+  }
+
+  scrollRight() {
+    const grid = document.querySelector('.movie-grid') as HTMLElement;
+    if (grid) {
+      const scrollAmount = 270;
+      grid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      setTimeout(() => this.updateButtonStates(), 400);
+    }
+  }
+
+  scrollLeft() {
+    const grid = document.querySelector('.movie-grid') as HTMLElement;
+    if (grid) {
+      const scrollAmount = 270;
+      grid.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      setTimeout(() => this.updateButtonStates(), 400);
+    }
+  }
+
+  updateButtonStates() {
+    const grid = document.querySelector('.movie-grid') as HTMLElement;
+    if (!grid) return;
+
+    const scrollLeft = grid.scrollLeft;
+    const scrollWidth = grid.scrollWidth;
+    const clientWidth = grid.clientWidth;
+
+    this.isAtStart = scrollLeft <= 5;
+    this.isAtEnd = scrollLeft + clientWidth >= scrollWidth - 5;
   }
 }

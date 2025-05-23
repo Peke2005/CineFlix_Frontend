@@ -1,67 +1,112 @@
-<section class="flex flex-col items-center justify-center text-center min-h-screen">
-    <div class="py-5 w-[850px] flex flex-col items-center">
-        <!-- Logo -->
-        <div>
-            <h1 class="uppercase font-[Jaini] text-[150px]">
-                <span class="text-red-500">{{llaveIzq}}</span>
-                <span class="text-blue-600">{{llaveIzq}}</span>
-                <span class="text-blue-600">Cine</span>
-                <span class="text-red-500">Flix</span>
-                <span class="text-blue-600">{{llaveDer}}</span>
-                <span class="text-red-500">{{llaveDer}}</span>
-            </h1>
-        </div>
-
-        <!-- Formulario 1 -->
-        <div class="text-start text-3xl w-full max-w-3xl">
-            <h2 class="font-semibold mb-5 py-4">Inicia Sesion</h2>
-            <form [formGroup]="loginForm">
-                <label class="text-2xl py-2 block text-gray-400 uppercase" for="nombre">Email</label>
-                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl" type="email"
-                    name="email" formControlName="email" placeholder="Ingrese su Email" id="email">
-
-                <div *ngIf="loginForm?.get('email')?.invalid && loginForm?.get('email')?.touched"
-                    class=" text-red-500 animate-fadeIn" style="font-size: 17px;">
-                    <p *ngIf="loginForm?.get('email')?.errors?.['required']">Este campo es obligatorio</p>
-                    <p *ngIf="loginForm?.get('email')?.errors?.['email']">El correo no es valido</p>
-                </div>
-
-                <label class="text-2xl py-2 block text-gray-400 uppercase" for="apellido">Contraseña</label>
-                <input class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl"
-                    type="password" name="password" formControlName="password" placeholder="Ingrese su Contraseña"
-                    id="password">
-
-                <div *ngIf="loginForm?.get('password')?.invalid && loginForm?.get('password')?.touched"
-                    class="text-red-500 animate-fadeIn" style="font-size: 17px;">
-                    <p *ngIf="loginForm?.get('password')?.errors?.['required']">Este campo es obligatorio</p>
-                    <p *ngIf="loginForm?.get('password')?.errors?.['minlength']">La contraseña debe de tener minimo 8
-                        caracteres</p>
-
-                </div>
-
-            </form>
-
-            <div class="mt-10 flex justify-center">
-                <button [disabled]="loginForm.invalid" (click)="loginUser()"
-                    class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center cursor-pointer text-2xl">
-                    Iniciar Sesión <span class="material-icons ml-2">arrow_forward</span>
-                </button>
-            </div>
-
-            <div [hidden]="!showMessage"
-                class="animacion w-[40%] m-auto bg-green-100 border-l-4 border-green-500 text-green-700 p-6" [ngClass]="{
-               success: messageType == 'success',
-               error: messageType == 'error'
-            }" role="alert">
-                <p style="font-size: 16px;">{{message}}</p>
-            </div>
-        </div>
+<section
+  class="flex flex-col items-center justify-center text-center min-h-screen"
+>
+  <div class="py-5 w-[850px] flex flex-col items-center">
+    <!-- Logo -->
+    <div>
+      <h1 class="uppercase font-[Jaini] text-[150px]">
+        <span class="text-red-500">{{ llaveIzq }}</span>
+        <span class="text-blue-600">{{ llaveIzq }}</span>
+        <span class="text-blue-600">Cine</span>
+        <span class="text-red-500">Flix</span>
+        <span class="text-blue-600">{{ llaveDer }}</span>
+        <span class="text-red-500">{{ llaveDer }}</span>
+      </h1>
     </div>
 
-    <!-- Footer -->
-    <footer class="text-center mt-auto pb-5">
-        <p class="font-bold">Si no tienes cuenta clica
-            <a class="text-red-500 hover:underline" href="/Register">aquí para registrarte</a>
-        </p>
-    </footer>
+    <!-- Formulario 1 -->
+    <div class="text-start text-3xl w-full max-w-3xl">
+      <h2 class="font-semibold mb-5 py-4">Inicia Sesion</h2>
+      <form [formGroup]="loginForm">
+        <label class="text-2xl py-2 block text-gray-400 uppercase" for="nombre"
+          >Email</label
+        >
+        <input
+          class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl"
+          type="email"
+          name="email"
+          formControlName="email"
+          placeholder="Ingrese su Email"
+          id="email"
+        />
+
+        <div
+          *ngIf="
+            loginForm?.get('email')?.invalid && loginForm?.get('email')?.touched
+          "
+          class="text-red-500 animate-fadeIn"
+          style="font-size: 17px"
+        >
+          <p *ngIf="loginForm?.get('email')?.errors?.['required']">
+            Este campo es obligatorio
+          </p>
+          <p *ngIf="loginForm?.get('email')?.errors?.['email']">
+            El correo no es valido
+          </p>
+        </div>
+
+        <label
+          class="text-2xl py-2 block text-gray-400 uppercase"
+          for="apellido"
+          >Contraseña</label
+        >
+        <input
+          class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl"
+          type="password"
+          name="password"
+          formControlName="password"
+          placeholder="Ingrese su Contraseña"
+          id="password"
+        />
+
+        <div
+          *ngIf="
+            loginForm?.get('password')?.invalid &&
+            loginForm?.get('password')?.touched
+          "
+          class="text-red-500 animate-fadeIn"
+          style="font-size: 17px"
+        >
+          <p *ngIf="loginForm?.get('password')?.errors?.['required']">
+            Este campo es obligatorio
+          </p>
+          <p *ngIf="loginForm?.get('password')?.errors?.['minlength']">
+            La contraseña debe de tener minimo 8 caracteres
+          </p>
+        </div>
+      </form>
+
+      <div class="mt-10 flex justify-center">
+        <button
+          [disabled]="loginForm.invalid"
+          (click)="loginUser()"
+          class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center cursor-pointer text-2xl"
+        >
+          Iniciar Sesión <span class="material-icons ml-2">arrow_forward</span>
+        </button>
+      </div>
+
+      <div
+        [hidden]="!showMessage"
+        class="animacion w-[40%] m-auto bg-green-100 border-l-4 border-green-500 text-green-700 p-6"
+        [ngClass]="{
+          success: messageType == 'success',
+          error: messageType == 'error'
+        }"
+        role="alert"
+      >
+        <p style="font-size: 16px">{{ message }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center mt-auto pb-5">
+    <p class="font-bold text-white">
+      Si no tienes cuenta clica
+      <a class="text-red-500 hover:underline" href="/Register"
+        >aquí para registrarte</a
+      >
+    </p>
+  </footer>
 </section>
