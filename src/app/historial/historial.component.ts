@@ -36,7 +36,7 @@ export class HistorialComponent implements OnInit, AfterViewInit {
             description: movie.descripcion,
             duration: movie.duracion,
             fecha_vista: movie.fecha_vista,
-            id_pelicula: movie.id_pelicula,
+            id_pelicula: movie.id,
             imageUrl: movie.portada,
             title: movie.titulo,
           }));
