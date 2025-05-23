@@ -1,10 +1,7 @@
-<section
-  class="flex flex-col items-center justify-center text-center min-h-screen"
->
-  <div class="py-5 w-[850px] flex flex-col items-center">
-    <!-- Logo -->
+<section class="flex flex-col items-center justify-center text-center min-h-screen px-4 sm:px-6 lg:px-8">
+  <div class="py-5 w-full max-w-[850px] flex flex-col items-center">
     <div>
-      <h1 class="uppercase font-[Jaini] text-[150px]">
+      <h1 class="uppercase font-[Jaini] text-6xl sm:text-8xl md:text-9xl lg:text-[150px]">
         <span class="text-red-500">{{ llaveIzq }}</span>
         <span class="text-blue-600">{{ llaveIzq }}</span>
         <span class="text-blue-600">Cine</span>
@@ -14,15 +11,14 @@
       </h1>
     </div>
 
-    <!-- Formulario 1 -->
-    <div class="text-start text-3xl w-full max-w-3xl">
-      <h2 class="font-semibold mb-5 py-4">Inicia Sesion</h2>
+    <div class="text-start text-xl sm:text-2xl md:text-3xl w-full max-w-3xl mt-6">
+      <h2 class="font-semibold mb-4 sm:mb-5 py-3 sm:py-4">Inicia Sesión</h2>
       <form [formGroup]="loginForm">
-        <label class="text-2xl py-2 block text-gray-400 uppercase" for="nombre"
-          >Email</label
-        >
+        <label class="text-lg sm:text-xl md:text-2xl py-2 block text-gray-400 uppercase" for="email">
+          Email
+        </label>
         <input
-          class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl"
+          class="w-full bg-gray-200 rounded-xl p-2 sm:p-3 shadow-md border border-gray-300 text-lg sm:text-xl md:text-2xl"
           type="email"
           name="email"
           formControlName="email"
@@ -31,27 +27,22 @@
         />
 
         <div
-          *ngIf="
-            loginForm?.get('email')?.invalid && loginForm?.get('email')?.touched
-          "
-          class="text-red-500 animate-fadeIn"
-          style="font-size: 17px"
+          *ngIf="loginForm?.get('email')?.invalid && loginForm?.get('email')?.touched"
+          class="text-red-500 animate-fadeIn text-sm sm:text-base md:text-lg"
         >
           <p *ngIf="loginForm?.get('email')?.errors?.['required']">
             Este campo es obligatorio
           </p>
           <p *ngIf="loginForm?.get('email')?.errors?.['email']">
-            El correo no es valido
+            El correo no es válido
           </p>
         </div>
 
-        <label
-          class="text-2xl py-2 block text-gray-400 uppercase"
-          for="apellido"
-          >Contraseña</label
-        >
+        <label class="text-lg sm:text-xl md:text-2xl py-2 block text-gray-400 uppercase" for="password">
+          Contraseña
+        </label>
         <input
-          class="w-full bg-gray-200 rounded-xl p-2 shadow-md border border-gray-300 text-2xl"
+          class="w-full bg-gray-200 rounded-xl p-2 sm:p-3 shadow-md border border-gray-300 text-lg sm:text-xl md:text-2xl"
           type="password"
           name="password"
           formControlName="password"
@@ -60,27 +51,23 @@
         />
 
         <div
-          *ngIf="
-            loginForm?.get('password')?.invalid &&
-            loginForm?.get('password')?.touched
-          "
-          class="text-red-500 animate-fadeIn"
-          style="font-size: 17px"
+          *ngIf="loginForm?.get('password')?.invalid && loginForm?.get('password')?.touched"
+          class="text-red-500 animate-fadeIn text-sm sm:text-base md:text-lg"
         >
           <p *ngIf="loginForm?.get('password')?.errors?.['required']">
             Este campo es obligatorio
           </p>
           <p *ngIf="loginForm?.get('password')?.errors?.['minlength']">
-            La contraseña debe de tener minimo 8 caracteres
+            La contraseña debe tener mínimo 8 caracteres
           </p>
         </div>
       </form>
 
-      <div class="mt-10 flex justify-center">
+      <div class="mt-6 sm:mt-8 md:mt-10 flex justify-center">
         <button
           [disabled]="loginForm.invalid"
           (click)="loginUser()"
-          class="p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center cursor-pointer text-2xl"
+          class="p-2 sm:p-3 text-white rounded-xl bg-red-700 uppercase shadow-md flex items-center cursor-pointer text-lg sm:text-xl md:text-2xl"
         >
           Iniciar Sesión <span class="material-icons ml-2">arrow_forward</span>
         </button>
@@ -88,25 +75,22 @@
 
       <div
         [hidden]="!showMessage"
-        class="animacion w-[40%] m-auto bg-green-100 border-l-4 border-green-500 text-green-700 p-6"
+        class="animacion w-full sm:w-[60%] md:w-[40%] m-auto bg-green-100 border-l-4 border-green-500 text-green-700 p-4 sm:p-6 mt-6 sm:mt-8"
         [ngClass]="{
           success: messageType == 'success',
           error: messageType == 'error'
         }"
         role="alert"
       >
-        <p style="font-size: 16px">{{ message }}</p>
+        <p class="text-sm sm:text-base md:text-lg">{{ message }}</p>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="text-center mt-auto pb-5">
-    <p class="font-bold text-white">
+  <footer class="text-center mt-auto pb-4 sm:pb-5">
+    <p class="font-bold text-white text-sm sm:text-base md:text-lg">
       Si no tienes cuenta clica
-      <a class="text-red-500 hover:underline" href="/Register"
-        >aquí para registrarte</a
-      >
+      <a class="text-red-500 hover:underline" href="/Register">aquí para registrarte</a>
     </p>
   </footer>
 </section>

@@ -101,3 +101,97 @@ header {
   background: rgba(255, 255, 255, 0.2);
   width: 80%;
 }
+
+@media screen and (max-width: 600px) {
+  header {
+    padding: 8px 10px; 
+  }
+
+  .logo {
+    font-size: 1rem; 
+  }
+
+  .search {
+    max-width: 50%; 
+    padding: 3px 8px;
+    border-radius: 15px;
+  }
+
+  .search input {
+    font-size: 0.8rem; 
+    padding-left: 5px;
+  }
+
+  .search input::placeholder {
+    font-size: 0.8rem;
+  }
+
+  .nav ul {
+    gap: 5px; 
+  }
+
+  .nav li {
+    margin-left: 8px;
+  }
+
+  .material-icons {
+    font-size: 18px; 
+  }
+
+  .nav .submenu {
+    min-width: 120px; 
+    left: -50px; 
+    top: 120%; 
+    padding: 5px 0;
+    font-size: 0.8rem;
+  }
+
+  .nav .submenu li {
+    padding: 5px 10px;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  header {
+    padding: 8px 15px; 
+  }
+
+  .logo {
+    font-size: 1.3rem; 
+  }
+
+  .search {
+    max-width: 350px; 
+    padding: 4px 12px;
+    border-radius: 18px;
+  }
+
+  .search input {
+    font-size: 0.9rem;
+    padding-left: 8px;
+  }
+
+  .search input::placeholder {
+    font-size: 0.9rem;
+  }
+
+  .nav li {
+    margin-left: 12px; 
+  }
+
+  .material-icons {
+    font-size: 22px; 
+  }
+
+  .nav .submenu {
+    min-width: 140px; 
+    left: -60px;
+    top: 150%;
+    padding: 8px 0;
+    font-size: 0.9rem;
+  }
+
+  .nav .submenu li {
+    padding: 6px 12px;
+  }
+}
