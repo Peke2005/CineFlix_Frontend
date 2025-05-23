@@ -59,7 +59,7 @@ export class componentListar implements OnInit {
     this.loadingService.show();
 
     const usuarioId = localStorage.getItem('idUser');
-    const peliculaId = film.id_pelicula;
+    const peliculaId = film.id;
     console.log('Película seleccionada:', film);
 
     console.log('ID de usuario:', usuarioId);
