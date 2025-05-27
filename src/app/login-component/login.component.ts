@@ -53,7 +53,6 @@ export class loginComponent implements OnInit {
     };
     this.cineflixservice.loginUser(user).subscribe({
       next: (response) => {
-        console.log(response);
         localStorage.setItem('idUser', response.id);
         localStorage.setItem('nameUser', response.name);
         localStorage.setItem('rol', response.rol);
