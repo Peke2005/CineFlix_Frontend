@@ -103,7 +103,6 @@ export class panelComponent implements OnInit {
       return;
     }
 
-    // Check for duplicate title
     const title = this.peliculaForm.get('title')?.value;
     const isDuplicate = this.peliculas.some(
       (p) =>
